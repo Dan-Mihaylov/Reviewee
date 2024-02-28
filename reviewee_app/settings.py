@@ -31,6 +31,7 @@ INSTALLED_APPS = [
     'reviewee_app.account',
     'reviewee_app.place',
     'reviewee_app.booking',
+    'reviewee_app.common',
 ]
 
 MIDDLEWARE = [
@@ -48,7 +49,7 @@ ROOT_URLCONF = 'reviewee_app.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ['templates',],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -103,7 +104,7 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
-STATIC_DIRS = [BASE_DIR / 'staticfiles']
+STATICFILES_DIRS = [BASE_DIR / 'staticfiles']
 
 MEDIA_ROOT = BASE_DIR / 'mediafiles'
 

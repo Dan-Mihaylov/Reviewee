@@ -1,0 +1,104 @@
+@import "colors.css";
+
+.navbar-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    background-color: var(--main-color);
+    padding: 10px;
+    max-height: 180px;
+}
+
+.navbar-content-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: space-between;
+    max-width: 1300px;
+    width: 100%;
+}
+
+.nav-logo-div {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    line-height: 2;
+}
+
+.nav-logo-div p {
+    margin-left: 10px;
+    font-size: 1.4rem;
+    line-height: 2;
+}
+
+.logo {
+    max-width: 60px;
+}
+
+.nav-links-div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.nav-ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+}
+
+.nav-li {
+    margin-right: 20px;
+    display: inline-block;
+}
+
+.nav-li a {
+    color: var(--color-lightest);
+    text-decoration: none;
+    font-size: 1.1rem;
+}
+
+.nav-li a:hover {
+    color: var(--color-light);
+    font-family: "Dosis Light";
+}
+
+.nav-profile-div {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+}
+
+.profile-pic {
+    max-height: 30px;
+    margin-right: 5px;
+}
+
+#dropdownMenuButton {
+    min-width: 100px;
+    max-width: 260px;
+}
+
+.dropdown-menu, .dropdown-item {
+    background-color: var(--main-color);
+    color: var(--color-light);
+}
+
+.dropdown-item:hover {
+    color: var(--color-lightest);
+    background-color: var(--secondary-color);
+}
+
+
+@media screen and (max-width: 600px) {
+    .nav-profile-div {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        flex-wrap: wrap;
+        width: 100%;
+    }
+}
+

@@ -1,0 +1,6 @@
+@import "staticfiles/css/colors.css";
+
+.content-strip {
+    background-color: var(--color-lightest);
+    color: var(--main-color);
+}

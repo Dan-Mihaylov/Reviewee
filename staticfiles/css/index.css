@@ -1,0 +1,6 @@
+@import "colors.css";
+
+.content-strip {
+    background-color: var(--secondary-color);
+    color: var(--color-lightest);
+}

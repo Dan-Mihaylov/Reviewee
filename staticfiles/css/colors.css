@@ -1,0 +1,7 @@
+:root {
+    --main-color: rgb(13, 27, 42);
+    --secondary-color: rgb(27, 38, 59);
+    --color-dark: rgb(65, 90, 119);
+    --color-light: rgb(119, 141, 169);
+    --color-lightest: rgb(224, 225, 221);
+}
