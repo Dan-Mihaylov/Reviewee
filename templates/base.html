@@ -19,7 +19,7 @@
 <body>
 
     <!-- Navbar starts -->
-    {% if not user.is_authenticated %}
+    {% if user.is_authenticated %}
         {% navbar_authenticated request %}
     {% else %}
         {% navbar request %}
