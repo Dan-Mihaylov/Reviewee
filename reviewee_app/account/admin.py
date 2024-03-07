@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 
 from .forms import CustomUserCreationForm, CustomUserChangeForm
-from .models import CustomUser
+from .models import CustomUser, CustomUserProfile, CustomUserBusinessProfile
 
 
 @admin.register(CustomUser)
@@ -11,8 +11,10 @@ class CustomUserAdmin(UserAdmin):
     form = CustomUserChangeForm
     model = CustomUser
 
-    list_display = ['email', 'is_staff', 'is_active']
+    list_display = ['pk', 'email', 'is_staff', 'is_active']
     list_filter = ['email', 'is_staff', 'is_active']
+    list_per_page = 20
+    ordering = ['-pk']
 
     # When you are changing the pass of the User
     fieldsets = (
@@ -21,11 +23,6 @@ class CustomUserAdmin(UserAdmin):
                 'fields': (
                     'email',
                     'password',
-                    'username',
-                    'first_name',
-                    'last_name',
-                    'gender',
-                    'owner',
                 ),
             }
         ),
@@ -50,19 +47,12 @@ class CustomUserAdmin(UserAdmin):
                 'fields':
                     (
                         'email',
-                        'username',
                         'password1',
                         'password2',
-                        'owner',
-                        'first_name',
-                        'last_name',
-                        'gender',
-                        'date_of_birth',
                         'is_staff',
                         'is_active',
                         'groups',
                         'user_permissions',
-
                 )
             },
         ),
@@ -70,4 +60,15 @@ class CustomUserAdmin(UserAdmin):
 
     search_fields = ['email']
 
-    ordering = ['email']
+
+@admin.register(CustomUserProfile)
+class CustomUserProfileAdmin(admin.ModelAdmin):
+
+    list_display = ['pk', 'user', 'owner', 'username', 'edited_at']
+    ordering = ['-pk']
+
+
+@admin.register(CustomUserBusinessProfile)
+class CustomUserBusinessProfileAdmin(admin.ModelAdmin):
+    list_display = ['user', 'business_name', 'country', 'city', 'postcode', 'address_line',  'created_at', 'edited_at',]
+    ordering = ['-pk']

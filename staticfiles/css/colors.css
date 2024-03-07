@@ -4,4 +4,7 @@
     --color-dark: rgb(65, 90, 119);
     --color-light: rgb(119, 141, 169);
     --color-lightest: rgb(224, 225, 221);
+    --main-color-transparent: rgba(13, 27, 42, 0.8);
+    --error-message-color: rgba(128, 0, 0, 0.4);
+    --error-message-light: rgba(255, 179, 179, 0.4);
 }

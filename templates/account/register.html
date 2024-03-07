@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    Register
+{% endblock %}
+
+
+{% block content %}
+
+    <div class="register-content-strip">
+
+        <div class="register-content-wrap">
+
+            <!-- Changed the form to be completely separated from the backend -->
+            <form action="{% url 'register' %}" method="POST" class="register-form">
+
+                {% csrf_token %}
+                <h2 class="form-header">Registration Form</h2>
+
+                <br>
+
+                <div class="form-floating mb-3">
+                    <label for="floatingInput">Email address</label>
+                    <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com"
+                           name="{{ form.email.name }}">
+                </div>
+
+            <!-- Display error messages for email only if there are any -->
+                {% if form.errors.email.data %}
+                <div class="errors-div">
+                    <ul class="errorlist">
+                        {% for data in form.errors.email.data %}
+                            {% for item in data %}
+                                <li>{{ item }}</li>
+                            {% endfor %}
+                        {% endfor %}
+                    </ul>
+                </div>
+                {% endif %}
+
+                <div class="form-floating">
+                    <label for="floatingPassword">Password</label>
+                    <input type="password" class="form-control" id="floatingPassword" placeholder="Password"
+                           name="{{ form.password1.name }}">
+                </div>
+
+                <br>
+
+                <div class="form-floating">
+                    <label for="floatingPassword">Repeat Password</label>
+                    <input type="password" class="form-control" id="floatingPassword" placeholder="Repeat Password"
+                           name="{{ form.password2.name }}">
+                </div>
+
+                <br>
+                <!-- Display error messages for passwords only if there are any -->
+                {% if form.errors.password2.data %}
+                <div class="errors-div">
+                    <ul class="errorlist">
+                        {% for data in form.errors.password2.data %}
+                            {% for item in data %}
+                                <li>{{ item }}</li>
+                            {% endfor %}
+                        {% endfor %}
+                    </ul>
+                </div>
+                {% endif %}
+
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="defaultCheck1"
+                           name="{{ form.business_owner.name }}">
+                    <label class="form-check-label" for="defaultCheck1">
+                    Business Owner
+                    </label>
+                </div>
+
+                <br>
+
+                <!-- submit buttons div -->
+                <div class="button-div">
+                    <button class="btn btn-light" type="submit">Register</button>
+                    <a class="btn btn-dark" href="{% url 'login' %}">Login</a>
+                </div>
+
+            </form>
+
+
+        </div>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,36 @@
+.login-content-strip {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    background-image: url('/static/images/backgrounds/restaurant-background-002.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-blend-mode: darken;
+}
+
+.login-content-wrap {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--main-color-transparent);
+    width: 100%;
+    height: 100%;
+}
+
+.login-form {
+    max-width: 600px;
+    width: 80%;
+    padding: 20px;
+    background-color: var(--main-color-transparent);
+    border-radius: 10px;
+}
+
+.form-header {
+    font-size: large;
+}
+
+.button-div {
+    display: inline;
+}

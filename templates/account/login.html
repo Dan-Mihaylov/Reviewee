@@ -3,14 +3,19 @@
 
 {% block content %}
 
-    <div class="content-strip">
+    <div class="login-content-strip">
 
-        <div class="content-wrap">
+        <div class="login-content-wrap">
 
-            <form action="{% url 'login' %}" method="POST">
+            <form class="login-form" action="{% url 'login' %}" method="POST">
+                <h2 class="form-header">Login Form</h2>
                 {% csrf_token %}
                 {{ form.as_p }}
-                <button class="btn btn-primary" type="submit">Login</button>
+                <br>
+                <div class="button-div">
+                    <button class="btn btn-light" type="submit">Login</button>
+                    <a class="btn btn-dark" href="{% url 'register' %}">Register</a>
+                </div>
             </form>
 
         </div>

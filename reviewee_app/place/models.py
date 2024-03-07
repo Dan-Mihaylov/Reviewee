@@ -1,16 +1,19 @@
 from django.contrib.auth import get_user_model
-from django.core.validators import MinLengthValidator, MinValueValidator, MaxValueValidator
+
 from django.utils.text import slugify
 from django.db import models
 
-from . import validators
-from reviewee_app.common.mixins.model_mixins import CreatedAtModelMixin, EditedAtModelMixin
+from reviewee_app.common import validators
+from django.core.validators import MinLengthValidator, MinValueValidator, MaxValueValidator
+
+from reviewee_app.common.models import AuditModelMixin
+
 
 
 UserModel = get_user_model()
 
 
-class BasePlaceModel(CreatedAtModelMixin, EditedAtModelMixin, models.Model):
+class BasePlaceModel(AuditModelMixin, models.Model):
     
     MIN_LENGTH_PLACE_NAME = 3
     MAX_LENGTH_PLACE_NAME = 50
