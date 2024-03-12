@@ -11,11 +11,14 @@
                 <h2 class="form-header">Login Form</h2>
                 {% csrf_token %}
                 {{ form.as_p }}
+                {{ errors }}
                 <br>
                 <div class="button-div">
                     <button class="btn btn-light" type="submit">Login</button>
-                    <a class="btn btn-dark" href="{% url 'register' %}">Register</a>
                 </div>
+                <br>
+                <br>
+                <p>Don't have an account? <a href="{% url 'register' %}">Register</a></p>
             </form>
 
         </div>

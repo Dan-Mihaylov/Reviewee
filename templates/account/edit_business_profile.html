@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    Edit Profile
+{% endblock %}
+
+
+{% block content %}
+
+    <div class="edit-profile-content-strip">
+
+        <div class="edit-profile-content-wrap">
+            <!-- Profile form is accessible with form, if there is a business form, access with business_form -->
+            <form class="edit-profile-form" action="{% url 'business profile edit' %}" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form }}
+                <button type="submit">
+                    Sumbit
+                </button>
+            </form>
+
+
+        </div>
+
+    </div>
+
+{% endblock %}

@@ -106,6 +106,7 @@ STATIC_URL = 'static/'
 
 STATICFILES_DIRS = [BASE_DIR / 'staticfiles']
 
+# For development only
 MEDIA_ROOT = BASE_DIR / 'mediafiles'
 
 MEDIA_URL = 'media/'
@@ -113,4 +114,13 @@ MEDIA_URL = 'media/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'account.CustomUser'
+
+# Disabling caching for development purposes
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.dummy.DummyCache',
+    }
+}
+
 

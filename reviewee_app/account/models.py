@@ -45,6 +45,9 @@ class CustomUser(auth_models.AbstractBaseUser, auth_models.PermissionsMixin):
     def __str__(self):
         return self.email
 
+    def __repr__(self):
+        return self.email
+
 
 class GenderChoices(models.TextChoices):
     male = 'Male'
@@ -125,7 +128,7 @@ class CustomUserProfile(AuditModelMixin, models.Model):
         return self.owner
 
     def __str__(self):
-        return f'{self.pk}, {self.username}'
+        return f'{self.username}' if self.username else f'{self.user}'
 
     def save(self, *args, **kwargs):
 
@@ -157,6 +160,12 @@ class CustomUserBusinessProfile(AuditModelMixin ,models.Model):
         primary_key=True,
         editable=False,
         null=False,
+        blank=True,
+    )
+
+    business_logo = models.URLField(
+        max_length=220,
+        null=True,
         blank=True,
     )
 

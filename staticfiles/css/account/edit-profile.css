@@ -1,0 +1,54 @@
+.edit-profile-content-strip {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    background-color: var(--color-lightest);
+}
+
+.edit-profile-content-wrap {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--main-color);
+    width: 100%;
+    height: 100%;
+}
+
+.edit-profile-form {
+    max-width: 600px;
+    width: 80%;
+    padding: 20px;
+    background-color: var(--secondary-color);
+    border-radius: 10px;
+}
+
+.form-header {
+    font-size: large;
+}
+
+.button-div {
+    display: inline;
+}
+
+.errorlist {
+    background-color: var(--error-message-color);
+    border-radius: 5px;
+    padding-bottom: 5px;
+    padding-top: 5px;
+}
+
+.card {
+    color: var(--main-color);
+    background-color: var(--color-lightest);
+}
+
+#btn-cancel {
+    background-color: var(--error-message-color);
+    border: none;
+}
+
+#btn-cancel:active {
+    background-color: indianred;
+    border: none;
+}
