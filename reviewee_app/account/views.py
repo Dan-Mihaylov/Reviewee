@@ -78,7 +78,7 @@ class EditBusinessProfileView(views.UpdateView):
         return modelform_factory(CustomUserBusinessProfile, fields='__all__')
 
     def get_success_url(self):
-        return reverse('profile details')
+        return reverse('profile details', kwargs={'pk': self.object.user.pk})
 
 
 def account_delete(request):

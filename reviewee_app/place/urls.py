@@ -2,7 +2,13 @@ from django.urls import path, include
 from . import views
 
 urlpatterns = [
-    path('add/', views.place_add, name='place add'),
+    path('add/', include(
+        [
+            path('', views.PlaceAddView.as_view(), name='place add'),
+            path('restaurant/', views.RestaurantAddView.as_view(), name='restaurant add'),
+            path('hotel/', views.HotelAddView.as_view(), name='hotel add'),
+        ]
+    )),
     path('<slug>/', include(
         [
             path('', views.place_details, name='place details'),

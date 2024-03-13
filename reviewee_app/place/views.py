@@ -1,9 +1,22 @@
+from django.forms import modelform_factory
 from django.shortcuts import render, HttpResponse
+from django.views import generic as views
+
+from .models import BasePlaceModel
+from ..account.mixins import BusinessOwnerRequiredMixin
 
 
-def place_add(request):
-    return render(request, 'place/place-add.html')
+# TODO: Convention Model-Action-View
+class PlaceAddView(BusinessOwnerRequiredMixin, views.TemplateView):
+    template_name = 'place/place-add.html'
 
+
+class RestaurantAddView(views.CreateView):
+    pass
+
+
+class HotelAddView(views.CreateView):
+    pass
 
 def place_details(request, slug):
     return HttpResponse('Place Details Page')

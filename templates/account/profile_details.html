@@ -65,6 +65,18 @@
             <!-- Business card starts -->
             <div class="card" style="width: 22rem;">
 
+                <!-- top blue container -->
+                <div class="top-card-container">
+                    <div class="username-container">
+                        <p class="card-text">{{ object.business_profile.business_name }}</p>
+                    </div>
+                    {% if request.user.pk == object.pk %}
+                    <div class="profile-options-container">
+                        <a href="{% url 'business profile edit' %}"><img class="edit-profile-png" src="{% static 'images/pngs/edit.png' %}" alt="edit"></a>
+                    </div>
+                    {% endif %}
+                </div>
+
                 {% if object.business_profile.business_logo %}
                     <img src="{{ object.business_profile.business_logo }}" class="card-img-top" alt="photo">
                 {% else %}
@@ -91,15 +103,6 @@
                         <strong>POSTCODE:</strong> {{ object.business_profile.postcode }}
                     </li>
                 </ul>
-
-            <!-- If you are the owner of the business, can edit the information to it -->
-            {% if object.pk == request.user.pk %}
-                
-                <div class="card-body">
-                    <p class="card-text">Edit business information: <a href="{% url 'business profile edit' %}">here</a></p>
-                </div>
-
-            {% endif %}
 
             </div>
         {% endif %}

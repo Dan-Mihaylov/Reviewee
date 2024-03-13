@@ -6,13 +6,41 @@
 {% endblock %}
 
 {% block content %}
+    <div class="add-place-content-strip">
 
-    <div class="content-strip">
+        <h1 class="header">Creating a New Place</h1>
 
-        <div class="content-wrap">
+        <div class="add-place-content-wrap">
+            <!-- Place select header -->
+            <h2 class="select-place-header">Select the place you want to create.</h2>
 
-            <h1>This is going to be the place add page</h1>
-            {% lorem 2 p %}
+
+            <div class="row">
+                <!-- Restaurant select card -->
+                <div class="col-sm-6 mb-3 mb-sm-0">
+                    <div class="card restaurant-div">
+                        <div class="card-body">
+                            <h5 class="card-title">Special title treatment</h5>
+                            <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                            <a href="#" class="btn btn-primary">Go somewhere</a>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="col-sm-6">
+                    <!-- Hotel select card -->
+                    <div class="card hotel-div">
+                        <div class="card-body">
+                            <h5 class="card-title">Special title treatment</h5>
+                            <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                            <a href="#" class="btn btn-primary">Go somewhere</a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
 
         </div>
 

@@ -1,6 +1,47 @@
 @import "staticfiles/css/colors.css";
 
-.content-strip {
+.add-place-content-strip {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
     background-color: var(--color-lightest);
     color: var(--main-color);
+}
+
+.add-place-content-wrap {
+    max-width: 1200px;
+    border-radius: 5px;
+    width: 100%;
+    padding: 20px;
+    margin: 20px 0 20px 0;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: justify;
+}
+
+.header {
+    text-align: center;
+    margin: 20px 0 0 0;
+    padding: 5px;
+    width: 100%;
+    max-width: 1200px;
+    border-bottom: 1px solid rgba(18, 18, 18, 0.1);
+    color: var(--main-color);
+}
+
+.select-place-header {
+    text-align: center;
+    font-size: large;
+}
+
+.restaurant-div {
+    background-color: var(--main-color-transparent);
+}
+
+@media screen and (max-width: 600px) {
+    .add-place-content-wrap {
+        box-shadow: none;
+    }
 }

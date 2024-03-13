@@ -1,6 +1,18 @@
 @import "colors.css";
 
-.content-strip {
-    background-color: var(--secondary-color);
-    color: var(--color-lightest);
+.index-content-strip {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    background-color: var(--color-lightest);
+    color: var(--main-color);
+}
+
+.index-content-wrap {
+    max-width: 1200px;
+    width: 100%;
+    padding: 10px;
+    margin: 20px 0 20px 0;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
