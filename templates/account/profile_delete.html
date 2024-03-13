@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    Edit Profile
+{% endblock %}
+
+
+{% block content %}
+
+    <div class="delete-profile-content-strip">
+
+        <div class="delete-profile-content-wrap">
+{#            TODO: Finish the profile delete html and all functionality#}
+
+            <form action="{% url 'profile delete' %}" method="POST" class="profile-delete-form">
+                {% csrf_token %}
+                <h2>Are you sure you want to delete your profile?</h2>
+                <p>Deleting your profile, will also delete all your information.</p>
+                <div class="button-div">
+                    <button class="btn btn-danger" id="delete-button01" type="submit">Confirm Deletion</button>
+                    <a class="cancel-button btn btn-success" #id="cancel-button01" href="{% url 'profile details' request.user.pk %}" >Cancel Deletion </a>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+
+{% endblock %}
+

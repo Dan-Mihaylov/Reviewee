@@ -1,0 +1,124 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    Profile Details
+{% endblock %}
+
+
+{% block content %}
+
+    <div class="profile-details-content-strip">
+
+        <div class="profile-details-content-wrap">
+
+            <!-- Profile card starts -->
+            <div class="card" style="width: 22rem;">
+                <!-- top blue container -->
+                <div class="top-card-container">
+                    <div class="username-container">
+                        <p class="card-text">{{ object.profile.get_name }}</p>
+                    </div>
+                    {% if request.user.pk == object.pk %}
+                    <div class="profile-options-container">
+                        <a href="{% url 'profile edit' %}"><img class="edit-profile-png" src="{% static 'images/pngs/edit.png' %}" alt="edit"></a>
+                        <a href="{% url 'profile delete' %}"><img class="delete-profile-png" src="{% static 'images/pngs/delete.png' %}" alt="del"></a>
+                    </div>
+                    {% endif %}
+                </div>
+
+                {% if object.profile.profile_picture.url != None %}
+                    <img src="{{ object.profile.profile_picture.url }}" class="card-img-top" alt="photo">
+                {% else %}
+                    <img src="{% static 'images/pngs/default-user.png' %}" class="card-img-top" alt="default user">
+                {% endif %}
+
+                <div class="card-body">
+                    <h5 class="card-title">{{ object.profile.get_name }}</h5>
+                    <p class="card-text">This profile is a {% if object.profile.is_owner %}business owner{% else %}regular user{% endif %}</p>
+                </div>
+
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                        <strong>First Name:</strong> {% if object.profile.first_name %}{{ object.profile.first_name }}{% else %}Annonymous{% endif %}
+                    </li>
+                    <li class="list-group-item">
+                        <strong>Last Name:</strong> {% if object.profile.last_name %}{{ object.profile.last_name }}{% else %}Annonymous{% endif %}
+                    </li>
+                    <li class="list-group-item">
+                        <strong>Date of Birth:</strong> {% if object.profile.date_of_birth %}{{ object.profile.date_of_birth }}{% else %}Annonymous{% endif %}
+                    </li>
+                    <li class="list-group-item">
+                        <strong>Gender:</strong> {% if object.profile.gender %}{{ object.profile.gender }}{% else %}Annonymous{% endif %}
+                    </li>
+                </ul>
+
+                <div class="card-body">
+                    <p class="card-text">User since: {{ object.date_joined|date:"M/d/Y" }}</p>
+                </div>
+            </div>
+        <!-- Profile card ends -->
+
+
+            {% if object.profile.is_owner %}
+
+            <!-- Business card starts -->
+            <div class="card" style="width: 22rem;">
+
+                {% if object.business_profile.business_logo %}
+                    <img src="{{ object.business_profile.business_logo }}" class="card-img-top" alt="photo">
+                {% else %}
+                    <img src="{% static 'images/pngs/open-for-business.jpg' %}" class="card-img-top" alt="default business img">
+                {% endif %}
+
+                <div class="card-body">
+                    <h5 class="card-title">{{ object.business_profile.business_name }}</h5>
+                    <p class="card-text">{{ object.business_profile.description }}</p>
+                    <p class="card-text">More information on how to find the business, bellow.</p>
+                </div>
+
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                        <strong>Country:</strong> {{ object.business_profile.country }}
+                    </li>
+                    <li class="list-group-item">
+                        <strong>City:</strong> {{ object.business_profile.city }}
+                    </li>
+                    <li class="list-group-item">
+                        <strong>Address:</strong> {{ object.business_profile.address_line }}
+                    </li>
+                    <li class="list-group-item">
+                        <strong>POSTCODE:</strong> {{ object.business_profile.postcode }}
+                    </li>
+                </ul>
+
+            <!-- If you are the owner of the business, can edit the information to it -->
+            {% if object.pk == request.user.pk %}
+                
+                <div class="card-body">
+                    <p class="card-text">Edit business information: <a href="{% url 'business profile edit' %}">here</a></p>
+                </div>
+
+            {% endif %}
+
+            </div>
+        {% endif %}
+        <!-- Business card ends -->
+
+        </div>
+    </div>
+
+    <!-- From here listing all the places -->
+    <!-- TODO add paginator, 4 places max? or a bit more -->
+    {% if object.places %}
+    <div class="places-details-content-strip">
+
+        <div class="places-details-content-wrap">
+
+
+        </div>
+    </div>
+    {% endif %}
+
+{% endblock %}
+

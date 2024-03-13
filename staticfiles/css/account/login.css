@@ -29,8 +29,35 @@
 
 .form-header {
     font-size: large;
+    text-align: center;
 }
 
-.button-div {
-    display: inline;
+.field {
+    display: flex;
+    flex-direction: column;
+}
+
+.errorlist {
+    background-color: var(--error-message-color);
+    border-radius: 5px;
+    padding-bottom: 5px;
+    padding-top: 5px;
+}
+
+.field-container {
+    margin-top: 20px;
+}
+
+.register-container {
+    margin-top: 20px
+}
+
+#btn-login {
+    background-color: var(--button-green);
+    border: none;
+    width: 100%;
+}
+
+#btn-login:hover {
+    background-color: var(--button-green-hover);
 }

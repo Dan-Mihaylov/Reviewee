@@ -7,18 +7,38 @@
 
         <div class="login-content-wrap">
 
-            <form class="login-form" action="{% url 'login' %}" method="POST">
+            <form class="login-form" action="{% url 'login' %}?next_page=next_page" method="POST">
                 <h2 class="form-header">Login Form</h2>
                 {% csrf_token %}
-                {{ form.as_p }}
-                {{ errors }}
-                <br>
-                <div class="button-div">
-                    <button class="btn btn-light" type="submit">Login</button>
+
+                <div class="field-container">
+                    <label for="id_{{ form.username.name }}">Email:</label>
+                    <input  type="text" name="{{ form.username.name }}" class="form-control"
+                            autofocus="" autocapitalize="none" autocomplete="username"
+                            maxlength="254" required="" id="id_{{ form.username.name }}"
+                            placeholder="Email Address">
                 </div>
+
+                <div class="field-container">
+                    <label for="id_{{ form.password.name }}">Password:</label>
+                    <input  type="password" name="{{ form.password.name }}" class="form-control"
+                            autocomplete="current-password" required="" id="id_{{ form.password.name }}"
+                            placeholder="Password">
+
+                    {% for values in form.errors.values %}
+                        <p>{{ values }}</p>
+                    {% endfor %}
+
+                </div>
+
                 <br>
-                <br>
-                <p>Don't have an account? <a href="{% url 'register' %}">Register</a></p>
+
+                <div class="button-div">
+                    <button class="btn btn-success" id="btn-login" type="submit">Login</button>
+                </div>
+                <div class="register-container">
+                    <p>Don't have an account? <a href="{% url 'register' %}">Register</a></p>
+                </div>
             </form>
 
         </div>

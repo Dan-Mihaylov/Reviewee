@@ -45,24 +45,3 @@ class CustomUserChangeForm(UserChangeForm):
     class Meta:
         model = UserModel
         fields = '__all__'
-
-
-# TODO maybe use a form from Bootstrap in the template
-class CustomLoginForm(AuthenticationForm):
-
-    # The username field is actually the 'email' field, since we used USERNAME_FIELD = 'email'
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-
-        self.fields['username'].widget.attrs.update(
-            {
-                'class': 'form-control',
-                'placeholder': 'Enter your email',
-            }
-        )
-        self.fields['password'].widget.attrs.update(
-            {
-                'class': 'form-control',
-                'placeholder': 'Enter your password',
-            }
-        )

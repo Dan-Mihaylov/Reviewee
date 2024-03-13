@@ -1,0 +1,55 @@
+.delete-profile-content-strip {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    background-color: var(--main-color-transparent);
+}
+
+.delete-profile-content-wrap {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    background-color: var(--main-color);
+    /*background-color: var(--color-lightest);*/
+    width: 100%;
+    max-width: 1200px;
+    height: 100%;
+}
+
+.profile-delete-form {
+    margin: 30px 0 30px 0;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    max-width: 40rem;
+    width: 80%;
+    height: 300px;
+    background-color: var(--error-message-color);
+}
+
+#delete-button01 {
+    margin: 0 10px 0 10px;
+    border: none;
+}
+
+.cancel-button {
+    margin: 0 10px 0 10px;
+    background-color: var(--button-green);
+    border: none;
+}
+
+.cancel-button:hover {
+    background-color: var(--button-green-hover);
+    border: none;
+}
+
+.cancel-button:focus {
+    background-color: darkolivegreen;
+    box-shadow: none;
+}
+
+

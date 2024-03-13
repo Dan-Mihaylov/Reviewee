@@ -14,9 +14,19 @@
 
             <!-- Card that contains a picture and the form -->
             <div class="card" style="width: 22rem;">
-                <img src="{{ object.profile_picture.url }}" class="card-img-top" alt="photo">
+
+                <div class="photo-container">
+                    {% if object.profile_picture.url != None %}
+                    <img class="profile-image" src="{{ object.profile_picture.url }}" class="card-img-top" alt="photo">
+                        {% else %}
+{#                    <img class="profile-image" src="{{ object.profile_picture.url }}" class="card-img-top" alt="photo">#}
+                        <img class="profile-image" src="{% static 'images/pngs/default-user.png' %}" class="card-img-top" alt="photo">
+                    {% endif %}
+                </div>
+
                 <div class="card-body">
-                    <h5 class="card-title">{{ object }}</h5>
+                <h5 class="card-title">@{{ object }}</h5>
+
 
                     <!-- Form starts from here -->
                     <form action="{% url 'profile edit' %}" method="POST" enctype="multipart/form-data">
@@ -30,18 +40,21 @@
                     </div>
 
                     <div class="form-floating mb-3">
+                        <label for="floatingInput" class="form-label">Username</label>
                         <input type="text" class="form-control" id="floatingInput" name="{{ form.username.name }}"
                                placeholder="Username"
                                value="{% if object.username != None %} {{ object.username }}{% endif %}">
                     </div>
 
                     <div class="form-floating mb-3">
+                        <label for="floatingInput" class="form-label">First Name</label>
                         <input type="text" class="form-control" id="floatingInput" name="{{ form.first_name.name }}"
                                placeholder="First Name"
                                value="{% if object.first_name != None %} {{ object.first_name }}{% endif %}">
                     </div>
 
                     <div class="form-floating mb-3">
+                        <label for="floatingInput" class="form-label">Last Name</label>
                         <input type="text" class="form-control" id="floatingInput" name="{{ form.last_name.name }}"
                                placeholder="Last Name"
                                value="{% if object.last_name != None %} {{ object.last_name }}{% endif %}">

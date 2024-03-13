@@ -5,3 +5,6 @@
 @import 'account/login.css';
 @import 'account/register.css';
 @import 'account/edit-profile.css';
+@import 'account/edit_business_profile.css';
+@import 'account/profile_details.css';
+@import 'account/profile_delete.css';

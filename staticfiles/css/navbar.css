@@ -74,6 +74,7 @@
 .profile-pic {
     max-height: 30px;
     margin-right: 5px;
+    border-radius: 50%;
 }
 
 #dropdownMenuButton {
@@ -91,6 +92,20 @@
     background-color: var(--secondary-color);
 }
 
+#confirm-logout {
+    min-width: 100%;
+    margin-top: 20px;
+    background-color: var(--error-message-light);
+    border: none;
+}
+
+#confirm-logout:hover {
+    background-color: var(--error-message-color);
+}
+
+#confirm-logout:active {
+    border: none;
+}
 
 @media screen and (max-width: 600px) {
     .nav-profile-div {

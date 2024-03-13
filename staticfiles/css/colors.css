@@ -8,4 +8,6 @@
     --main-color-transparent: rgba(13, 27, 42, 0.8);
     --error-message-color: rgba(128, 0, 0, 0.4);
     --error-message-light: rgba(255, 179, 179, 0.4);
+    --button-green: rgba(51, 77, 0, 1);
+    --button-green-hover: rgba(34, 51, 0, 1);
 }

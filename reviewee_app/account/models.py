@@ -127,6 +127,18 @@ class CustomUserProfile(AuditModelMixin, models.Model):
     def is_owner(self):
         return self.owner
 
+    @property
+    def get_name(self):
+
+        if self.first_name and self.last_name:
+            return f'{self.first_name} {self.last_name}'
+
+        if self.username:
+            return self.username
+
+        return self.user
+
+
     def __str__(self):
         return f'{self.username}' if self.username else f'{self.user}'
 
@@ -178,6 +190,11 @@ class CustomUserBusinessProfile(AuditModelMixin ,models.Model):
         blank=True,
     )
 
+    description = models.TextField(
+        null=True,
+        blank=True,
+    )
+
     country = models.CharField(
         max_length=MAX_LENGTH_COUNTRY,
         validators=[
@@ -204,6 +221,9 @@ class CustomUserBusinessProfile(AuditModelMixin ,models.Model):
 
     postcode = models.CharField(
         max_length=MAX_LENGTH_POSTCODE,
+        validators=[
+            validators.alphanumeric_and_spaces_values_validator,
+        ],
         null=False,
         blank=False,
     )

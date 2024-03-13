@@ -10,7 +10,7 @@ from django.urls import reverse
 
 from django.views import generic as views
 
-from reviewee_app.account.forms import CustomLoginForm, CustomUserCreationForm, CustomUserChangeForm
+from reviewee_app.account.forms import  CustomUserCreationForm, CustomUserChangeForm
 from reviewee_app.account.models import CustomUserProfile, CustomUserBusinessProfile
 
 UserModel = get_user_model()
@@ -27,49 +27,22 @@ class RegisterView(views.CreateView):
         return reverse('home')
 
 
-# TODO migrate to Class Based Views
-def login(request):
-
-    errors = ''
-
-    form = CustomLoginForm(request.POST or None)
-    if request.method == 'POST' and form.is_valid:
-
-        username = request.POST.get('username')
-        password = request.POST.get('password')
-        user = authenticate(request, username=username, password=password)
-        if user:
-            auth_login(request, user)
-            return redirect('home')
-        else:
-            errors = 'Something went wrong. Make sure email and password match for the account.'
-
-    context = {
-        'form': form,
-        'errors': errors,
-    }
-
-    return render(request, 'account/login.html', context)
+class LoginView(auth_views.LoginView):
+    template_name = 'account/login.html'
 
 
-def logout(request):
-
-    auth_logout(request)
-    return redirect('home')
+class LogoutView(auth_views.LogoutView):
+    pass
 
 
-def my_account_details(request):
-    return HttpResponse('My account details page')
+class ProfileDetailsView(views.DetailView):
+    template_name = 'account/profile_details.html'
+
+    def get_queryset(self):
+        return UserModel.objects.all()
 
 
-def account_details(request, pk: int):
-    return HttpResponse('Account details page')
-
-
-def account_edit(request):
-    return HttpResponse('Account Edit page')
-
-
+# TODO Check if whoever tries to edit the profile is the owner.
 class EditProfileView(views.UpdateView):
 
     template_name = 'account/edit_profile.html'
@@ -84,11 +57,10 @@ class EditProfileView(views.UpdateView):
     def get_form_class(self):
         return modelform_factory(CustomUserProfile, exclude=['owner'])
 
-    # TODO change redirect to account info
     def get_success_url(self):
         if self.object.is_owner():
             return reverse('business profile edit')
-        return reverse('home')
+        return reverse('profile details')
 
 
 class EditBusinessProfileView(views.UpdateView):
@@ -105,11 +77,21 @@ class EditBusinessProfileView(views.UpdateView):
     def get_form_class(self):
         return modelform_factory(CustomUserBusinessProfile, fields='__all__')
 
-    # TODO change redirect to account info
     def get_success_url(self):
-        return reverse('home')
+        return reverse('profile details')
 
 
 def account_delete(request):
     return HttpResponse('Account Delete page')
+
+
+class ProfileDeleteView(views.DeleteView):
+    template_name = 'account/profile_delete.html'
+
+    def get_object(self, queryset=None):
+        return UserModel.objects.get(pk=self.request.user.pk)
+
+    def get_success_url(self):
+        return reverse('home')
+
 

@@ -13,29 +13,49 @@
             <div class="nav-links-div">
                 <ul class="nav-ul">
                     <li class="nav-li"><a href="{% url 'home' %}">HOME</a></li>
-                    <!-- TODO only if user is an owner he can add places -->
-                    <li class="nav-li"><a href="{% url 'place add' %}">ADD PLACE</a></li>
+
+                    {% if request.user.profile.is_owner %}
+                        <li class="nav-li"><a href="{% url 'place add' %}">ADD PLACE</a></li>
+                    {% endif %}
                 </ul>
             </div>
 
             <!-- Drop Down Button Starts -->
             <div class="dropdown">
+
               <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  <!-- TODO change to user actual photo or default-->
-                  <img class="profile-pic" src="{% static 'images/pngs/user-profile.png' %}" alt="">
+
+                  {% if request.user.is_authenticated and request.user.profile.profile_picture.url is not None  %}
+                    <img class="profile-pic" src="{{ request.user.profile.profile_picture.url }}" alt="photo">
+                  {% else %}
+                      <img class="profile-pic" src="{% static 'images/pngs/user-profile.png' %}" alt="def photo">
+                  {% endif %}
                   <span>{{ request.user }}</span>
               </button>
+
+            <!-- TODO, Maybe add some favourites table -->
+
               <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                   <h6 class="dropdown-header">Actions</h6>
-                  <a class="dropdown-item" href="{% url 'personal account details' %}">Profile info</a>
+                  <a class="dropdown-item" href="{% url 'profile details' request.user.pk %}">Profile info</a>
                   <a class="dropdown-item" href="{% url 'booking all' %}">My bookings</a>
-                  <!-- TODO if an owner then can access my places -->
-                  <a class="dropdown-item" href="#">My places</a>
-                  <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
+                  <!--  if an owner then can access my places -->
+                  {% if request.user.profile.is_owner %}
+                    <a class="dropdown-item" href="#">My places</a>
+                  {% endif %}
+                  <!-- JS for this part for the button drop-down -->
+                  <button class="dropdown-item dropdown-item-logout">Logout</button>
+                  <form action="{% url 'logout' %}" method="POST" class="dropdown-item dropdown-item-logout-link" style="display: none;">
+                      {% csrf_token %}
+                      <button type="submit" class="btn btn-danger" id="confirm-logout">Confirm</button>
+                  </form>
+
               </div>
             </div>
             <!-- Drop Down Button Ends -->
-
         </div>
     </div>
 </div>
+
+<!-- Confirmation button visibility script -->
+<script src="{% static 'js/logout-dropdown.js' %}"></script>
