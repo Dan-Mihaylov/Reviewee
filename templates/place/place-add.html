@@ -11,30 +11,50 @@
         <h1 class="header">Creating a New Place</h1>
 
         <div class="add-place-content-wrap">
-            <!-- Place select header -->
-            <h2 class="select-place-header">Select the place you want to create.</h2>
-
+            <div class="header-container">
+                <!-- Place select header -->
+                <h2 class="select-place-header">Select the type of business you would like to create.</h2>
+            </div>
 
             <div class="row">
                 <!-- Restaurant select card -->
                 <div class="col-sm-6 mb-3 mb-sm-0">
-                    <div class="card restaurant-div">
+                    <div class="restaurant-div">
                         <div class="card-body">
-                            <h5 class="card-title">Special title treatment</h5>
-                            <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                            <a href="#" class="btn btn-primary">Go somewhere</a>
-                        </div>
+                            <h5 class="card-title">Restaurant</h5>
+                            <p class="card-text">Information you would need to provide:</p>
+                            <ul>
+                                <li>Restaurant Name</li>
+                                <li>Country</li>
+                                <li>City</li>
+                                <li>Address</li>
+                                <li>Opening | Closing time</li>
+                                <li>Available seats</li>
+                            </ul>
+                            <div class="create-button-div">
+                                <a href="{% url 'restaurant add' %}" class="create-button btn btn-dark">Create Restaurant</a>
+                            </div>                        </div>
                     </div>
                 </div>
 
 
                 <div class="col-sm-6">
                     <!-- Hotel select card -->
-                    <div class="card hotel-div">
+                    <div class="hotel-div">
                         <div class="card-body">
-                            <h5 class="card-title">Special title treatment</h5>
-                            <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                            <a href="#" class="btn btn-primary">Go somewhere</a>
+                            <h5 class="card-title">Hotel</h5>
+                            <p class="card-text">Information you would need to provide.</p>
+                            <ul>
+                                <li>Hotel Name</li>
+                                <li>Country</li>
+                                <li>City</li>
+                                <li>Address</li>
+                                <li>Check In | Check Out times</li>
+                                <li>Available rooms</li>
+                            </ul>
+                            <div class="create-button-div">
+                                <a href="{% url 'hotel add' %}" class="create-button btn btn-dark">Create Hotel</a>
+                            </div>
                         </div>
                     </div>
                 </div>
