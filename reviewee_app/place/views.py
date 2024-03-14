@@ -3,7 +3,7 @@ from django.shortcuts import render, HttpResponse
 from django.urls import reverse
 from django.views import generic as views
 
-from .models import BasePlaceModel, Restaurant
+from .models import BasePlaceModel, Restaurant, Hotel
 from ..account.mixins import BusinessOwnerRequiredMixin
 
 
@@ -18,9 +18,9 @@ class RestaurantAddView(views.CreateView):
 
     # TODO: add the user automatically, don't select it.
     def form_valid(self, form):
-        self.object = form.save(commit=False)
-        self.object.owner = self.request.user
-        self.object.save()
+        instance = form.save(commit=False)
+        instance.owner = self.request.user
+        instance.save()
         return super().form_valid(form)
     def get_success_url(self):
         # you get the object in the form_valid() in the CreateView
@@ -28,7 +28,19 @@ class RestaurantAddView(views.CreateView):
 
 
 class HotelAddView(views.CreateView):
-    pass
+    template_name = 'place/hotel-add.html'
+    form_class = modelform_factory(Hotel, fields='__all__')
+
+    # TODO: Add the user automatically, remove the field from the form
+    def form_valid(self, form):
+        instance = form.save(commit=False)
+        instance.owner = self.request.user
+        instance.save()
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse('home')
+
 
 def place_details(request, slug):
     return HttpResponse('Place Details Page')

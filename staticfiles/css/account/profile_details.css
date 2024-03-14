@@ -97,3 +97,11 @@
     height: 100%;
     padding: 10px;
 }
+
+.place-card {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    max-width: 22rem;
+    width: 100%;
+}

@@ -113,11 +113,28 @@
 
     <!-- From here listing all the places -->
     <!-- TODO add paginator, 4 places max? or a bit more -->
-    {% if object.places %}
+    {% if object.restaurants or object.hotels %}
     <div class="places-details-content-strip">
 
         <div class="places-details-content-wrap">
+            {% for restaurant in object.restaurants.all %}
+                <div class="place-card">
+                    <img src="{{ restaurant.photo.url }}" alt="">
+                    <h2>{{ restaurant.name }}</h2>
+                    <p>Working Hours: {{ restaurant.opening_time }} - {{ restaurant.closing_time }}</p>
+                    <p>Address: {{ restaurant.address }}</p>
+                    <p>City: {{ restaurant.city }}</p>
+                    <p>Country: {{ restaurant.country }}</p>
+                    <p>Available Seats: {{ restaurant.available_seats }}</p>
+                </div>
+            {% endfor %}
 
+            {% for hotel in object.hotels.all %}
+                <div class="place-card">
+                    <img src="{{ hotel.photo.url }}" alt="">
+                    <h2>{{ hotel.name }}</h2>
+                </div>
+            {% endfor %}
 
         </div>
     </div>
