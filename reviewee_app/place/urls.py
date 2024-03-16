@@ -12,8 +12,8 @@ urlpatterns = [
     path('<slug>/', include(
         [
             path('', views.place_details, name='place details'),
-            path('edit/', views.place_edit, name='place edit'),
-            path('delete/', views.place_delete, name='place delete'),
+            path('edit/', views.PlaceEditView.as_view(), name='place edit'),
+            path('delete/', views.PlaceDeleteView.as_view(), name='place delete'),
             path('bookings/', views.place_bookings, name='place bookings'),
             path('review/', include(
                 [

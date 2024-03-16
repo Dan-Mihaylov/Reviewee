@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    Add Place
+{% endblock %}
+
+{% block content %}
+    <div class="add-place-content-strip">
+
+        <h1 class="header">Editing {{ object.name }}</h1>
+
+        <div class="add-place-content-wrap">
+            <div class="header-container">
+                <!-- Place select header -->
+                <h2 class="select-place-header">Enter the information you would like to change.</h2>
+            </div>
+
+            <form action="{% url 'place edit' object.slug %}" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form }}
+                <button class="btn btn-dark" type="submit">Submit Changes</button>
+            </form>
+
+
+                <!-- Delete place link -->
+                <p>Want to delete place instead? Click <a href="{% url 'place delete' object.slug %}">here.</a></p>
+
+
+
+        </div>
+
+    </div>
+
+
+{% endblock %}

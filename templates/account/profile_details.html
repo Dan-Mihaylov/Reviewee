@@ -117,6 +117,7 @@
     <div class="places-details-content-strip">
 
         <div class="places-details-content-wrap">
+
             {% for restaurant in object.restaurants.all %}
                 <div class="place-card">
                     <img src="{{ restaurant.photo.url }}" alt="">
@@ -126,6 +127,9 @@
                     <p>City: {{ restaurant.city }}</p>
                     <p>Country: {{ restaurant.country }}</p>
                     <p>Available Seats: {{ restaurant.available_seats }}</p>
+                    {% if request.user.pk == object.pk %}
+                        <a href="{% url 'place edit' restaurant.slug %}">Edit</a>
+                    {% endif %}
                 </div>
             {% endfor %}
 
@@ -133,6 +137,14 @@
                 <div class="place-card">
                     <img src="{{ hotel.photo.url }}" alt="">
                     <h2>{{ hotel.name }}</h2>
+                    <p>Check In Hours: {{ hotel.check_in_time }} - {{ hotel.check_out_time }}</p>
+                    <p>Address: {{ hotel.address }}</p>
+                    <p>City: {{ hotel.city }}</p>
+                    <p>Country: {{ hotel.country }}</p>
+                    <p>Available Seats: {{ hotel.available_rooms }}</p>
+                    {% if request.user.pk == object.pk %}
+                        <a href="{% url 'place edit' hotel.slug %}">Edit</a>
+                    {% endif %}
                 </div>
             {% endfor %}
 

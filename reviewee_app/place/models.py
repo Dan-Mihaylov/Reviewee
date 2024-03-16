@@ -9,7 +9,6 @@ from django.core.validators import MinLengthValidator, MinValueValidator, MaxVal
 from reviewee_app.common.models import AuditModelMixin
 
 
-
 UserModel = get_user_model()
 
 
@@ -96,7 +95,7 @@ class BasePlaceModel(AuditModelMixin, models.Model):
         
         # TODO maybe it will be saving, restaurants and hotels with same slug, if id == same and name == same???
         if not self.slug:
-            self.slug = slugify(f'{self.name}-{self.pk}')
+            self.slug = slugify(f'{self.name}-{self.pk}-{self.__class__.__name__}')
         
         return super().save(*args, **kwargs)
 

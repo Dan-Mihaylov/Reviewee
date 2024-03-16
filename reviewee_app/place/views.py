@@ -1,9 +1,12 @@
+from django.core.exceptions import ObjectDoesNotExist
 from django.forms import modelform_factory
 from django.shortcuts import render, HttpResponse
 from django.urls import reverse
 from django.views import generic as views
 
+from .mixins import OwnerOfPlaceRequiredMixin
 from .models import BasePlaceModel, Restaurant, Hotel
+from .helpers import find_place_object_for_user
 from ..account.mixins import BusinessOwnerRequiredMixin
 
 
@@ -12,7 +15,7 @@ class PlaceAddView(BusinessOwnerRequiredMixin, views.TemplateView):
     template_name = 'place/place-add.html'
 
 
-class RestaurantAddView(views.CreateView):
+class RestaurantAddView(BusinessOwnerRequiredMixin, views.CreateView):
     template_name = 'place/restaurant-add.html'
     form_class = modelform_factory(Restaurant, fields='__all__')
 
@@ -22,12 +25,13 @@ class RestaurantAddView(views.CreateView):
         instance.owner = self.request.user
         instance.save()
         return super().form_valid(form)
+
     def get_success_url(self):
         # you get the object in the form_valid() in the CreateView
         return reverse('home')
 
 
-class HotelAddView(views.CreateView):
+class HotelAddView(BusinessOwnerRequiredMixin, views.CreateView):
     template_name = 'place/hotel-add.html'
     form_class = modelform_factory(Hotel, fields='__all__')
 
@@ -42,20 +46,43 @@ class HotelAddView(views.CreateView):
         return reverse('home')
 
 
+class PlaceEditView(OwnerOfPlaceRequiredMixin, views.UpdateView):
+    template_name = 'place/place-edit.html'
+
+    def get_object(self, queryset=None):
+        return find_place_object_for_user(self.request.user, self.kwargs['slug'])
+
+    def get_form_class(self):
+        return modelform_factory(type(self.object), fields='__all__')
+
+    # TODO: Change the redirect URL to the place, details page.
+    def get_success_url(self):
+        return reverse('home')
+
+
+class PlaceDeleteView(OwnerOfPlaceRequiredMixin, views.DeleteView):
+    template_name = 'place/place-delete.html'
+
+    def get_success_url(self):
+        return reverse('home')
+
+    def get_object(self, queryset=None):
+        return find_place_object_for_user(self.request.user, self.kwargs['slug'])
+
+
 def place_details(request, slug):
     return HttpResponse('Place Details Page')
 
 
+class PlaceDetailsView(views.DetailView):
+    template_name = 'place/place-details.html'
+
+    def get_object(self, queryset=None):
+        return find_place_object_for_user(self.kwargs['slug'])
+
+
 def place_bookings(request, slug):
     return HttpResponse('Place Bookings Page')
-
-
-def place_edit(request, slug):
-    return HttpResponse('Place Edit Page')
-
-
-def place_delete(request, slug):
-    return HttpResponse('Place Delete Page')
 
 
 def place_review_write(request, slug):
