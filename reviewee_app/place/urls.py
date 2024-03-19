@@ -11,17 +11,12 @@ urlpatterns = [
     )),
     path('<slug>/', include(
         [
-            path('', views.place_details, name='place details'),
+            path('', views.PlaceDetailsView.as_view(), name='place details'),
             path('edit/', views.PlaceEditView.as_view(), name='place edit'),
             path('delete/', views.PlaceDeleteView.as_view(), name='place delete'),
             path('bookings/', views.place_bookings, name='place bookings'),
-            path('review/', include(
-                [
-                    path('write/', views.place_review_write, name='place review write'),
-                    path('<int:pk>/edit/', views.place_review_edit, name='place review edit'),
-                    path('<int:pk>/delete/', views.place_review_delete, name='place review delete'),
-                ]
-            ))
+            path('review/', include('reviewee_app.review.urls')
+                 )
         ]
     )),
 ]

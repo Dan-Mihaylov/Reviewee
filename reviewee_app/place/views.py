@@ -6,7 +6,7 @@ from django.views import generic as views
 
 from .mixins import OwnerOfPlaceRequiredMixin
 from .models import BasePlaceModel, Restaurant, Hotel
-from .helpers import find_place_object_for_user
+from .helpers import find_place_object_for_user, find_place_object_by_slug
 from ..account.mixins import BusinessOwnerRequiredMixin
 
 
@@ -46,11 +46,18 @@ class HotelAddView(BusinessOwnerRequiredMixin, views.CreateView):
         return reverse('home')
 
 
+# TODO: make sure you can't change the owner of the place - Done
 class PlaceEditView(OwnerOfPlaceRequiredMixin, views.UpdateView):
     template_name = 'place/place-edit.html'
 
     def get_object(self, queryset=None):
         return find_place_object_for_user(self.request.user, self.kwargs['slug'])
+    
+    def form_valid(self, form):
+        instance = form.save(commit=False)
+        instance.owner = self.request.user
+        instance.save()
+        return super().form_valid(form)
 
     def get_form_class(self):
         return modelform_factory(type(self.object), fields='__all__')
@@ -70,15 +77,12 @@ class PlaceDeleteView(OwnerOfPlaceRequiredMixin, views.DeleteView):
         return find_place_object_for_user(self.request.user, self.kwargs['slug'])
 
 
-def place_details(request, slug):
-    return HttpResponse('Place Details Page')
-
-
+# TODO: Finish Place Details, add extra context, book, add review
 class PlaceDetailsView(views.DetailView):
     template_name = 'place/place-details.html'
 
     def get_object(self, queryset=None):
-        return find_place_object_for_user(self.kwargs['slug'])
+        return find_place_object_by_slug(self.kwargs['slug'])
 
 
 def place_bookings(request, slug):

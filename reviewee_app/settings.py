@@ -32,6 +32,7 @@ INSTALLED_APPS = [
     'reviewee_app.place',
     'reviewee_app.booking',
     'reviewee_app.common',
+    'reviewee_app.review'
 ]
 
 MIDDLEWARE = [
