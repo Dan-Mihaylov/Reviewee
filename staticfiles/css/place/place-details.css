@@ -7,12 +7,168 @@
 }
 
 .place-details-content-wrap {
+    padding: 10px;
     display: flex;
-    flex-wrap: wrap;
-    color: var(--main-color);
-    justify-content: center;
+    flex-direction: column;
+    justify-content: start;
     align-items: center;
+    background-color: cadetblue;
+    color: var(--main-color);
     width: 100%;
     max-width: 1200px;
     height: 100%;
 }
+
+.place-details-header-container {
+    padding: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--main-color);
+    color: var(--color-lightest);
+    width: 100%;
+    max-height: 80px;
+    height: 100%;
+    border-radius: 5px;
+}
+
+.place-details-header-container h1 {
+    font-size: 1.5rem;
+    text-align: center;
+}
+
+.place-details-card-container {
+    border-radius: 5px;
+    margin: 10px 0 10px 0;
+    padding: 20px 0 20px 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--main-color);
+    width: 100%;
+/*    TODO: When under 600 take off padding*/
+}
+
+.place-card-header-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+
+
+.place-details-card {
+    max-width: 680px;
+    width: 100%;
+    margin: 0;
+    border: none;
+    box-shadow: 0 1px 10px var(--color-lightest-transparent);
+
+}
+
+.place-details-card-body {
+    color: var(--secondary-color);
+    background-color: whitesmoke;
+}
+
+.place-image {
+    max-height: 480px;
+    object-fit: cover;
+}
+
+.place-details-card-more-info-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.owners-options-container {
+    display: flex;
+    flex: 50%;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+}
+
+.options-button {
+    margin: 5px;
+}
+
+.write-review-container {
+    width: 100%;
+}
+
+.write-review-button {
+    width: 100%;
+}
+
+/* For photo review div */
+
+.reviews-with-photos-header {
+    margin-top: 20px;
+    color: var(--color-lightest);
+    font-size: 1.5rem;
+}
+
+.review-photos-container {
+    display: flex;
+    width: 100%;
+    height: 300px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    white-space: nowrap;
+    justify-content: center;
+}
+
+.review-photos-wrapper {
+    display: flex;
+    overflow-x: auto;
+    width: 100%;
+}
+
+.review-photo-card {
+    border-radius: 5px;
+    position: relative;
+    max-width: 300px;
+    width: 100%;
+    max-height: 280px;
+    height: 100%;
+    margin: 10px;
+}
+
+.review-photo {
+    border-radius: inherit;
+    width: 300px;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* When position is absolute don't forget parent position as well */
+.review-photo-overlay {
+    border-radius: inherit;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--main-color-transparent);
+    color: var(--color-lightest);
+    padding: 20px;
+    box-sizing: border-box;
+    display: none;
+}
+
+/* TODO: when display under 600 display: block; */
+.review-photo-card:hover .review-photo-overlay {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+}
+
+.review-overlay-header {
+    font-size: 1.5rem;
+}
+
+
+/* from here starts all reviews */
+

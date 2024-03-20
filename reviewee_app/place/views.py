@@ -6,7 +6,7 @@ from django.views import generic as views
 
 from .mixins import OwnerOfPlaceRequiredMixin
 from .models import BasePlaceModel, Restaurant, Hotel
-from .helpers import find_place_object_for_user, find_place_object_by_slug
+from .helpers import find_place_object_for_user, find_place_object_by_slug, get_all_photo_reviews
 from ..account.mixins import BusinessOwnerRequiredMixin
 
 
@@ -83,6 +83,11 @@ class PlaceDetailsView(views.DetailView):
 
     def get_object(self, queryset=None):
         return find_place_object_by_slug(self.kwargs['slug'])
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['photo_reviews'] = get_all_photo_reviews(self.object)
+        return context
 
 
 def place_bookings(request, slug):

@@ -116,7 +116,7 @@
     {% if object.restaurants or object.hotels %}
     <div class="places-details-content-strip">
 
-        <div class="places-details-content-wrap">
+        <div class="places-details-content-wrap" id="owner-places">
 
             {% for restaurant in object.restaurants.all %}
                 <div class="place-card">
@@ -130,6 +130,7 @@
                     {% if request.user.pk == object.pk %}
                         <a href="{% url 'place edit' restaurant.slug %}">Edit</a>
                     {% endif %}
+                    <a href="{% url 'place details' restaurant.slug %}">Details</a>
                 </div>
             {% endfor %}
 
@@ -145,6 +146,7 @@
                     {% if request.user.pk == object.pk %}
                         <a href="{% url 'place edit' hotel.slug %}">Edit</a>
                     {% endif %}
+                    <a href="{% url 'place details' hotel.slug %}">Details</a>
                 </div>
             {% endfor %}
 

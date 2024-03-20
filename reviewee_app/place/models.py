@@ -39,6 +39,11 @@ class BasePlaceModel(AuditModelMixin, models.Model):
         null=False,
         blank=False,
     )
+
+    description = models.TextField(
+        null=False,
+        blank=False,
+    )
     
     owner = models.ForeignKey(
         UserModel,
@@ -101,6 +106,9 @@ class BasePlaceModel(AuditModelMixin, models.Model):
 
     def __str__(self):
         return f'{self.name} - {self.country}'
+
+    def type(self):
+        return self.__class__.__name__
 
 
 class Restaurant(BasePlaceModel):

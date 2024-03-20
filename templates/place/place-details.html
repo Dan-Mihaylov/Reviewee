@@ -11,9 +11,103 @@
     <div class="place-details-content-strip">
 
         <div class="place-details-content-wrap">
-            <h1>It works?</h1>
-            {{ object }}
 
+            <div class="place-details-header-container">
+                <h1>{{ object }} Details</h1>
+            </div>
+
+            <div class="place-details-card-container">
+
+                <!-- Card for place starts here -->
+                <div class="card mb-3 place-details-card">
+                    <img class="card-img-top place-image" src="{{ object.photo.url }}" alt="Card image cap">
+                    <div class="card-body place-details-card-body">
+                        <div class="place-card-header-container">
+                            <h5 class="card-title">{{ object.name }}</h5>
+                            <p class="card-text">Rating: 5/5</p>
+                        </div>
+
+                        <p class="card-text">{{ object.description }}</p>
+                        <p class="card-text">Country: {{ object.country }}</p>
+                        <p class="card-text">City: {{ object.city }}</p>
+                        <p class="card-text">Address: {{ object.address }}</p>
+                        <p class="card-text">Postcode: {{ object.post_code }}</p>
+
+                        {% if object.type == 'Restaurant' %}
+                            <p class="card-text">Operating Hours: {{ object.opening_time }} - {{ object.closing_time }}</p>
+                        {% else %}
+                            <p class="card-text">Check In-Out Information: {{ object.check_in_time}}-{{ object.check_out_time }}</p>
+                        {% endif %}
+
+                        <!-- Created at and link to owners more places -->
+                        <div class="place-details-card-more-info-container">
+                            <p class="card-text"><small class="text-muted">Member since: {{ object.created_at|date:'M d, Y' }}</small></p>
+
+                            {% if request.user.pk == object.owner.pk %}
+                                <div class="owners-options-container">
+                                <a class="btn btn-light options-button" href="{% url 'profile details' object.owner.pk  %}#owner-places">
+                                    All My Places
+                                </a>
+                                <a class="btn btn-light options-button" href="{% url 'place edit' object.slug %}">
+                                    <img src="{% static 'images/pngs/edit.png' %}" alt="edit" width="30px">
+                                </a>
+
+                                <a class="btn btn-light options-button" href="{% url 'place delete' object.slug %}">
+                                    <img src="{% static 'images/pngs/delete.png' %}" alt="edit" width="30px">
+                                </a>
+                                </div>
+
+
+                            {% else %}
+                                <a class="btn btn-light" href="{% url 'profile details' object.owner.pk  %}#owner-places">
+                                    Owners Other Places
+                                </a>
+
+                            {% endif %}
+
+                        </div>
+                        {% if request.user.is_authenticated and request.user.pk != object.owner.pk %}
+                            <div class="write-review-container">
+                                <a class="btn btn-dark write-review-button" href="{% url 'review write' object.slug %}">Write Review</a>
+                            </div>
+                        {% endif %}
+                    <!-- control buttons -->
+
+                    </div>
+                </div>
+                <!-- Card for place ends here -->
+
+                <!-- Try to make a photo review div -->
+            {% if photo_reviews %}
+                <h2 class="reviews-with-photos-header">
+                    Reviews with Photos
+                </h2>
+
+                <div class="review-photos-container">
+
+                    <div class="review-photos-wrapper">
+                        {% for review in photo_reviews %}
+                            <div class="review-photo-card">
+
+                                <img class="review-photo" src="{{ review.review_photo.url }}" alt="Review Photo">
+{#                                TODO: when clicking on the link, take them to the review # #}
+                                <div class="review-photo-overlay">
+                                    <h2 class="review-overlay-header">{{ review.user.profile.get_name }}</h2>
+                                    <p class="review-overlay-paragraph">rating: {{ review.rating }}</p>
+                                    <p class="review-overlay-paragraph">{{ review.comment }}</p>
+                                    <a class="btn btn-light" href="#">Read review</a>
+                                </div>
+                            </div>
+
+                        {% endfor %}
+                    </div>
+
+                </div>
+
+            {% endif %}
+
+
+            </div>
         </div>
     </div>
 
