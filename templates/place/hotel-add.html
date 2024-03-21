@@ -2,32 +2,128 @@
 {% load static %}
 
 {% block title %}
-    Add Place
+    Edit Place
 {% endblock %}
 
 {% block content %}
-    <!-- TODO: Change name of the divs, add separate css -->
-    <div class="add-place-content-strip">
 
-        <h1 class="header">Creating a New Hotel</h1>
+    <div class="hotel-add-content-strip">
 
-        <div class="add-place-content-wrap">
+        <h1 class="header">Creating a new Hotel </h1>
 
-            <form action="{% url 'hotel add' %}" method="POST" enctype="multipart/form-data">
-                {% csrf_token %}
-                {{ form }}
+        <div class="hotel-add-content-wrap">
 
-                <button class="btn btn-dark">Create</button>
+            <div class="hotel-add-form-container">
+                <!-- Form starts from here -->
+                <form action="{% url 'hotel add' %}" method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="form-header-container">
+                        <h2>Hotel Creation Form</h2>
+                        <p class="card-text">
+                            <small class="text-muted">Please enter all relative information about your hotel in the form.</small>
+                            <br>
+                            <small class="text-muted">All fields other than "Postcode" are required</small>
+                        </p>
+                    </div>
 
+                    <!-- Place Name -->
+                    <div class="form-floating mb-3">
+                        <label for="floatingInput" class="form-label">Name</label>
+                        <input type="text" class="form-control" id="floatingInput" name="{{ form.name.name }}"
+                               placeholder="Hotel Name">
+                        <p>{{ form.errors.name }}</p>
+                    </div>
 
-            </form>
+                    <!-- File input -->
+                    <div class="mb-3">
+                        <label for="formFile" class="form-label">Select Photo</label>
+                        <input class="form-control" type="file" id="formFile" name="{{ form.photo.name }}"
+                                accept="image/*">
+                    </div>
 
+                    <!-- Place description -->
+                    <div class="form-floating mb-3">
+                        <label  for="id_{{ form.description.name }}">Description:</label>
+                        <textarea  class="form-control"  name="{{ form.description.name }}"
+                                    id="id_{{ form.description.name }}"
+                                    placeholder="Description"
+                                    maxlength="250"></textarea>
+                        <!-- The tag has to close straight after, because it adds blank spaces to the end -->
+                        <p>{{ form.errors.description }}</p>
+                    </div>
 
+                    <!-- Check in times -->
+                    <div class="form-floating mb-3">
+                        <label for="floatingInput" class="form-label">Check in Time</label>
+                        <input type="text" class="form-control" id="floatingInput" name="{{ form.check_in_time.name }}"
+                               placeholder="Check in time">
+                        <p>{{ form.errors.check_in_time }}</p>
+                    </div>
 
+                    <!-- Check out times -->
+                    <div class="form-floating mb-3">
+                        <label for="floatingInput" class="form-label">Check out Time</label>
+                        <input type="text" class="form-control" id="floatingInput" name="{{ form.check_out_time.name }}"
+                               placeholder="Check out time">
+                        <p>{{ form.errors.check_out_time }}</p>
+                    </div>
+
+                    <!-- Available rooms -->
+                    <div class="form-floating mb-3">
+                        <label for="floatingInput" class="form-label">Available rooms</label>
+                        <input type="text" class="form-control" id="floatingInput" name="{{ form.available_rooms.name }}"
+                               placeholder="Available Rooms">
+                        <p>{{ form.errors.available_rooms }}</p>
+                    </div>
+
+{#  TODO: Put all info that you are not changing in a hidden fields and then display them as info on top of card #}
+
+                    <!-- Country -->
+                    <div class="form-floating mb-3">
+                        <label for="floatingInput" class="form-label">Country</label>
+                        <input type="text" class="form-control" id="floatingInput" name="{{ form.country.name }}"
+                               placeholder="Country">
+                        <p>{{ form.errors.country }}</p>
+                    </div>
+
+                    <!-- City -->
+                    <div class="form-floating mb-3">
+                        <label for="floatingInput" class="form-label">City</label>
+                        <input type="text" class="form-control" id="floatingInput" name="{{ form.city.name }}"
+                               placeholder="City">
+                        <p>{{ form.errors.city }}</p>
+                    </div>
+
+                    <!-- Address -->
+                    <div class="form-floating mb-3">
+                        <label for="floatingInput" class="form-label">Address</label>
+                        <input type="text" class="form-control" id="floatingInput" name="{{ form.address.name }}"
+                               placeholder="Address">
+                        <p>{{ form.errors.address }}</p>
+                    </div>
+
+                    <!-- POSTCODE -->
+                    <div class="form-floating mb-3">
+                        <label for="floatingInput" class="form-label">Postcode</label>
+                        <input type="text" class="form-control" id="floatingInput" name="{{ form.post_code.name }}"
+                               placeholder="Postcode">
+                        <p>{{ form.errors.post_code }}</p>
+                    </div>
+
+                    <div class="hotel-add-form-button-submit-container">
+                        <button type="submit" class="create-hotel-button">Create Hotel</button>
+                    </div>
+
+                    <div class="hotel-add-form-button-back-container">
+                        <button id="go-back-button" class="go-back-button">Go Back</button>
+                    </div>
+
+                </form>
+            </div>
+            <!-- Closing form container -->
 
         </div>
-
     </div>
 
-
+    <script src="{% static 'js/button-back.js' %}"></script>
 {% endblock %}
