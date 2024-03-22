@@ -11,11 +11,15 @@ from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
 import requests
 from reviewee_app.place.models import Hotel
+from reviewee_app.place.helpers import get_all_places
 
 
-hotel = Hotel.objects.all().first()
-review = hotel.reviews.all().first()
 
-user = review.user
+places = get_all_places()
 
-print(user.hotelreview_set.all())
+# for place in places:
+#     print(f'Owner: {place.owner}')
+#     print(f'added at: {place.created_at}')
+#     print(f'type: {place.type()}\n')
+
+print(type(places))

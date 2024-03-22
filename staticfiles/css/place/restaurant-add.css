@@ -1,0 +1,91 @@
+.restaurant-add-content-strip {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    background-color: var(--color-lightest);
+    color: var(--main-color);
+}
+
+.restaurant-add-content-wrap {
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+    color: var(--main-color);
+    width: 100%;
+    max-width: 1200px;
+    height: 100%;
+}
+
+.header {
+    font-size: 2rem;
+    margin-top: 20px;
+}
+
+.restaurant-add-form-container {
+    border-radius: 5px;
+    margin: 20px 0 20px 0;
+    padding: 20px 20px 20px 20px;
+    max-width: 680px;
+    width: 100%;
+    background-color: var(--secondary-color);
+    color: var(--color-lightest);
+}
+
+.restaurant-add-form-container h2{
+    font-size: 1.8rem;
+}
+
+.form-header-container {
+    margin-bottom: 40px;
+    text-align: justify;
+}
+
+.restaurant-add-form-button-submit-container {
+    width: 100%;
+}
+
+.create-restaurant-button {
+    margin: 10px 0 10px 0;
+    width: 100%;
+    background-color: var(--button-green);
+    color: var(--color-lightest);
+    min-height: 2rem;
+    border-radius: 5px;
+    border: none;
+}
+
+.create-restaurant-button:hover {
+    background-color: var(--button-green-hover);
+}
+
+.create-restaurant-button:focus {
+    outline: none;
+}
+
+.restaurant-add-form-button-back-container {
+    width: 100%;
+}
+
+.go-back-button {
+    margin: 10px 0 10px 0;
+    width: 100%;
+    background-color: var(--button-red);
+    color: var(--color-lightest);
+    min-height: 2rem;
+    border-radius: 5px;
+    border: none;
+}
+
+.go-back-button:hover {
+    background-color: var(--button-red-hover);
+}
+
+.go-back-button:focus {
+    outline: none;
+}
+
+

@@ -1,10 +1,12 @@
 @import 'base.css';
+@import "common.css";
 @import 'navbar.css';
 @import 'index.css';
 @import 'place/place-add.css';
 @import 'place/place-details.css';
 @import 'place/place-edit.css';
 @import 'place/hotel-add.css';
+@import 'place/restaurant-add.css';
 @import 'account/login.css';
 @import 'account/register.css';
 @import 'account/edit-profile.css';

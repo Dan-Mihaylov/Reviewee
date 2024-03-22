@@ -111,9 +111,10 @@
         </div>
     </div>
 
+    {% if object.profile.is_owner %}
     <!-- From here listing all the places -->
     <!-- TODO add paginator, 4 places max? or a bit more -->
-    {% if object.restaurants or object.hotels %}
+    {% if object.restaurants.all or object.hotels.all %}
     <div class="places-details-content-strip">
 
         <div class="places-details-content-wrap" id="owner-places">
@@ -152,6 +153,7 @@
 
         </div>
     </div>
+    {% endif %}
     {% endif %}
 
 {% endblock %}

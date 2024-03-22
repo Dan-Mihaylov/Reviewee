@@ -19,7 +19,7 @@ class RestaurantAddView(BusinessOwnerRequiredMixin, views.CreateView):
     template_name = 'place/restaurant-add.html'
     form_class = modelform_factory(Restaurant, fields='__all__')
 
-    # TODO: add the user automatically, don't select it.
+    # TODO: Create a mixin or a function to attach user don't DRY.
     def form_valid(self, form):
         instance = form.save(commit=False)
         instance.owner = self.request.user

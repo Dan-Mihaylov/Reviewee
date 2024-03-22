@@ -12,12 +12,111 @@
 
     <div class="index-content-strip">
 
-        <div class="index-content-wrap">
+        <!-- Header image container -->
+        <div class="index-background-image-container">
+            <img class="index-background-image" src="{% static 'images/backgrounds/kitchen-background.jpg' %}" alt="img">
 
-            <h1>Some Header</h1>
-            {% lorem 10 p %}
+            <div class="index-background-image-overlay">
+                <h2 class="index-background-image-text">
+                    DISCOVER PLACES
+                </h2>
+            </div>
+        </div>
+
+        <!-- Browse buttons to take you to browse list display page -->
+        <div class="index-content-wrap no-shadow">
+
+            <a class="browse-place-button" href="{% url 'browse' %}?restaurants">Browse Restaurants</a>
+            <a class="browse-place-button" href="{% url 'browse' %}?hotels">Browse Hotels</a>
 
         </div>
+
+    <!-- New content strip with different background -->
+    <div class="index-content-strip dark-bg">
+
+        <!-- Display last added places here -->
+        <div class="index-content-wrap dark-bg">
+
+        <!-- Header container -->
+        <div class="index-page-list-header-container">
+            <h2 class="index-page-list-header">
+                Latest additions
+            </h2>
+        </div>
+
+            <!-- TODO: Move the place display cards into a template tag, so we can use them elsewhere -->
+            {% for place in object_list %}
+
+                <!-- Card for place starts here -->
+                <div class="card mb-3 place-details-card-max-width-400">
+                    <img class="card-img-top place-image" src="{{ place.photo.url }}" alt="Card image cap">
+
+                    <div class="card-body place-details-card-body-background">
+                        <div class="place-card-header-container">
+                            <h5 class="card-title">{{ place.name }}</h5>
+                            <p class="card-text">Rating: 5/5</p>
+                        </div>
+
+                        <p class="card-text">{{ place.description }}</p>
+                        <p class="card-text">Country: {{ place.country }}</p>
+                        <p class="card-text">City: {{ place.city }}</p>place
+                        <p class="card-text">Address: {{ place.address }}</p>
+                        <p class="card-text">Postcode: {{ place.post_code }}</p>
+
+                        {% if place.type == 'Restaurant' %}
+                            <p class="card-text">Operating Hours: {{ place.opening_time }} - {{ place.closing_time }}</p>
+                        {% else %}
+                            <p class="card-text">Check In-Out Information: {{ place.check_in_time}}-{{ place.check_out_time }}</p>
+                        {% endif %}
+
+                        <!-- Created at, and link to owners more places -->
+                        <div class="place-details-card-more-info-container">
+                            <p class="card-text"><small class="text-muted">Member since: {{ place.created_at|date:'M d, Y' }}</small></p>
+
+                            {% if request.user.pk == place.owner.pk %}
+                                <div class="owners-options-container">
+
+                                <a class="btn btn-light options-button" href="{% url 'profile details' place.owner.pk  %}#owner-places">
+                                    All My Places
+                                </a>
+
+                                <a class="btn btn-light options-button" href="{% url 'place edit' place.slug %}">
+                                    <img src="{% static 'images/pngs/edit.png' %}" alt="edit" width="30px">
+                                </a>
+
+                                <a class="btn btn-light options-button" href="{% url 'place delete' place.slug %}">
+                                    <img src="{% static 'images/pngs/delete.png' %}" alt="edit" width="30px">
+                                </a>
+                                </div>
+
+                            {% else %}
+
+                                <a class="btn btn-light" href="{% url 'profile details' place.owner.pk  %}#owner-places">
+                                    Owners Other Places
+                                </a>
+
+                            {% endif %}
+
+                        </div>
+
+                        {% if request.user.is_authenticated and request.user.pk != place.owner.pk %}
+
+                            <div class="write-review-container">
+                                <a class="btn btn-dark write-review-button" href="{% url 'review write' place.slug %}">Write Review</a>
+                            </div>
+
+                        {% endif %}
+                    <!-- control buttons -->
+
+                    </div>
+                </div>
+                <!-- Card for place ends here -->
+
+
+            {% endfor %}
+
+        </div>
+    </div>
 
     </div>
 

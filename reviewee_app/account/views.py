@@ -60,7 +60,7 @@ class EditProfileView(views.UpdateView):
     def get_success_url(self):
         if self.object.is_owner():
             return reverse('business profile edit')
-        return reverse('profile details')
+        return reverse('profile details', kwargs={'pk': self.request.user.pk})
 
 
 class EditBusinessProfileView(views.UpdateView):

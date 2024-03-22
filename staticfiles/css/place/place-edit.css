@@ -14,37 +14,18 @@
     flex-direction: column;
     justify-content: start;
     align-items: center;
-    background-color: cadetblue;
     color: var(--main-color);
     width: 100%;
     max-width: 1200px;
     height: 100%;
 }
 
-.place-edit-header-container {
-    padding: 5px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: var(--main-color);
-    color: var(--color-lightest);
-    width: 100%;
-    max-height: 80px;
-    height: 100%;
-    border-radius: 5px;
-}
-
-.place-details-header-container h1 {
-    font-size: 1.5rem;
-    text-align: center;
-}
-
 .place-edit-card {
     width: 100%;
     max-width: 680px;
-    margin-top: 20px;
+    margin: 20px 0 40px 0;
     border: none;
-    background-color: var(--main-color);
+    background-color: var(--secondary-color);
 }
 
 .place-edit-photo-container {
@@ -61,8 +42,51 @@
     border-radius: 5px 5px 0 0;
 }
 
-.place-edit-card-body {
+.place-edit-information-container {
     background-color: var(--main-color);
     color: var(--color-lightest);
+    width: 100%;
+    padding: 20px;
+}
+
+.place-edit-form-header {
+    font-size: 1.5rem;
+}
+
+.place-edit-form-paragraph {
+    color: grey;
+    margin-bottom: 40px;
+    border-bottom: 1px dashed rgba(60, 60, 60, 0.8);
+}
+
+.place-edit-card-body {
+    background-color: var(--secondary-color);
+    color: var(--color-lightest);
     border-radius: 0 0 5px 5px;
+}
+
+.place-edit-button-submit-container {
+    width: 100%;
+}
+
+.place-edit-save-button {
+    margin: 10px 0 10px 0;
+    width: 100%;
+    background-color: var(--button-green);
+    color: var(--color-lightest);
+    min-height: 2rem;
+    border-radius: 5px;
+    border: none;
+}
+
+.place-edit-save-button:hover {
+    background-color: var(--button-green-hover);
+}
+
+.place-edit-save-button:focus {
+    outline: none;
+}
+
+.restaurant-add-form-button-back-container {
+    width: 100%;
 }

@@ -2,34 +2,182 @@
 {% load static %}
 
 {% block title %}
-    Add Place
+    Edit Place
 {% endblock %}
 
 {% block content %}
-    <div class="add-place-content-strip">
 
-        <h1 class="header">Editing {{ object.name }}</h1>
+    <div class="place-edit-content-strip">
 
-        <div class="add-place-content-wrap">
-            <div class="header-container">
-                <!-- Place select header -->
-                <h2 class="select-place-header">Enter the information you would like to change.</h2>
+        <h1 class="header">Editing {{ object.name }} </h1>
+
+        <div class="place-edit-content-wrap">
+
+            <!-- Card that contains a picture and the form -->
+            <div class="card place-edit-card">
+
+                <div class="place-edit-photo-container">
+                    <img class="place-edit-photo" src="{{ object.photo.url }}" alt="photo">
+                </div>
+
+                <!-- Place details -->
+                <div class="place-edit-information-container">
+                    <h5 class="card-title">{{ object.name }}</h5>
+                    <p class="card-text">
+                        <small>Country: {{ object.country }}</small>
+                        <br>
+                        <small>City: {{ object.city }}</small>
+                        <br>
+                        <small>Address: {{ object.address }}</small>
+                        {% if object.postcode %}<br><small>POSTCODE: {{ object.postcode }}</small>
+                        {% endif %}
+                    </p>
+                </div>
+
+                <div class="card-body place-edit-card-body">
+
+                    <!-- Form starts from here -->
+                    <form action="{% url 'place edit' object.slug %}" method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+
+                        <h2 class="place-edit-form-header">Edit details form</h2>
+                            <p class="place-edit-form-paragraph"><small>Please enter the information you would like to change on that place</small></p>
+
+                        <!-- Place Name -->
+                        <div class="form-floating mb-3">
+                            <label for="floatingInput" class="form-label">Name</label>
+                            <input type="text" class="form-control" id="floatingInput" name="{{ form.name.name }}"
+                                   placeholder="name"
+                                   value="{% if object.name != None %} {{ object.name }}{% endif %}">
+                            <p>{{ form.errors.name }}</p>
+                        </div>
+
+                        <!-- File input -->
+                        <div class="mb-3">
+                            <label for="formFile" class="form-label">Change Photo</label>
+                            <input class="form-control" type="file" id="formFile" name="{{ form.photo.name }}"
+                                    accept="image/*">
+                        </div>
+
+                        <!-- Place description -->
+                        <div class="form-floating mb-3">
+                            <label  for="id_{{ form.description.name }}">Description:</label>
+                            <textarea  class="form-control"  name="{{ form.description.name }}"
+                                        id="id_{{ form.description.name }}"
+                                        placeholder="{% if object.description != None %}{{ object.description }}{% else %}Description{% endif %}"
+                                        maxlength="120">{% if object.description != None %}{{ object.description }}{% endif %}</textarea>
+                                        <!-- The tag has to close straight after, because it adds blank spaces to the end -->
+                            <p>{{ form.errors.description }}</p>
+                        </div>
+
+                        <!-- If place == Restaurant "Opening/closing time and seats" -->
+                        {% if object.type == "Restaurant" %}
+
+                            <!-- Opening time -->
+                            <div class="form-floating mb-3">
+                                <label for="floatingInput" class="form-label">Opening Time</label>
+                                <input type="text" class="form-control" id="floatingInput" name="{{ form.opening_time.name }}"
+                                       placeholder="Opening Time"
+                                       value="{% if object.opening_time != None %} {{ object.opening_time|time:"H:i" }}{% endif %}">
+                                <p>{{ form.errors.opening_time }}</p>
+                            </div>
+
+                            <!-- Closing time -->
+                            <div class="form-floating mb-3">
+                                <label for="floatingInput" class="form-label">Closing Time</label>
+                                <input type="text" class="form-control" id="floatingInput" name="{{ form.closing_time.name }}"
+                                       placeholder="Closing Time"
+                                       value="{% if object.closing_time != None %}{{ object.closing_time|time:"H:i" }}{% endif %}">
+                                <p>{{ form.errors.closing_time }}</p>
+                            </div>
+
+                            <!-- Available seats -->
+                            <div class="form-floating mb-3">
+                                <label for="floatingInput" class="form-label">Available seats</label>
+                                <input type="text" class="form-control" id="floatingInput" name="{{ form.available_seats.name }}"
+                                       placeholder="Available seats"
+                                       value="{% if object.available_seats != None %} {{ object.available_seats }}{% endif %}">
+                                <p>{{ form.errors.available_seats }}</p>
+                            </div>
+
+                        {% else %}
+                        <!-- Place is a Hotel -->
+
+                            <!-- Check in times -->
+                            <div class="form-floating mb-3">
+                                <label for="floatingInput" class="form-label">Check in Time</label>
+                                <input type="text" class="form-control" id="floatingInput" name="{{ form.check_in_time.name }}"
+                                       placeholder="Check in time"
+                                       value="{% if object.check_in_time != None %} {{ object.check_in_time|time:"H:i" }}{% endif %}">
+                                <p>{{ form.errors.check_in_time }}</p>
+                            </div>
+
+                            <!-- Check out times -->
+                            <div class="form-floating mb-3">
+                                <label for="floatingInput" class="form-label">Check out Time</label>
+                                <input type="text" class="form-control" id="floatingInput" name="{{ form.check_out_time.name }}"
+                                       placeholder="Check in time"
+                                       value="{% if object.check_out_time != None %} {{ object.check_out_time|time:"H:i" }}{% endif %}">
+                                <p>{{ form.errors.check_out_time }}</p>
+                            </div>
+
+                            <!-- Available rooms -->
+                            <div class="form-floating mb-3">
+                                <label for="floatingInput" class="form-label">Available rooms</label>
+                                <input type="text" class="form-control" id="floatingInput" name="{{ form.available_rooms.name }}"
+                                       placeholder="Available Rooms"
+                                       value="{% if object.available_rooms != None %} {{ object.available_rooms }}{% endif %}">
+                                <p>{{ form.errors.available_rooms }}</p>
+                            </div>
+
+                        {% endif %}
+
+    {#  TODO: Put all info that you are not changing in a hidden fields and then display them as info on top of card #}
+
+
+                        <!-- Country -->
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="floatingInput" name="{{ form.country.name }}"
+                                   placeholder="Country" readonly="readonly" hidden="hidden"
+                                   value="{% if object.country != None %} {{ object.country }}{% endif %}">
+                        </div>
+
+                        <!-- City -->
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="floatingInput" name="{{ form.city.name }}"
+                                   placeholder="City" readonly="readonly" hidden="hidden"
+                                   value="{% if object.city != None %} {{ object.city }}{% endif %}">
+                        </div>
+
+                        <!-- Address -->
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="floatingInput" name="{{ form.address.name }}"
+                                   placeholder="Address" readonly="readonly" hidden="hidden"
+                                   value="{% if object.address != None %} {{ object.address }}{% endif %}">
+                        </div>
+
+                        <!-- POSTCODE -->
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="floatingInput" name="{{ form.post_code.name }}"
+                                   placeholder="Postcode" readonly="readonly" hidden="hidden"
+                                   value="{% if object.post_code != None %} {{ object.post_code }}{% endif %}">
+                        </div>
+
+                        <div class="place-edit-button-submit-container">
+                            <button type="submit" class="place-edit-save-button">Save Changes</button>
+                        </div>
+
+                        <div class="place-edit-button-back-container">
+                            <button href="{% url 'home' %}" id="go-back-button" class="go-back-button">Cancel</button>
+                        </div>
+
+                    </form>
+
+                </div>
             </div>
-
-            <form action="{% url 'place edit' object.slug %}" method="POST" enctype="multipart/form-data">
-                {% csrf_token %}
-                {{ form }}
-                <button class="btn btn-dark" type="submit">Submit Changes</button>
-            </form>
-
-
-                <!-- Delete place link -->
-                <p>Want to delete place instead? Click <a href="{% url 'place delete' object.slug %}">here.</a></p>
-
 
 
         </div>
-
     </div>
 
 

@@ -1,8 +1,11 @@
 @import "colors.css";
+@import url('https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap');
+
 
 .index-content-strip {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    justify-content: flex-start;
     align-items: center;
     width: 100%;
     background-color: var(--color-lightest);
@@ -10,9 +13,116 @@
 }
 
 .index-content-wrap {
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
     max-width: 1200px;
     width: 100%;
     padding: 10px;
     margin: 20px 0 20px 0;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.index-background-image-container {
+    position: relative;
+    width: 100%;
+}
+
+.index-background-image{
+    width: 100%;
+    max-height: 600px ;
+    object-fit: cover;
+}
+
+
+.index-background-image-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.index-background-image-text {
+    color: var(--color-lightest);
+    font-size: 6rem;
+    text-align: center;
+    font-family: "Roboto Light", sans-serif;
+}
+/* TODO: Need to add no shadow to the wrap box */
+.no-shadow {
+    box-shadow: none;
+}
+
+.browse-place-button {
+    text-decoration: none;
+    text-align: center;
+    font-weight: bold;
+    color: var(--color-lightest);
+    background-color: var(--secondary-color);
+    min-height: 40px;
+    max-width: 300px;
+    width: 100%;
+    line-height: 35px;
+    border-radius: 5px;
+    margin: 10px;
+}
+
+.browse-place-button:hover {
+    text-decoration: none;
+    background-color: darkslategrey;
+    color: var(--color-lightest);
+}
+
+.browse-place-button:focus {
+    background-color: darkcyan;
+}
+
+/* list pages */
+.index-page-list-header-container {
+    width: 100%;
+    color: var(--color-lightest);
+    margin-bottom: 20px;
+}
+
+.index-page-list-header {
+    font-size: 3rem;
+    font-weight: bolder;
+    text-align: center;
+}
+
+.dark-bg {
+    background-color: var(--color-background-lightest-dark);
+    box-shadow: none;
+}
+
+/* TODO: Separate the css for the card to the partials */
+.place-details-card-max-width-400 {
+    max-width: 480px;
+    width: 100%;
+    border: none;
+    border-radius: 5px;
+}
+
+.place-image {
+    border-radius: 5px 5px 0 0;
+}
+
+.place-details-card-body-background {
+    border-radius: 0 0 5px 5px;
+}
+
+
+@media screen and (max-width: 600px){
+    .index-background-image-text {
+        font-size: 3.5rem;
+    }
+
+    .index-page-list-header {
+        font-size: 2rem;
+    }
 }
