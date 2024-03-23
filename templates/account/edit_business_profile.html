@@ -8,12 +8,13 @@
 
 {% block content %}
 
-    <div class="edit-profile-content-strip">
+    <div class="edit-business-profile-content-strip">
 
-        <div class="edit-profile-content-wrap">
-<!-- From Here -->
+        <div class="edit-business-profile-content-wrap">
+
+            <!-- From Here -->
             <!-- Card that contains a picture and the form -->
-            <div class="card" style="width: 22rem;">
+            <div class="card edit-business-profile-card">
                 <img class="card-img-top" alt="photo"
                      src="{% if object.business_logo %}{{ object.business_logo }}{% else %}{% static 'images/pngs/open-for-business.jpg' %}{% endif %}">
                 <div class="card-body">
@@ -32,6 +33,7 @@
                                 placeholder="https://...">
                         <p>{{ form.errors.business_logo }}</p>
                     </div>
+
                     <!-- Business name input -->
                     <div class="form-floating mb-3">
                         <label  for="id_{{ form.business_name.name }}">Business name:</label>
@@ -41,6 +43,7 @@
                                 value="{% if object.business_name %}{{ object.business_name }} {% endif %}">
                         <p>{{ form.errors.business_name }}</p>
                     </div>
+
                     <!-- Country of business input -->
                     <div class="form-floating mb-3">
                         <label  for="id_{{ form.country.name }}">Country:</label>

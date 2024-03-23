@@ -13,7 +13,8 @@
         <div class="edit-profile-content-wrap">
 
             <!-- Card that contains a picture and the form -->
-            <div class="card" style="width: 22rem;">
+            <div class="card edit-profile-card" style="width: 22rem;">
+            <h2 class="edit-profile-card-header">Edit profile form</h2>
 
                 <div class="photo-container">
                     {% if object.profile_picture.url != None %}
@@ -32,6 +33,7 @@
                     <form action="{% url 'profile edit' %}" method="POST" enctype="multipart/form-data">
                     {% csrf_token %}
 
+
                     <!-- File input -->
                     <div class="mb-3">
                         <label for="formFile" class="form-label">Change Photo</label>
@@ -42,22 +44,25 @@
                     <div class="form-floating mb-3">
                         <label for="floatingInput" class="form-label">Username</label>
                         <input type="text" class="form-control" id="floatingInput" name="{{ form.username.name }}"
-                               placeholder="Username"
+                               placeholder="Enter your username"
                                value="{% if object.username != None %} {{ object.username }}{% endif %}">
+                        <p>{{ form.errors.username }}</p>
                     </div>
 
                     <div class="form-floating mb-3">
                         <label for="floatingInput" class="form-label">First Name</label>
                         <input type="text" class="form-control" id="floatingInput" name="{{ form.first_name.name }}"
-                               placeholder="First Name"
+                               placeholder="Enter your first name"
                                value="{% if object.first_name != None %} {{ object.first_name }}{% endif %}">
+                        <p>{{ form.errors.first_name }}</p>
                     </div>
 
                     <div class="form-floating mb-3">
                         <label for="floatingInput" class="form-label">Last Name</label>
                         <input type="text" class="form-control" id="floatingInput" name="{{ form.last_name.name }}"
-                               placeholder="Last Name"
+                               placeholder="Enter your last name"
                                value="{% if object.last_name != None %} {{ object.last_name }}{% endif %}">
+                        <p>{{ form.errors.last_name }}</p>
                     </div>
 
                     <div class="form-floating mb-3">
@@ -74,6 +79,7 @@
                         <label for="DateInput">Date Of birth</label>
                         <input type="date" class="form-control"id="DateInput" name="{{ form.date_of_birth.name }}"
                                {% if form.instance.date_of_birth %} value="{{ form.instance.date_of_birth|date:'Y-m-d' }}" {% endif %}>
+                        <p>{{ form.errors.date_of_birth }}</p>
                     </div>
 
                     <div class="button-div">

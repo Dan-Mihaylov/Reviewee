@@ -10,16 +10,26 @@ django.setup()
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
 import requests
-from reviewee_app.place.models import Hotel
-from reviewee_app.place.helpers import get_all_places
+from reviewee_app.place.models import Hotel, Restaurant
+from reviewee_app.place.helpers import get_all_places, get_place_by_type
+from django.db.models import Avg, Value, FloatField
+from django.db.models.functions import Coalesce
 
 
 
-places = get_all_places()
+# restaurants = get_all_restaurants()
+#
+# restaurants_with_ratings = Restaurant.objects.annotate(
+#     avg_rating=Coalesce(
+#         Avg('reviews__rating'),
+#         Value(0),
+#         output_field=FloatField(),
+#     )
+# )
+#
+# for restaurant in restaurants_with_ratings:
+#     print(restaurant.avg_rating)
 
-# for place in places:
-#     print(f'Owner: {place.owner}')
-#     print(f'added at: {place.created_at}')
-#     print(f'type: {place.type()}\n')
+places = get_all_places((Restaurant, Hotel))
 
-print(type(places))
+print(places)

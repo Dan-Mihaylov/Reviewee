@@ -26,8 +26,8 @@
         <!-- Browse buttons to take you to browse list display page -->
         <div class="index-content-wrap no-shadow">
 
-            <a class="browse-place-button" href="{% url 'browse' %}?restaurants">Browse Restaurants</a>
-            <a class="browse-place-button" href="{% url 'browse' %}?hotels">Browse Hotels</a>
+            <a class="browse-place-button" href="{% url 'browse' %}?place=restaurants">Browse Restaurants</a>
+            <a class="browse-place-button" href="{% url 'browse' %}?place=hotels">Browse Hotels</a>
 
         </div>
 
@@ -45,6 +45,7 @@
         </div>
 
             <!-- TODO: Move the place display cards into a template tag, so we can use them elsewhere -->
+            <!-- TODO: Call them browse display cards, with different buttons, like details, owners other places... -->
             {% for place in object_list %}
 
                 <!-- Card for place starts here -->

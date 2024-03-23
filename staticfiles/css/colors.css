@@ -1,6 +1,7 @@
 :root {
     --main-color: rgb(13, 27, 42);
     --secondary-color: rgb(27, 38, 59);
+    --secondary-color-hover: rgb(12, 32, 62);
     --color-dark: rgb(65, 90, 119);
     --color-light: rgb(119, 141, 169);
     --color-lightest: rgb(224, 225, 221);
@@ -10,5 +11,8 @@
     --error-message-light: rgba(255, 179, 179, 0.4);
     --button-green: rgba(51, 77, 0, 1);
     --button-green-hover: rgba(34, 51, 0, 1);
+    --button-red: rgba(77, 0, 0, 1);
+    --button-red-hover: rgba(51, 0, 0, 1);
     --color-hover-on-create-cards: rgb(0, 96, 128);
+    --color-background-lightest-dark: rgb(0, 66, 77);
 }

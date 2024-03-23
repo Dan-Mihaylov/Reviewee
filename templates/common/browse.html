@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    Browse Places
+{% endblock %}
+
+{% block content %}
+
+    <!-- Content strip takes 100% of the available width, CSS is in base, if you want to add custom content strip
+         with different background create a new one and add css in the new file -->
+
+    <div class="browse-content-strip">
+
+    <!-- Search form -->
+        <div class="browse-search-form-container">
+            <form action="{% url 'browse' %}" method="GET" autocomplete="on">
+                <input type="text" hidden="hidden" value="{{ place }}" name="place">
+                <input type="text" name="search" value="{{ search }}" autocomplete="on" placeholder="Search name or country..." >
+                <select name="order" >
+                    <option value="latest" {% if order == 'latest' %}selected="selected"{% endif %}>
+                        Latest
+                    </option>
+                    <option value="oldest" {% if order == 'oldest' %}selected="selected"{% endif %}>
+                        Oldest
+                    </option>
+                    <option value="highest-rating" {% if order == 'highest-rating' %}selected="selected"{% endif %}
+                    >Highest Rating
+                    </option>
+                    <option value="lowest-rating" {% if order == 'lowest-rating' %}selected="selected"{% endif %}
+                    >Lowest Rating
+                    </option>
+                </select>
+                <button type="submit">Search</button>
+            </form>
+        </div>
+
+
+        <!--  -->
+        <div class="browse-content-wrap">
+
+            <div>
+                <h2>Browse Places</h2>
+                {% for place in object_list %}
+                    <div>
+                    {{ place }}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,30 @@
+@import "../colors.css";
+
+.browse-content-strip {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+    background-color: var(--color-lightest);
+    color: var(--main-color);
+}
+
+.browse-content-wrap {
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    max-width: 1200px;
+    width: 100%;
+    padding: 10px;
+    margin: 20px 0 20px 0;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.browse-search-form-container {
+    display: inherit;
+    max-width: 1200px;
+    width: 100%;
+    padding: 0 20px 0 20px;
+    background-color: antiquewhite;
+}
