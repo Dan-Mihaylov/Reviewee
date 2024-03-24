@@ -1,0 +1,63 @@
+.browse-place-card {
+    border-radius: 5px;
+    max-width: 500px;
+    width: 100%;
+    border: none;
+    box-shadow: 2px 2px 12px var(--main-color);
+}
+
+.browse-place-image {
+    border-radius: 5px 5px 0 0;
+    max-height: 440px;
+    height: 100%;
+    object-fit: cover;
+}
+
+.browse-place-card-body {
+    max-width: 100%;
+    border-radius: 0 0 5px 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.browse-place-card-title {
+    font-weight: normal;
+    font-family: Roboto;
+}
+
+
+.browse-place-card-header-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.browse-place-details-card-more-info-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin: 5px 0 5px 0;
+    line-height: 15px;
+}
+
+.member-since {
+    width: 480px;
+}
+
+.browse-options-button {
+    margin: 0 5px 0 5px
+}
+
+.browse-place-reviews-container {
+    margin: 20px 0 0 0;
+}
+
+.read-reviews-button {
+    width: 100%;
+}
+
+@media screen and (max-width: 600px) {
+
+
+}

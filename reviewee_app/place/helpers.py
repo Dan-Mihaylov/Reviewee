@@ -1,8 +1,13 @@
 from django.db.models import QuerySet, Avg, Value, FloatField, Q
 from django.db.models.functions import Coalesce
 
+from django.contrib.auth import get_user_model
+
 from .models import Restaurant, Hotel, BasePlaceModel
 from itertools import chain
+
+
+UserModel = get_user_model()
 
 
 # Because we have a few place models and DRY
@@ -68,10 +73,9 @@ def get_place_by_type(type_:BasePlaceModel, order_by='latest', count='__all__') 
         return queryset
 
 
-def get_all_places(place_types: tuple ,order_by='-created_at') -> list:
+def get_all_places(place_types: tuple ,order_by='-created_at', count_per_place='__all__') -> list:
 
-    MAX_COUNT_PER_PLACE = 1
-    all_places = [get_place_by_type(type_, count=MAX_COUNT_PER_PLACE) for type_ in place_types]
+    all_places = [get_place_by_type(type_, count=count_per_place) for type_ in place_types]
     result = list(chain(*all_places))
 
     return result
@@ -85,3 +89,15 @@ def filter_places(queryset: QuerySet, filter_parameters: str) ->QuerySet:
     print('finished filtering')
 
     return queryset
+
+
+# Get all the places for the current user and chain them into a list
+def get_users_places(pk: int) -> list:
+
+    try:
+        user = UserModel.objects.get(pk=pk)
+        restaurants = user.restaurants.all()
+        hotels = user.hotels.all()
+        return list(chain(restaurants, hotels))
+    except:
+        return []

@@ -41,7 +41,7 @@
                   <a class="dropdown-item" href="{% url 'booking all' %}">My bookings</a>
                   <!--  if an owner then can access my places -->
                   {% if request.user.profile.is_owner %}
-                    <a class="dropdown-item" href="#">My places</a>
+                    <a class="dropdown-item" href="{% url 'profile details' request.user.pk %}#owner-places">My places</a>
                   {% endif %}
                   <!-- JS for this part for the button drop-down -->
                   <button class="dropdown-item dropdown-item-logout">Logout</button>

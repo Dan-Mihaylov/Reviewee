@@ -1,7 +1,8 @@
 @import 'base.css';
 @import "common/common.css";
 @import "common/browse.css";
-@import 'navbar.css';
+@import 'partials/navbar.css';
+@import "partials/browse-place-cards.css";
 @import 'common/index.css';
 @import 'place/place-add.css';
 @import 'place/place-details.css';

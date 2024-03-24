@@ -11,7 +11,10 @@ from django.urls import reverse
 from django.views import generic as views
 
 from reviewee_app.account.forms import  CustomUserCreationForm, CustomUserChangeForm
+from reviewee_app.place.helpers import get_users_places
 from reviewee_app.account.models import CustomUserProfile, CustomUserBusinessProfile
+from reviewee_app.place.helpers import get_all_places
+from reviewee_app.place.models import Restaurant, Hotel
 
 UserModel = get_user_model()
 
@@ -40,6 +43,11 @@ class ProfileDetailsView(views.DetailView):
 
     def get_queryset(self):
         return UserModel.objects.all()
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['all_places'] = get_users_places(self.object.pk)
+        return context
 
 
 # TODO Check if whoever tries to edit the profile is the owner.
@@ -80,9 +88,6 @@ class EditBusinessProfileView(views.UpdateView):
     def get_success_url(self):
         return reverse('profile details', kwargs={'pk': self.object.user.pk})
 
-
-def account_delete(request):
-    return HttpResponse('Account Delete page')
 
 
 class ProfileDeleteView(views.DeleteView):

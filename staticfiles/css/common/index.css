@@ -53,7 +53,7 @@
     text-align: center;
     font-family: "Roboto Light", sans-serif;
 }
-/* TODO: Need to add no shadow to the wrap box */
+
 .no-shadow {
     box-shadow: none;
 }
@@ -74,7 +74,7 @@
 
 .browse-place-button:hover {
     text-decoration: none;
-    background-color: darkslategrey;
+    background-color: var(--color-background-lightest-dark);
     color: var(--color-lightest);
 }
 
@@ -86,7 +86,7 @@
 .index-page-list-header-container {
     width: 100%;
     color: var(--color-lightest);
-    margin-bottom: 20px;
+    margin: 20px 0 20px 0;
 }
 
 .index-page-list-header {
@@ -98,22 +98,6 @@
 .dark-bg {
     background-color: var(--color-background-lightest-dark);
     box-shadow: none;
-}
-
-/* TODO: Separate the css for the card to the partials */
-.place-details-card-max-width-400 {
-    max-width: 480px;
-    width: 100%;
-    border: none;
-    border-radius: 5px;
-}
-
-.place-image {
-    border-radius: 5px 5px 0 0;
-}
-
-.place-details-card-body-background {
-    border-radius: 0 0 5px 5px;
 }
 
 

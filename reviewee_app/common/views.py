@@ -16,10 +16,11 @@ from reviewee_app.place.models import Restaurant, Hotel
 class HomePageView(views.ListView):
 
     MAX_PLACES_DISPLAYED = 6
+    COUNT_PER_PLACE_TYPE = MAX_PLACES_DISPLAYED / 2
     template_name = 'common/index.html'
 
     def get_queryset(self):
-        object_set =  get_all_places((Restaurant, Hotel))
+        object_set = get_all_places((Restaurant, Hotel), count_per_place=self.COUNT_PER_PLACE_TYPE)
         # object_set = self.order_queryset_list_by_created_at(object_set)
         return object_set[:self.MAX_PLACES_DISPLAYED]
 

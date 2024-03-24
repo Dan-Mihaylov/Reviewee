@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load browse_place_card_tags %}
 
 {% block title %}
     Browse Places
@@ -39,14 +40,8 @@
         <!--  -->
         <div class="browse-content-wrap">
 
-            <div>
-                <h2>Browse Places</h2>
-                {% for place in object_list %}
-                    <div>
-                    {{ place }}
-                    </div>
-                {% endfor %}
-            </div>
+            {% browse_place_cards object_list request %}
+
         </div>
     </div>
 

@@ -1,0 +1,84 @@
+{% load static %}
+
+{% for place in places %}
+
+
+    <!-- Card for place starts here -->
+    <div class="card mb-3 browse-place-card">
+        <!-- Clickable image, redirects to place details and reviews -->
+        <a href="{% url 'place details' place.slug %}">
+        <img class="card-img-top browse-place-image" src="{{ place.photo.url }}" alt="Card image cap">
+        </a>
+
+        <div class="card-body browse-place-card-body">
+
+        <!-- Place name and rating -->
+            <div class="browse-place-card-header-container">
+                <h5 class="browse-place-card-title">{{ place.name }}</h5>
+                <p class="browse-place-card-rating">Rating: {{ place.avg_rating }}/5</p>
+            </div>
+
+
+            <p class="card-text">{{ place.description }}</p>
+
+            {% if place.type == 'Restaurant' %}
+                <p class="card-text">Operating Hours: {{ place.opening_time }} - {{ place.closing_time }}</p>
+            {% else %}
+                <p class="card-text">Check In-Out Information: {{ place.check_in_time}}-{{ place.check_out_time }}</p>
+            {% endif %}
+
+            <div class="browse-place-address-info">
+            <p class="card-text">Country: {{ place.country }}</p>
+            <p class="card-text">City: {{ place.city }}</p>
+            <p class="card-text">Address: {{ place.address }}</p>
+            <p class="card-text">Postcode: {{ place.post_code }}</p>
+            </div>
+
+            <!-- Created at, and link to owners more places -->
+            <div class="browse-place-card-bottom-container">
+            <div class="browse-place-details-card-more-info-container">
+
+                <p class="card-text">
+                    <small class="text-muted">
+                        {% if request.user.pk != place.owner.pk %}
+                            More places from <a href="{% url 'profile details' place.owner.pk %}#owner-places">Owner</a>
+                        {% else %}
+                            Browse my <a href="{% url 'profile details' place.owner.pk %}#owner-places">Places</a>
+                        {% endif %}
+                    </small>
+                </p>
+
+                {% if request.user.pk == place.owner.pk %}
+                    <div class="owners-options-container">
+
+                        <a class="btn btn-light browse-options-button" href="{% url 'place edit' place.slug %}">
+                            <img src="{% static 'images/pngs/edit.png' %}" alt="edit" width="30px">
+                        </a>
+
+                        <a class="btn btn-light browse-options-button" href="{% url 'place delete' place.slug %}">
+                            <img src="{% static 'images/pngs/delete.png' %}" alt="edit" width="30px">
+                        </a>
+
+                    </div>
+
+                {% endif %}
+
+                <p class="card-text member-since"><small class="text-muted">Member since: {{ place.created_at|date:'M d, Y' }}</small></p>
+
+            </div>
+
+        <!-- More details container -->
+            <div class="browse-place-reviews-container">
+                <a class="btn btn-dark read-reviews-button" href="{% url 'place details' place.slug %}">Reviews</a>
+            </div>
+            </div>
+
+            <!-- control buttons -->
+
+        </div>
+    </div>
+    <!-- Card for place ends here -->
+
+
+
+{% endfor %}

@@ -15,3 +15,6 @@ def user_profile_photo_upload_path(instance, filename):
         default_storage.delete(upload_path)
 
     return upload_path
+
+
+

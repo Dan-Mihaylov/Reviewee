@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load browse_place_card_tags %}
 
 {% block title %}
     Profile Details
@@ -119,37 +120,39 @@
 
         <div class="places-details-content-wrap" id="owner-places">
 
-            {% for restaurant in object.restaurants.all %}
-                <div class="place-card">
-                    <img src="{{ restaurant.photo.url }}" alt="">
-                    <h2>{{ restaurant.name }}</h2>
-                    <p>Working Hours: {{ restaurant.opening_time }} - {{ restaurant.closing_time }}</p>
-                    <p>Address: {{ restaurant.address }}</p>
-                    <p>City: {{ restaurant.city }}</p>
-                    <p>Country: {{ restaurant.country }}</p>
-                    <p>Available Seats: {{ restaurant.available_seats }}</p>
-                    {% if request.user.pk == object.pk %}
-                        <a href="{% url 'place edit' restaurant.slug %}">Edit</a>
-                    {% endif %}
-                    <a href="{% url 'place details' restaurant.slug %}">Details</a>
-                </div>
-            {% endfor %}
+            {% browse_place_cards all_places request %}
 
-            {% for hotel in object.hotels.all %}
-                <div class="place-card">
-                    <img src="{{ hotel.photo.url }}" alt="">
-                    <h2>{{ hotel.name }}</h2>
-                    <p>Check In Hours: {{ hotel.check_in_time }} - {{ hotel.check_out_time }}</p>
-                    <p>Address: {{ hotel.address }}</p>
-                    <p>City: {{ hotel.city }}</p>
-                    <p>Country: {{ hotel.country }}</p>
-                    <p>Available Seats: {{ hotel.available_rooms }}</p>
-                    {% if request.user.pk == object.pk %}
-                        <a href="{% url 'place edit' hotel.slug %}">Edit</a>
-                    {% endif %}
-                    <a href="{% url 'place details' hotel.slug %}">Details</a>
-                </div>
-            {% endfor %}
+{#            {% for restaurant in object.restaurants.all %}#}
+{#                <div class="place-card">#}
+{#                    <img src="{{ restaurant.photo.url }}" alt="">#}
+{#                    <h2>{{ restaurant.name }}</h2>#}
+{#                    <p>Working Hours: {{ restaurant.opening_time }} - {{ restaurant.closing_time }}</p>#}
+{#                    <p>Address: {{ restaurant.address }}</p>#}
+{#                    <p>City: {{ restaurant.city }}</p>#}
+{#                    <p>Country: {{ restaurant.country }}</p>#}
+{#                    <p>Available Seats: {{ restaurant.available_seats }}</p>#}
+{#                    {% if request.user.pk == object.pk %}#}
+{#                        <a href="{% url 'place edit' restaurant.slug %}">Edit</a>#}
+{#                    {% endif %}#}
+{#                    <a href="{% url 'place details' restaurant.slug %}">Details</a>#}
+{#                </div>#}
+{#            {% endfor %}#}
+{##}
+{#            {% for hotel in object.hotels.all %}#}
+{#                <div class="place-card">#}
+{#                    <img src="{{ hotel.photo.url }}" alt="">#}
+{#                    <h2>{{ hotel.name }}</h2>#}
+{#                    <p>Check In Hours: {{ hotel.check_in_time }} - {{ hotel.check_out_time }}</p>#}
+{#                    <p>Address: {{ hotel.address }}</p>#}
+{#                    <p>City: {{ hotel.city }}</p>#}
+{#                    <p>Country: {{ hotel.country }}</p>#}
+{#                    <p>Available Seats: {{ hotel.available_rooms }}</p>#}
+{#                    {% if request.user.pk == object.pk %}#}
+{#                        <a href="{% url 'place edit' hotel.slug %}">Edit</a>#}
+{#                    {% endif %}#}
+{#                    <a href="{% url 'place details' hotel.slug %}">Details</a>#}
+{#                </div>#}
+{#            {% endfor %}#}
 
         </div>
     </div>
