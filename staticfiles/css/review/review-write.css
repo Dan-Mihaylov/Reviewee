@@ -1,0 +1,84 @@
+@import "../colors.css";
+
+
+.review-write-content-strip {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+    background-color: var(--color-lightest);
+    color: var(--main-color);
+}
+
+.review-write-content-wrap {
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    max-width: 1200px;
+    width: 100%;
+    padding: 10px;
+    margin: 20px 0 20px 0;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.review-write-review-container {
+    margin-top: 20px;
+    width: 100%;
+    background-color: gold;
+}
+
+.user-info-and-rating-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    width: 100%;
+}
+
+.user-info-container {
+    display: flex;
+    align-items: flex-end;
+    padding: 0 0 0 10px;
+    background-color: cadetblue;
+}
+
+.user-profile-photo-thumbnail {
+    width: 60px;
+    border-radius: 50%;
+}
+
+.user-profile-name {
+    font-size: 1.2rem;
+    color: var(--color-gray-font-iddle);
+    margin: 0 0 0 10px;
+}
+
+.rating-choice {
+    max-width: 140px;
+}
+
+.upload-photo-container {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    background-color: var(--secondary-color);
+}
+
+.upload-photo-container span {
+    line-height: 30px;
+    margin-right: 10px;
+}
+
+.file-upload-field {
+    max-width: 240px;
+}
+
+.submit-review-button-container {
+    width: 100%;
+    background-color: var(--secondary-color);
+    padding: 10px;
+}
+
+.review-submit-button {
+    width: 100%;
+}

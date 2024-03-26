@@ -89,7 +89,6 @@ class EditBusinessProfileView(views.UpdateView):
         return reverse('profile details', kwargs={'pk': self.object.user.pk})
 
 
-
 class ProfileDeleteView(views.DeleteView):
     template_name = 'account/profile_delete.html'
 

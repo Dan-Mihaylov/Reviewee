@@ -33,6 +33,7 @@ class BrowsePageView(views.ListView):
     # TODO: Paginator
     template_name = 'common/browse.html'
     allow_empty = True     # raises 404 if False
+    paginate_by = 4        # TODO: Change the number of items per page
 
     available_place_types = {
         'restaurants': Restaurant,
@@ -62,9 +63,22 @@ class BrowsePageView(views.ListView):
         context = super().get_context_data(object_list=None, **kwargs)
         context['place'] = self.request.GET.get('place', 0)
         context = self.auto_fill_search_form_in_context(context)
+        context['get_parameters'] = self.paginator_href_builder(context)
         return context
 
     def auto_fill_search_form_in_context(self, context):
         context['search'] = self.request.GET.get('search', '')
         context['order'] = self.request.GET.get('order', '')
         return context
+
+    @staticmethod
+    def paginator_href_builder(context):
+        get_parameters = f"&place={context['place']}"
+
+        if context['search'] != '':
+            get_parameters += f"&search={context['search']}"
+
+        if context['order'] != '':
+            get_parameters += f"&order={context['order']}"
+
+        return get_parameters

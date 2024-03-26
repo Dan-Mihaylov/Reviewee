@@ -15,8 +15,6 @@ urlpatterns = [
             path('edit/', views.PlaceEditView.as_view(), name='place edit'),
             path('delete/', views.PlaceDeleteView.as_view(), name='place delete'),
             path('bookings/', views.place_bookings, name='place bookings'),
-            path('review/', include('reviewee_app.review.urls')
-                 )
         ]
     )),
 ]

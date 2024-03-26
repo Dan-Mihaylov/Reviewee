@@ -8,5 +8,6 @@ urlpatterns = [
     path('', include('reviewee_app.common.urls')),          # Common for index page
     path('', include('reviewee_app.account.urls')),         # Accounts
     path('place/', include('reviewee_app.place.urls')),     # Place and review
-    path('booking/', include('reviewee_app.booking.urls')),  # Booking apps
+    path('booking/', include('reviewee_app.booking.urls')), # Booking apps
+    path('review/', include('reviewee_app.review.urls')),   # Review app
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

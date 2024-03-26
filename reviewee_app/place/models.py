@@ -1,4 +1,5 @@
 from django.contrib.auth import get_user_model
+from django.db.models import Avg
 
 from django.utils.text import slugify
 from django.db import models
@@ -109,6 +110,10 @@ class BasePlaceModel(AuditModelMixin, models.Model):
 
     def type(self):
         return self.__class__.__name__
+
+    def rating(self):
+        rating = self.reviews.aggregate(avg_rating=Avg('rating'))['avg_rating']
+        return rating if rating else 0.0
 
 
 class Restaurant(BasePlaceModel):

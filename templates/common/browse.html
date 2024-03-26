@@ -15,11 +15,11 @@
 
     <!-- Search form -->
         <div class="browse-search-form-container">
-            <form action="{% url 'browse' %}" method="GET" autocomplete="on">
+            <form class="search-form" action="{% url 'browse' %}" method="GET" autocomplete="on">
                 <input type="text" hidden="hidden" value="{{ place }}" name="place">
-                <input type="text" name="search" value="{{ search }}" autocomplete="on" placeholder="Search name or country..." >
-                <select name="order" >
-                    <option value="latest" {% if order == 'latest' %}selected="selected"{% endif %}>
+                <input class="form-control search-box" type="text" name="search" value="{{ search }}" autocomplete="on" placeholder="Search name or country..." >
+                <select class="form-control filter-options-box" name="order" >
+                    <option class="selection-option" value="latest" {% if order == 'latest' %}selected="selected"{% endif %}>
                         Latest
                     </option>
                     <option value="oldest" {% if order == 'oldest' %}selected="selected"{% endif %}>
@@ -32,15 +32,58 @@
                     >Lowest Rating
                     </option>
                 </select>
-                <button type="submit">Search</button>
+                <button class="search-submit-button" type="submit">
+                    <img src="{% static 'images/pngs/search.png' %}" alt="search" width="30px">
+                </button>
             </form>
         </div>
 
 
         <!--  -->
-        <div class="browse-content-wrap">
+        <div class="browse-content-wrap no-shadow">
 
             {% browse_place_cards object_list request %}
+
+        </div>
+
+        <div class="browse-content-wrap no-shadow">
+
+            <!-- Paginator starts here -->
+            <div class="pagination">
+                <span class="step-links">
+                    {% if page_obj.has_previous %}
+                        <a class="paginator-link" href="?page=1{{ get_parameters }}">
+                            <img class="paginator-image" src="{% static 'images/pngs/first.png' %}" alt="First Page" width="48px">
+                        </a>
+                        <a class="paginator-link" href="?page={{ page_obj.previous_page_number }}{{ get_parameters }}">
+                            <img class="paginator-image" src="{% static 'images/pngs/previous.png' %}" alt="Previous Page" width="48px">
+                        </a>
+                    <!-- If it doesn't have previous, just display the icons, no action -->
+                    {% else %}
+                        <img src="{% static 'images/pngs/first.png' %}" alt="First Page" width="48px">
+                        <img src="{% static 'images/pngs/previous.png' %}" alt="Previous Page" width="48px">
+                    {% endif %}
+
+                    <span class="current">
+                        Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                    </span>
+
+                    {% if page_obj.has_next %}
+                        <a class="paginator-link" href="?page={{ page_obj.next_page_number }}{{ get_parameters }}">
+                            <img class="paginator-image" src="{% static 'images/pngs/next.png' %}" alt="Next Page" width="48px">
+                        </a>
+                        <a class="paginator-link" href="?page={{ page_obj.paginator.num_pages }}{{ get_parameters }}">
+                            <img class="paginator-image" src="{% static 'images/pngs/last.png' %}" alt="Last Page" width="48px">
+                        </a>
+                    <!-- disabled -->
+                    {% else %}
+                        <img src="{% static 'images/pngs/next.png' %}" alt="Next Page" width="48px">
+                        <img src="{% static 'images/pngs/last.png' %}" alt="Last Page" width="48px">
+                    {% endif %}
+                </span>
+            </div>
+
+            <!-- Paginator ends here -->
 
         </div>
     </div>
