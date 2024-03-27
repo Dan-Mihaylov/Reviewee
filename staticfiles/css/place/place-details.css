@@ -161,13 +161,34 @@
     flex-direction: column;
     flex-wrap: wrap;
     align-items: center;
-    justify-content: center;
+    justify-content: space-evenly;
+    text-align: center;
 }
 
 .review-overlay-header {
     font-size: 1.5rem;
 }
 
+.review-overlay-comment {
+    display: flex;
+    flex-direction: column;
+    white-space: normal;
+}
+
+.review-overlay-paragraph {
+    width: 100%;
+}
 
 /* from here starts all reviews */
+
+@media screen and (max-width: 600px) {
+    .review-photo-overlay {
+        display: flex;
+        flex-direction: column;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-evenly;
+        text-align: justify-all;
+    }
+}
 

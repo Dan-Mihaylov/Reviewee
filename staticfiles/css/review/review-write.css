@@ -7,61 +7,111 @@
     justify-content: flex-start;
     align-items: center;
     width: 100%;
-    background-color: var(--color-lightest);
     color: var(--main-color);
+    background-color: var(--color-lightest);
 }
+
+
 
 .review-write-content-wrap {
     display: flex;
-    justify-content: space-evenly;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     flex-wrap: wrap;
     max-width: 1200px;
     width: 100%;
     padding: 10px;
     margin: 20px 0 20px 0;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-.review-write-review-container {
-    margin-top: 20px;
+.review-write-card-container {
+    max-width: 600px;
     width: 100%;
-    background-color: gold;
+    background-color: var(--secondary-color);
+    padding: 0;
+    border-radius: 5px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 1);
+}
+
+.review-write-card {
+    margin: 0;
+    border: none;
+    background-color: var(--secondary-color);
+    color: var(--color-lightest);
 }
 
 .user-info-and-rating-container {
     display: flex;
     justify-content: space-between;
-    align-items: flex-end;
+    align-items: center;
     width: 100%;
+    border-radius: 10px 10px 0 0;
+    background-color: var(--color-light-review-header);
+    color: var(--color-lightest);
+    padding: 0 5px 0 5px;
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.review-write-review-container {
+    margin-top: 20px;
+    width: 100%;
+    border-radius: 10px;
 }
 
 .user-info-container {
     display: flex;
-    align-items: flex-end;
-    padding: 0 0 0 10px;
-    background-color: cadetblue;
+    align-items: center;
+    border-radius: 5px 0 0 0;
 }
 
 .user-profile-photo-thumbnail {
-    width: 60px;
+    width: 50px;
     border-radius: 50%;
+    margin: 3px
 }
 
 .user-profile-name {
     font-size: 1.2rem;
-    color: var(--color-gray-font-iddle);
     margin: 0 0 0 10px;
 }
 
 .rating-choice {
     max-width: 140px;
+    background-color: inherit;
+    color: inherit;
+    border: 0;
 }
+
+.rating-choice:focus {
+    background-color: inherit;
+    color: inherit;
+    border: 0;
+}
+
+.review-comment-area {
+    border-radius: 0 0 5px 5px;
+    background-color: var(--color-lightest);
+    font-weight: bolder;
+    font-size: 1.1rem;
+    color: var(--color-background-lightest-dark);
+    resize: none;
+}
+
+.review-comment-area:focus {
+    border-radius: 0 0 5px 5px;
+    background-color: whitesmoke;
+    color: var(--color-dark);
+}
+
 
 .upload-photo-container {
     width: 100%;
     display: flex;
     justify-content: flex-end;
     background-color: var(--secondary-color);
+    margin: 10px 0 10px 0;
 }
 
 .upload-photo-container span {

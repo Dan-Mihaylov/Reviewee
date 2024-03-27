@@ -1,7 +1,7 @@
 {% load static %}
+{% load create_stars %}
 
 {% for place in places %}
-
 
     <!-- Card for place starts here -->
     <div class="card mb-3 browse-place-card">
@@ -15,7 +15,7 @@
         <!-- Place name and rating -->
             <div class="browse-place-card-header-container">
                 <h5 class="browse-place-card-title">{{ place.name }}</h5>
-                <p class="browse-place-card-rating">Rating: {{ place.avg_rating }}/5</p>
+                {% create_stars place %}
             </div>
 
 

@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load create_stars %}
 
 {% block title %}
     Place Details
@@ -24,7 +25,8 @@
                     <div class="card-body place-details-card-body">
                         <div class="place-card-header-container">
                             <h5 class="card-title">{{ object.name }}</h5>
-                            <p class="card-text">Rating: {{ object.rating }}/5</p>
+{#                            <p class="card-text">Rating: {{ object.rating }}/5</p>#}
+                            {% create_stars object %}
                         </div>
 
                         <p class="card-text">{{ object.description }}</p>
@@ -90,11 +92,14 @@
                             <div class="review-photo-card">
 
                                 <img class="review-photo" src="{{ review.review_photo.url }}" alt="Review Photo">
-{#                                TODO: when clicking on the link, take them to the review # #}
+{#                              TODO: when clicking on the link, take them to the review # #}
+
                                 <div class="review-photo-overlay">
                                     <h2 class="review-overlay-header">{{ review.user.profile.get_name }}</h2>
-                                    <p class="review-overlay-paragraph">rating: {{ review.rating }}</p>
-                                    <p class="review-overlay-paragraph">{{ review.comment }}</p>
+                                    {% create_stars_for_review review %}
+                                    <div class="review-overlay-comment">
+                                        {{ review.comment }}
+                                    </div>
                                     <a class="btn btn-light" href="#">Read review</a>
                                 </div>
                             </div>

@@ -1,0 +1,16 @@
+{% load static %}
+
+<div class="stars-container">
+{% for i in full_stars %}
+    <img class="star" src="{% static 'images/pngs/star.png' %}" alt="*">
+{% endfor %}
+
+{% if half_star %}
+    <img class="star" src="{% static 'images/pngs/half_star.png' %}" alt="-">
+{% endif %}
+
+{% for j in empty_stars %}
+    <img class="star" src="{% static 'images/pngs/empty_star.png' %}" alt="_">
+{% endfor %}
+
+</div>

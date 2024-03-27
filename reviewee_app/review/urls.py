@@ -3,6 +3,6 @@ from . import views
 
 urlpatterns = [
     path('write/<slug:place_slug>/', views.ReviewWriteView.as_view(), name='review write'),
-    path('<int:pk>/edit/', views.place_review_edit, name='review edit'),
-    path('<int:pk>/delete/', views.place_review_delete, name='review delete'),
+    path('edit/<slug:place_slug>/<int:id>/', views.ReviewEditView.as_view(), name='review edit'),
+    path('delete/<place_slug>/<int:id>/', views.ReviewDeleteView.as_view(), name='review delete'),
 ]

@@ -1,0 +1,136 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    Write review
+{% endblock %}
+
+
+{% block content %}
+
+    <div class="review-write-content-strip">
+
+
+        <div class="review-write-content-wrap no-shadow">
+
+            <div class="review-write-header-container">
+                <h1> Write a review for {{ place.name }}</h1>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="review-write-content-strip">
+
+        <div class="review-write-content-wrap no-shadow">
+
+            <div class="review-write-card-container">
+
+                <!-- Card for place starts here -->
+                <div class="card mb-3 review-write-card">
+
+                    <img class="card-img-top place-image" src="{{ place.photo.url }}" alt="Card image cap">
+                    <div class="card-body review-write-card-body">
+
+                        <div class="place-card-header-container">
+                            <h5 class="card-title">{{ place.name }}</h5>
+                            <p class="card-text">Rating: {{ place.rating }}/5</p>
+                        </div>
+
+                        <p class="card-text">{{ place.description }}</p>
+                        <p class="card-text">Country: {{ place.country }}</p>
+                        <p class="card-text">City: {{ place.city }}</p>
+
+                        <!-- Created at, and link to owners more places -->
+                        <div class="review-write-card-more-info-container">
+                            <p class="card-text"><small class="text-muted">Member since: {{ place.created_at|date:'M d, Y' }}</small></p>
+
+                            <a style="width: 49%;" class="btn btn-light" href="{% url 'profile details' place.owner.pk  %}#owner-places">
+                                Owners Other Places
+                            </a>
+
+                            <a style="width: 49%;" id="go-back-button" class="btn btn-light" href="{% url 'profile details' place.owner.pk  %}#owner-places">
+                                Go Back
+                            </a>
+                        </div>
+                    <!-- control buttons -->
+
+                        <!-- container for review write form -->
+                        <div class="review-write-review-container">
+                            <form action="{% url 'review edit' place.slug object.pk %}" method="POST" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                {{ form.as_p }}
+                                <button type="submit">Submit Changes</button>
+                            </form>
+
+                            <form action="{% url 'review delete' place.slug object.pk%}" method="POST">
+                                <h2>Delete Comment</h2>
+                                {% csrf_token %}
+                                <button type="submit">Confirm Deletion</button>
+                            </form>
+
+{#                            <form action="{% url 'review write' place.slug%}" method="POST" enctype="multipart/form-data">#}
+{##}
+{#                                {% csrf_token %}#}
+{##}
+{#                                <!-- Top container for user photo and rating -->#}
+{#                                <div class="user-info-and-rating-container">#}
+{#                                    <div class="user-info-container">#}
+{#                                        <img class="user-profile-photo-thumbnail"#}
+{#                                             src="{% if user.profile.profile_picture %}{{ user.profile.profile_picture.url }}{% else %}{% static 'images/pngs/user-profile.png' %}{% endif %}"#}
+{#                                             alt=""#}
+{#                                        >#}
+{#                                        <p class="user-profile-name">{{ user.profile.get_name }}</p>#}
+{#                                    </div>#}
+{#                                    #}
+{#                                    <select class="form-control rating-choice" aria-label="Select Rating" name="{{ form.rating.name }}">#}
+{#                                      <option selected>Select Rating</option>#}
+{#                                      <option value="1">1</option>#}
+{#                                      <option value="2">2</option>#}
+{#                                      <option value="3">3</option>#}
+{#                                      <option value="4">4</option>#}
+{#                                      <option value="5">5</option>#}
+{#                                    </select>#}
+{#                                </div>#}
+{#                                <!-- top container end -->#}
+{##}
+{#                                <textarea#}
+{#                                        class="form-control review-comment-area"#}
+{#                                        name="{{ form.comment.name }}"#}
+{#                                        id="{{ form.comment.name }}"#}
+{#                                        cols="30" rows="10"#}
+{#                                        placeholder="Enter your comment..."#}
+{#                                >{% if form.comment.value %}{{ form.comment.value }}{% endif %}</textarea>#}
+{##}
+{#                                <div class="upload-photo-container">#}
+{#                                    <span>Upload Photo</span>#}
+{#                                    <input class="form-control form-control-sm file-upload-field" id="formFileSm" type="file" name="{{ form.review_photo.name }}">#}
+{#                                </div>#}
+{##}
+{#                                {{ form.errors }}#}
+{##}
+{#                                <div class="submit-review-button-container">#}
+{#                                    <button class="create-hotel-button" type="submit">Submit</button>#}
+{#                                </div>#}
+{##}
+{##}
+{##}
+{#                            </form>#}
+
+                        </div>
+
+
+
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script src="{% static 'js/button-back.js' %}"></script>
+
+{% endblock %}
+

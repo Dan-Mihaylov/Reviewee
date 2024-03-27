@@ -15,3 +15,5 @@
 @import 'account/edit_business_profile.css';
 @import 'account/profile_details.css';
 @import 'account/profile_delete.css';
+@import "review/review-write.css";
+@import "partials/create-stars.css";

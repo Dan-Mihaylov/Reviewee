@@ -32,6 +32,7 @@ class RegisterView(views.CreateView):
 
 class LoginView(auth_views.LoginView):
     template_name = 'account/login.html'
+    redirect_authenticated_user = True
 
 
 class LogoutView(auth_views.LogoutView):

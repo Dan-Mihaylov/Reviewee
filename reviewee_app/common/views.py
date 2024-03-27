@@ -1,3 +1,4 @@
+from django.db.models import QuerySet
 from django.shortcuts import render, HttpResponse, redirect
 from django.views import generic as views
 
@@ -21,7 +22,7 @@ class HomePageView(views.ListView):
 
     def get_queryset(self):
         object_set = get_all_places((Restaurant, Hotel), count_per_place=self.COUNT_PER_PLACE_TYPE)
-        # object_set = self.order_queryset_list_by_created_at(object_set)
+        object_set = self.order_queryset_list_by_created_at(object_set)
         return object_set[:self.MAX_PLACES_DISPLAYED]
 
     @staticmethod
@@ -57,7 +58,7 @@ class BrowsePageView(views.ListView):
                 return filter_places(queryset, self.request.GET.get('search', ''))
 
         except KeyError:
-            return
+            return QuerySet
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(object_list=None, **kwargs)
