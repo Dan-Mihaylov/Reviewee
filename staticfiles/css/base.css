@@ -4,7 +4,8 @@ html,
 body {
     height: 100%;
     font-size: 1rem;
-    font-family: "Dosis Light";
+    font-family: "Open Sans";
+    font-weight: 300;
     background-color: var(--secondary-color);
     color: var(--color-lightest);
 }

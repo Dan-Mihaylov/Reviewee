@@ -3,7 +3,7 @@
     justify-content: center;
     align-items: center;
     width: 100%;
-    background-color: var(--secondary-color);
+    color: var(--color-background-lightest-dark);
 }
 
 .place-details-content-wrap {
@@ -12,7 +12,6 @@
     flex-direction: column;
     justify-content: start;
     align-items: center;
-    color: var(--main-color);
     width: 100%;
     max-width: 1200px;
     height: 100%;
@@ -23,8 +22,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: var(--secondary-color);
-    color: var(--color-lightest);
     width: 100%;
     max-height: 80px;
     height: 100%;
@@ -32,7 +29,9 @@
 }
 
 .place-details-header-container h1 {
+    margin-top: 20px;
     font-size: 1.5rem;
+    font-weight: 400;
     text-align: center;
 }
 
@@ -44,9 +43,17 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-color: var(--secondary-color);
     width: 100%;
+    color: var(--color-dark);
 /*    TODO: When under 600 take off padding*/
+}
+
+.place-details-card {
+    max-width: 680px;
+    width: 100%;
+    margin: 0;
+    border: none;
+    box-shadow: 0 1px 10px var(--main-color);
 }
 
 .place-card-header-container {
@@ -54,21 +61,15 @@
     justify-content: space-between;
 }
 
-
-
-.place-details-card {
-    max-width: 680px;
-    width: 100%;
-    margin: 0;
-    border: none;
-    box-shadow: 0 1px 10px var(--color-lightest-transparent);
-
+.card-title {
+    font-size: 1.3rem;
+    font-weight: 650;
 }
 
 .place-details-card-body {
-    color: var(--secondary-color);
     background-color: whitesmoke;
 }
+
 
 .place-image {
     max-height: 480px;
@@ -77,14 +78,31 @@
 
 .place-details-card-more-info-container {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
+    align-items: flex-end;
+    margin: 5px 0 5px 0;
+    line-height: 15px;
 }
 
 .owners-options-container {
+    width: 100%;
     display: flex;
-    flex: 50%;
-    justify-content: flex-end;
-    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.button-half-width {
+    width: 48%;
+}
+
+.member-since-and-favourites-container {
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.favourite-text {
+    margin-right: 5px;
 }
 
 .options-button {
@@ -99,11 +117,14 @@
     width: 100%;
 }
 
+.place-details-write-review-container {
+    margin-top: 20px;
+}
+
 /* For photo review div */
 
 .reviews-with-photos-header {
     margin-top: 20px;
-    color: var(--color-lightest);
     font-size: 1.5rem;
 }
 
@@ -115,6 +136,7 @@
     overflow-y: hidden;
     white-space: nowrap;
     justify-content: center;
+    border-radius: 10px;
 }
 
 .review-photos-wrapper {
@@ -131,6 +153,7 @@
     max-height: 280px;
     height: 100%;
     margin: 10px;
+    box-shadow: 0 1px 10px var(--main-color);
 }
 
 .review-photo {
@@ -155,7 +178,6 @@
     display: none;
 }
 
-/* TODO: when display under 600 display: block; */
 .review-photo-card:hover .review-photo-overlay {
     display: flex;
     flex-direction: column;
@@ -180,6 +202,145 @@
 }
 
 /* from here starts all reviews */
+.all-reviews-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    /*background-color: darkslategray;*/
+    width: 100%;
+}
+
+.review-card-container {
+    display: flex;
+    flex-direction: column;
+    margin: 10px 0 10px 0;
+    background-color: whitesmoke;
+    max-width: 620px;
+    width: 100%;
+    min-height: 200px;
+    border-radius: 14px;
+    box-shadow: 0 1px 12px var(--main-color);
+}
+
+.review-information-top-container {
+    display: flex;
+    width: 100%;
+    height: 45px;
+    background-color: var(--color-review-header-very-light);
+    border-radius: 10px 10px 0 0;
+}
+
+.review-user-photo-and-username-container {
+    position: relative;
+    flex: 50%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding-left: 10px;
+    border-radius: 10px 0 0 0;
+}
+
+.review-user-photo-image {
+    width: 35px;
+    height: 35px;
+    object-fit: scale-down;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.review-user-username-text {
+    position: absolute;
+    bottom: 0;
+    left: 60px;
+    font-weight: 200;
+    font-size: 1rem;
+}
+
+.review-stars-added-at-container {
+    flex: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-end;
+    padding-right: 10px;
+    border-radius: 0 10px 0 0;
+}
+
+
+/* TODO: finished here */
+
+.review-card-body-container {
+    padding: 10px;
+    width: 100%;
+}
+
+.review-paragraph-container {
+    min-height: 100px;
+}
+
+.review-card-body-container img {
+    float: left;
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    margin-right: 10px;
+}
+
+.review-card-body-container p {
+    float: none;
+}
+
+.review-card-bottom-container {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    border-radius: 0 0 5px 5px;
+}
+
+.review-card-helpful-and-created-at-container {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    /*background-color: beige;*/
+    padding: 10px 10px 0 10px;
+}
+
+.helpful-count-paragraph {
+    /*background-color: peachpuff;*/
+}
+
+.created-at-paragraph-full {
+}
+
+.created-at-paragraph-short {
+    display: none;
+}
+
+.review-writer-options-container {
+    position: relative;
+    width: 100%;
+    padding-left: 10px;
+    /*background-color: thistle;*/
+    margin: 0;
+}
+
+.paragraph-stuck-to-bottom {
+    position: relative;
+    top: 15px;
+}
+
+
+
+.light-bg {
+    background-color: var(--color-lightest);
+}
+
+.white-bg {
+    background-color: whitesmoke;
+}
 
 @media screen and (max-width: 600px) {
     .review-photo-overlay {
@@ -189,6 +350,26 @@
         align-items: center;
         justify-content: space-evenly;
         text-align: justify-all;
+    }
+
+    .photo-review-wrap {
+        padding: 0;
+    }
+
+    .review-photos-container {
+        border-radius: 0;
+    }
+
+    .favourite-text {
+        display: none;
+    }
+
+    .created-at-paragraph-full{
+        display: none;
+    }
+
+    .created-at-paragraph-short{
+        display: block;
     }
 }
 

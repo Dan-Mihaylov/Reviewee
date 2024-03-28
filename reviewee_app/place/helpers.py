@@ -101,3 +101,6 @@ def get_users_places(pk: int) -> list:
         return list(chain(restaurants, hotels))
     except:
         return []
+
+# TODO: Check whether a place is in users favourite places.
+

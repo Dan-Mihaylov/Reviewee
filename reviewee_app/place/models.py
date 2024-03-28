@@ -165,5 +165,3 @@ class Hotel(BasePlaceModel):
           MinValueValidator(MIN_ROOMS_COUNT, MIN_ROOM_COUNT_VALIDATION_ERROR_MESSAGE)
         ],
     )
-
-

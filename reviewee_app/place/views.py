@@ -87,6 +87,8 @@ class PlaceDetailsView(views.DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['photo_reviews'] = get_all_photo_reviews(self.object)
+        # TODO: create check if place in favourites functionality to return true or false
+        context['in_favourites'] = True
         return context
 
 

@@ -4,6 +4,7 @@
     width: 100%;
     border: none;
     box-shadow: 2px 2px 12px var(--main-color);
+    color: var(--color-dark);
 }
 
 .browse-place-image {
@@ -21,8 +22,9 @@
 }
 
 .browse-place-card-title {
-    font-weight: normal;
+    font-weight: bold;
     font-family: Roboto;
+    font-size: 1.3rem;
 }
 
 
@@ -60,5 +62,11 @@
     .browse-place-image {
         height: 380px;
     }
+
+    .browse-place-card-title{
+        font-size: 1.3rem;
+    }
+
+;
 
 }

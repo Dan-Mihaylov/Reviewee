@@ -41,17 +41,14 @@
 
 .search-box {
     background-color: whitesmoke;
-    color: var(--color-gray-font-iddle);
+    color: var(--color-dark);
     border-radius: 10px 0 0 10px;
     flex: 70%;
     height: 100%;
-    font-size: 1.5rem;
-    font-weight: bold;
+    font-size: 1.3rem;
+    font-weight: 600;
 }
 
-.search-box:active {
-    background-color: antiquewhite;
-}
 
 .search-box:focus {
     background-color: var(--color-background-lightest-dark);
@@ -62,9 +59,9 @@
 /* TODO: Fix media query*/
 .filter-options-box {
     background-color: whitesmoke;
-    color: var(--color-gray-font-iddle);
-    font-size: 1.2rem;
-    font-weight: bold;
+    color: var(--color-dark);
+    font-size: 1.1rem;
+    font-weight: 600;
     flex: 25%;
     height: 100%;
     border-radius: 0;
@@ -84,26 +81,6 @@
     border: none;
 }
 
-
-
-@media screen and (max-width: 600px) {
-    .search-box {
-        font-size: 1.1rem;
-        flex: 60%;
-    }
-
-    .filter-options-box {
-        font-size: 1.1rem;
-        flex: 35%;
-    }
-}
-
-
-
-
-
-
-
 .paginator-link:hover {
     text-decoration: none;
 }
@@ -117,4 +94,16 @@
     color: var(--secondary-color);
     font-family: "Roboto Light";
     font-size: large;
+}
+
+@media screen and (max-width: 600px) {
+    .search-box {
+        font-size: 1rem;
+        flex: 60%;
+    }
+
+    .filter-options-box {
+        font-size: 0.9rem;
+        flex: 35%;
+    }
 }

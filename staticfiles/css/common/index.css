@@ -1,6 +1,4 @@
 @import "../colors.css";
-@import url('https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap');
-
 
 .index-content-strip {
     display: flex;
@@ -51,7 +49,8 @@
     color: var(--color-lightest);
     font-size: 6rem;
     text-align: center;
-    font-family: "Roboto Light", sans-serif;
+    font-family: Poppins, serif;
+    font-weight: 200;
 }
 
 .no-shadow {
@@ -61,7 +60,6 @@
 .browse-place-button {
     text-decoration: none;
     text-align: center;
-    font-weight: bold;
     color: var(--color-lightest);
     background-color: var(--secondary-color);
     min-height: 40px;
@@ -86,13 +84,13 @@
 .index-page-list-header-container {
     width: 100%;
     color: var(--color-lightest);
-    margin: 20px 0 20px 0;
+    margin: 40px 0 20px 0;
 }
 
 .index-page-list-header {
     font-size: 3rem;
-    font-weight: bolder;
     text-align: center;
+    font-weight: 300;
 }
 
 .dark-bg {

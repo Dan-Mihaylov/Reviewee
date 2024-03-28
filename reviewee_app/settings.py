@@ -32,7 +32,8 @@ INSTALLED_APPS = [
     'reviewee_app.place',
     'reviewee_app.booking',
     'reviewee_app.common',
-    'reviewee_app.review'
+    'reviewee_app.review',
+    'reviewee_app.favourite'
 ]
 
 MIDDLEWARE = [
@@ -123,7 +124,6 @@ LOGOUT_REDIRECT_URL = reverse_lazy('home')
 LOGIN_URL = reverse_lazy('login')
 
 # Disabling caching for development purposes
-
 CACHES = {
     'default': {
         'BACKEND': 'django.core.cache.backends.dummy.DummyCache',
