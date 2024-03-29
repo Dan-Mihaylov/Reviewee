@@ -20,7 +20,7 @@
             <div class="place-details-card-container">
 
                 <!-- Card for place starts here -->
-                <div class="card mb-3 place-details-card">
+                <div class="card mb-3 place-details-card" id="{{ object.slug }}">
                     <img class="card-img-top place-image" src="{{ object.photo.url }}" alt="Card image cap">
 
                     <div class="card-body place-details-card-body">
@@ -61,12 +61,13 @@
 
                                 <!-- TODO: add to favourites -->
                                 <!-- if place is not in_favourites-->
-                                {% if not in_favourites %}
+
+                                {% if object not in users_favourites %}
                                 <p>
                                     <small class="text-muted favourite-text">
                                     Add to favourites
                                     </small>
-                                    <a href="#">
+                                    <a href="{% if user.is_authenticated %}{% url 'favourite' object.slug user.pk %}{% else %}{% url 'login' %}{% endif %}">
                                         <img src="{% static 'images/pngs/heart outline.png' %}" alt="Favourites" width="25px">
                                     </a>
                                 </p>
@@ -75,7 +76,7 @@
                                     <small class="text-muted favourite-text">
                                     Remove favourite
                                     </small>
-                                    <a href="#">
+                                    <a href="{% if user.is_authenticated %}{% url 'favourite' object.slug user.pk %}{% else %}{% url 'login' %}{% endif %}">
                                         <img src="{% static 'images/pngs/heart-red.png' %}" alt="Favourites" width="25px">
                                     </a>
                                 </p>
@@ -213,10 +214,10 @@
                                     <small class="text-muted">Helpful Count: 1</small>
                                     <!-- TODO: if voted up, show vote down and vice versa -->
                                     <a href="#">
-                                        <img src="{% static 'images/pngs/up-arrow.png' %}" alt="up" width="16px">
+                                        <img src="{% static 'images/pngs/like.png' %}" alt="like" width="20px">
                                     </a>
                                     <a href="#">
-                                        <img src="{% static 'images/pngs/up-arrow.png' %}" alt="up" width="16px">
+                                        <img src="{% static 'images/pngs/liked.png' %}" alt="dislike" width="20px">
                                     </a>
                                 </p>
 

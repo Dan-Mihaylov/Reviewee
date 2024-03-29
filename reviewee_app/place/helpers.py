@@ -6,7 +6,6 @@ from django.contrib.auth import get_user_model
 from .models import Restaurant, Hotel, BasePlaceModel
 from itertools import chain
 
-
 UserModel = get_user_model()
 
 
@@ -30,7 +29,6 @@ def get_all_photo_reviews(object) -> list:
 
 
 def order_place(queryset: QuerySet, order_by: str) -> QuerySet:
-
     ordering = {
         'latest': '-created_at',
         'oldest': 'created_at',
@@ -44,8 +42,7 @@ def order_place(queryset: QuerySet, order_by: str) -> QuerySet:
 
 
 # TODO: lvl of abstraction, get place by type...
-def get_place_by_type(type_:BasePlaceModel, order_by='latest', count='__all__') -> QuerySet:
-
+def get_place_by_type(type_: BasePlaceModel, order_by='latest', count='__all__') -> QuerySet:
     """
     :param type_: Type of Place, Restaurant, Hotel
     :param order_by: str -> one of 'latest', 'oldest', 'highest-rating', 'lowest-rating'
@@ -53,13 +50,17 @@ def get_place_by_type(type_:BasePlaceModel, order_by='latest', count='__all__') 
     :return: QuerySet
     """
 
-    queryset = type_.objects.annotate(
-        avg_rating=Coalesce(
-            Avg('reviews__rating'),
-            Value(0),
-            output_field=FloatField(),
-        )
-    )
+    queryset = (type_.objects
+                .prefetch_related('favourite_to_users')
+                .prefetch_related('reviews')
+                .annotate(
+                    avg_rating=Coalesce(
+                    Avg('reviews__rating'),
+                        Value(0),
+                        output_field=FloatField(),
+                    )
+                )
+                )
 
     queryset = order_place(queryset, order_by)
 
@@ -73,16 +74,14 @@ def get_place_by_type(type_:BasePlaceModel, order_by='latest', count='__all__') 
         return queryset
 
 
-def get_all_places(place_types: tuple ,order_by='-created_at', count_per_place='__all__') -> list:
-
+def get_all_places(place_types: tuple, order_by='-created_at', count_per_place='__all__') -> list:
     all_places = [get_place_by_type(type_, count=count_per_place) for type_ in place_types]
     result = list(chain(*all_places))
 
     return result
 
 
-def filter_places(queryset: QuerySet, filter_parameters: str) ->QuerySet:
-
+def filter_places(queryset: QuerySet, filter_parameters: str) -> QuerySet:
     query = Q(name__icontains=filter_parameters) | Q(country__icontains=filter_parameters)
 
     queryset = queryset.filter(query)
@@ -93,7 +92,6 @@ def filter_places(queryset: QuerySet, filter_parameters: str) ->QuerySet:
 
 # Get all the places for the current user and chain them into a list
 def get_users_places(pk: int) -> list:
-
     try:
         user = UserModel.objects.get(pk=pk)
         restaurants = user.restaurants.all()
@@ -104,3 +102,14 @@ def get_users_places(pk: int) -> list:
 
 # TODO: Check whether a place is in users favourite places.
 
+
+def get_users_favourite_places(user: UserModel) -> list:
+
+    if user.is_authenticated:
+        favourite_hotels = [favourite.hotel for favourite in user.favouritehotel_set.all()]
+        favourite_restaurants = [favourite.restaurant for favourite in user.favouriterestaurant_set.all()]
+
+        all_favourite_places = list(chain(favourite_hotels, favourite_restaurants))
+        return all_favourite_places
+
+    return []

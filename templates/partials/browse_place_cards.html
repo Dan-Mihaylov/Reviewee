@@ -1,10 +1,11 @@
 {% load static %}
 {% load create_stars %}
+{% load browse_place_card_tags %}
 
 {% for place in places %}
 
     <!-- Card for place starts here -->
-    <div class="card mb-3 browse-place-card">
+    <div class="card mb-3 browse-place-card" id="{{ place.slug }}">
         <!-- Clickable image, redirects to place details and reviews -->
         <a href="{% url 'place details' place.slug %}">
         <img class="card-img-top browse-place-image" src="{{ place.photo.url }}" alt="Card image cap">
@@ -48,6 +49,30 @@
                     </small>
                 </p>
 
+{#                <p class="card-text member-since"><small class="text-muted">Member since: {{ place.created_at|date:'M d, Y' }}</small></p>#}
+                <!-- member since and in or out of favourites for user -->
+                <div class="member-since-and-favourites-container">
+                    <p class="card-text member-since"><small class="text-muted">Member since: {{ place.created_at|date:'M d, Y' }}</small></p>
+
+                    <!-- TODO: add to favourites -->
+                    <!-- if place is not in_favourites-->
+
+                    {% if place|in_users_favourites:users_favourites %}
+                        <p>
+                            <a href="{% if request.user.is_authenticated %}{% url 'favourite' place.slug request.user.pk %}{% else %}{% url 'login' %}{% endif %}">
+                                <img src="{% static 'images/pngs/heart outline.png' %}" alt="Favourites" width="25px">
+                            </a>
+                        </p>
+                    {% else %}
+                        <p>
+                            <a href="{% if request.user.is_authenticated %}{% url 'favourite' place.slug request.user.pk %}{% else %}{% url 'login' %}{% endif %}">
+                                <img src="{% static 'images/pngs/heart-red.png' %}" alt="Favourites" width="25px">
+                            </a>
+                        </p>
+                    {% endif %}
+                </div>
+
+
                 {% if request.user.pk == place.owner.pk %}
                     <div class="owners-options-container">
 
@@ -63,7 +88,11 @@
 
                 {% endif %}
 
-                <p class="card-text member-since"><small class="text-muted">Member since: {{ place.created_at|date:'M d, Y' }}</small></p>
+
+
+
+
+
 
             </div>
 

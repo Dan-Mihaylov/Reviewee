@@ -11,7 +11,7 @@ from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
 import requests
 from reviewee_app.place.models import Hotel, Restaurant
-from reviewee_app.place.helpers import get_all_places, get_place_by_type
+from reviewee_app.place.helpers import get_all_places, get_place_by_type, get_users_favourite_places
 from django.db.models import Avg, Value, FloatField
 from django.db.models.functions import Coalesce
 
@@ -29,7 +29,8 @@ from django.db.models.functions import Coalesce
 #
 # for restaurant in restaurants_with_ratings:
 #     print(restaurant.avg_rating)
+UserModel = get_user_model()
+user = UserModel.objects.get(pk=38)
 
-places = get_all_places((Restaurant, Hotel))
-
-print(places)
+favourite_places = get_users_favourite_places(user)
+print(favourite_places)

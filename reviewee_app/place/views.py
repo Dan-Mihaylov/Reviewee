@@ -6,7 +6,8 @@ from django.views import generic as views
 
 from .mixins import OwnerOfPlaceRequiredMixin
 from .models import BasePlaceModel, Restaurant, Hotel
-from .helpers import find_place_object_for_user, find_place_object_by_slug, get_all_photo_reviews
+from .helpers import find_place_object_for_user, find_place_object_by_slug, get_all_photo_reviews, \
+    get_users_favourite_places
 from ..account.mixins import BusinessOwnerRequiredMixin
 
 
@@ -88,7 +89,7 @@ class PlaceDetailsView(views.DetailView):
         context = super().get_context_data(**kwargs)
         context['photo_reviews'] = get_all_photo_reviews(self.object)
         # TODO: create check if place in favourites functionality to return true or false
-        context['in_favourites'] = True
+        context['users_favourites'] = get_users_favourite_places(self.request.user)
         return context
 
 
