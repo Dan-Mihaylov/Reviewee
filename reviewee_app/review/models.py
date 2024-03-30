@@ -41,6 +41,9 @@ class Review(AuditModelMixin, models.Model):
         blank=True,
     )
 
+    def type(self):
+        return self.__class__.__name__
+
 
 class HotelReview(Review):
 

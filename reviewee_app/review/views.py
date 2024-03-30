@@ -44,6 +44,10 @@ class ReviewEditView(ReviewOwnerRequiredMixin, views.UpdateView):
     template_name = 'review/review-edit.html'
     pk_url_kwarg = 'id'
 
+    def form_valid(self, form):
+        instance = super().form_valid(form)
+        instance.hotel
+
     def get_form_class(self):
         model_class = self.available_place_review_types[self.place.type()]
         return modelform_factory(model_class, fields='__all__')

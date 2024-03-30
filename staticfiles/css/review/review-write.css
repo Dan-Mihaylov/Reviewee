@@ -126,7 +126,6 @@
 .submit-review-button-container {
     width: 100%;
     background-color: var(--secondary-color);
-    padding: 10px;
 }
 
 .review-submit-button {

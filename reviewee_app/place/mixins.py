@@ -4,7 +4,7 @@ from reviewee_app.account.mixins import BusinessOwnerRequiredMixin
 
 class OwnerOfPlaceRequiredMixin(BusinessOwnerRequiredMixin):
 
-    def check_if_place_in_places(self):
+    def check_place_belongs_to_user(self):
         try:
             # getting errors from anonymous users for attribute
             restaurants_queryset = self.request.user.restaurants.filter(slug=self.kwargs['slug'])
@@ -17,9 +17,7 @@ class OwnerOfPlaceRequiredMixin(BusinessOwnerRequiredMixin):
 
     def dispatch(self, request, *args, **kwargs):
 
-        result = super().dispatch(request, *args, **kwargs)
-
-        if self.check_if_place_in_places():
-            return result
+        if self.check_place_belongs_to_user():
+            return super().dispatch(request, *args, **kwargs)
 
         return self.handle_no_permission()

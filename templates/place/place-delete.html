@@ -11,7 +11,7 @@
     <div class="delete-profile-content-strip">
 
         <div class="delete-profile-content-wrap">
-{#            TODO: Finish the profile delete html and all functionality#}
+{#            TODO: Finish the profile delete html and all functionality #}
 
             <form action="{% url 'place delete' object.slug %}" method="POST" class="profile-delete-form">
                 {% csrf_token %}
@@ -19,7 +19,6 @@
                 <p>Deleting this place will also delete all the relative information attached to it.</p>
                 <div class="button-div">
                     <button class="btn btn-danger" id="delete-button01" type="submit">Confirm Deletion</button>
-                    <!-- TODO: change button to take you to place details when page ready -->
                     <a class="cancel-button btn btn-success" #id="cancel-button01" href="{% url 'profile details' request.user.pk %}" >Cancel Deletion </a>
                 </div>
 

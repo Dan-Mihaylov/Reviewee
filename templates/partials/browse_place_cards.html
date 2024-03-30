@@ -57,7 +57,7 @@
                     <!-- TODO: add to favourites -->
                     <!-- if place is not in_favourites-->
 
-                    {% if place|in_users_favourites:users_favourites %}
+                    {% if not place|in_users_favourites:users_favourites %}
                         <p>
                             <a href="{% if request.user.is_authenticated %}{% url 'favourite' place.slug request.user.pk %}{% else %}{% url 'login' %}{% endif %}">
                                 <img src="{% static 'images/pngs/heart outline.png' %}" alt="Favourites" width="25px">
@@ -76,11 +76,11 @@
                 {% if request.user.pk == place.owner.pk %}
                     <div class="owners-options-container">
 
-                        <a class="btn btn-light browse-options-button" href="{% url 'place edit' place.slug %}">
+                        <a class="btn btn-light button-half-width" href="{% url 'place edit' place.slug %}">
                             <img src="{% static 'images/pngs/edit.png' %}" alt="edit" width="30px">
                         </a>
 
-                        <a class="btn btn-light browse-options-button" href="{% url 'place delete' place.slug %}">
+                        <a class="btn btn-light button-half-width" href="{% url 'place delete' place.slug %}">
                             <img src="{% static 'images/pngs/delete.png' %}" alt="edit" width="30px">
                         </a>
 

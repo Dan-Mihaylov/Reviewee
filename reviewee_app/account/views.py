@@ -11,7 +11,7 @@ from django.urls import reverse
 from django.views import generic as views
 
 from reviewee_app.account.forms import  CustomUserCreationForm, CustomUserChangeForm
-from reviewee_app.place.helpers import get_users_places
+from reviewee_app.place.helpers import get_users_places, get_users_favourite_places
 from reviewee_app.account.models import CustomUserProfile, CustomUserBusinessProfile
 from reviewee_app.place.helpers import get_all_places
 from reviewee_app.place.models import Restaurant, Hotel
@@ -48,6 +48,7 @@ class ProfileDetailsView(views.DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['all_places'] = get_users_places(self.object.pk)
+        context['users_favourites'] = get_users_favourite_places(self.request.user)
         return context
 
 

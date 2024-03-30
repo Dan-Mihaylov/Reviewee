@@ -26,7 +26,7 @@ def favourite_functionality(request, place_slug: str, user_pk: int):
     users_favourite_instance = place.favourite_to_users.filter(user=user)
 
     if users_favourite_instance.exists():
-        users_favourite_instance.delete()
+        users_favourite_instance.first().delete()
 
     else:
 

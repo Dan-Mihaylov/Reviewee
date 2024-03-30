@@ -1,0 +1,30 @@
+@import "../colors.css";
+
+
+.review-edit-content-strip {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+    color: var(--color-background-lightest-dark);
+    background-color: var(--color-lightest);
+}
+
+
+
+.review-edit-content-wrap {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    max-width: 1200px;
+    width: 100%;
+    padding: 10px;
+    margin: 20px 0 20px 0;
+}
+
+.review-edit-header-container h1 {
+    font-size: 1.5rem;
+}

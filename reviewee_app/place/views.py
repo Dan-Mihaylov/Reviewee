@@ -68,16 +68,6 @@ class PlaceEditView(OwnerOfPlaceRequiredMixin, views.UpdateView):
         return reverse('home')
 
 
-class PlaceDeleteView(OwnerOfPlaceRequiredMixin, views.DeleteView):
-    template_name = 'place/place-delete.html'
-
-    def get_success_url(self):
-        return reverse('home')
-
-    def get_object(self, queryset=None):
-        return find_place_object_for_user(self.request.user, self.kwargs['slug'])
-
-
 # TODO: Finish Place Details, add extra context, book, add review
 class PlaceDetailsView(views.DetailView):
     template_name = 'place/place-details.html'
@@ -91,6 +81,16 @@ class PlaceDetailsView(views.DetailView):
         # TODO: create check if place in favourites functionality to return true or false
         context['users_favourites'] = get_users_favourite_places(self.request.user)
         return context
+
+
+class PlaceDeleteView(OwnerOfPlaceRequiredMixin, views.DeleteView):
+    template_name = 'place/place-delete.html'
+
+    def get_success_url(self):
+        return reverse('profile details', kwargs={'pk': self.object.owner.pk})
+
+    def get_object(self, queryset=None):
+        return find_place_object_for_user(self.request.user, self.kwargs['slug'])
 
 
 def place_bookings(request, slug):

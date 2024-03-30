@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load create_stars %}
 
 {% block title %}
     Write review
@@ -35,7 +36,7 @@
 
                         <div class="place-card-header-container">
                             <h5 class="card-title">{{ place.name }}</h5>
-                            <p class="card-text">Rating: {{ place.rating }}/5</p>
+                            {% create_stars place %}
                         </div>
 
                         <p class="card-text">{{ place.description }}</p>
@@ -45,14 +46,8 @@
                         <!-- Created at, and link to owners more places -->
                         <div class="review-write-card-more-info-container">
                             <p class="card-text"><small class="text-muted">Member since: {{ place.created_at|date:'M d, Y' }}</small></p>
+                            <p class="card-text"><small class="text-muted">Owners other <a href="{% url 'profile details' place.owner.pk  %}#owner-places">Places</a> </small></p>
 
-                            <a style="width: 49%;" class="btn btn-light" href="{% url 'profile details' place.owner.pk  %}#owner-places">
-                                Owners Other Places
-                            </a>
-
-                            <a style="width: 49%;" id="go-back-button" class="btn btn-light" href="{% url 'profile details' place.owner.pk  %}#owner-places">
-                                Go Back
-                            </a>
                         </div>
                     <!-- control buttons -->
 
@@ -101,7 +96,11 @@
 
                                 <div class="submit-review-button-container">
                                     <button class="create-hotel-button" type="submit">Submit</button>
+                                    <button id="go-back-button" class="go-back-button" href="{% url 'profile details' place.owner.pk  %}#owner-places">
+                                        Go Back
+                                    </button>
                                 </div>
+
 
 
 
