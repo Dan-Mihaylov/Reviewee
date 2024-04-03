@@ -1,0 +1,38 @@
+@import "../colors.css";
+
+.booking-manage-content-strip {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+    background-color: var(--color-lightest);
+    color: var(--color-background-lightest-dark);
+}
+
+.booking-manage-content-wrap {
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    max-width: 1200px;
+    width: 100%;
+    padding: 10px;
+    margin: 20px 0 20px 0;
+    text-align: center;
+}
+
+
+.booking-manage-form-container {
+    width: 100%;
+    text-align: left;
+
+}
+
+
+.booking-manage-form-container {
+    margin: 10px 0 10px 0;
+    width: 100%;
+    font-size: 0.9rem;
+    overflow-y: auto;
+    padding: 20px;
+}

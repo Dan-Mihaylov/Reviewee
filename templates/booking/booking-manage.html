@@ -1,0 +1,157 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block title %}
+    Manage Booking
+{% endblock %}
+
+
+{% block content %}
+
+    <div class="booking-manage-content-strip">
+
+        <div class="booking-manage-content-wrap">
+
+            <h2>
+                Reservation details for
+                {% if object.hotel %}
+                    {{ object.hotel.name }} Hotel
+                {% else %}
+                    {{ object.restaurant.name }} Restaurant
+                {% endif %}
+            </h2>
+
+            <div class="booking-manage-form-container">
+
+
+            <!-- From Here -->
+            <form class="row g-3" action="{% url 'manage booking' object.slug %}" method="POST">
+
+                {% csrf_token %}
+
+                <div class="col-md-6">
+                    <label for="id_{{ form.first_name.name }}">First name</label>
+                    <input type="text" class="form-control distanced" id="id_{{ form.first_name.name }}"
+                            placeholder="Enter your first name" name="{{ form.first_name.name }}"
+                            value="{{ form.first_name.value }}">
+                    {{ form.first_name.errors }}
+                </div>
+
+                <div class="col-md-6">
+                    <label for="id_{{ form.last_name.name }}">Last name</label>
+                    <input type="text" class="form-control distanced" id="id_{{ form.last_name.name }}"
+                            placeholder="Enter your last name" name="{{ form.last_name.name }}"
+                            value="{{ form.last_name.value }}"}>
+                    {{ form.last_name.errors }}
+                </div>
+
+                <div class="col-12">
+                    <label for="id_{{ form.email.name }}">Email</label>
+                    <input type="email" class="form-control distanced" id="id_{{ form.email.name }}"
+                           placeholder="Email address" name="{{ form.email.name }}"
+                           value="{{ form.email.value }}">
+                    {{ form.email.errors }}
+                </div>
+
+            <!-- if it is a restaurant display this fields -->
+                {% if object.restaurant %}
+
+                <div class="col-3">
+                    <label for="id_{{ form.people.name }}">People</label>
+                    <input type="number" class="form-control distanced" id="id_{{ form.people.name }}"
+                           placeholder="People count, max 6" name="{{ form.people.name }}"
+                           value="{{ form.people.value }}">
+                    {{ form.people.errors }}
+                </div>
+
+                <div class="col-md-5">
+                    <label for="id_{{ form.date.name }}">Date</label>
+                    <input type="date" class="form-control distanced" id="id_{{ form.date.name }}"
+                            placeholder="Select Date" name="{{ form.date.name }}" value="{{ form.date.value|date:'Y-m-d' }}">
+                    {{ form.date.errors }}
+                </div>
+
+                <div class="col-md-4">
+                    <label for="id_{{ form.booking_time.name }}">Booking Time</label>
+                    <select id="id_{{ form.booking_time.name }}" class="form-control distanced"
+                            name="{{ form.booking_time.name }}">
+                      <option selected>Choose...</option>
+                      <option value="{{ form.booking_time.value }}"></option>
+                    </select>
+                </div>
+
+                <!-- For hotels display this fields -->
+
+                {% else %}
+
+                <div class="col-md-4">
+                    <label for="id_{{ form.date.name }}">Date</label>
+                    <input type="date" class="form-control distanced" id="id_{{ form.date.name }}"
+                           name="{{ form.date.name }}" value="{{ form.date.value|date:'Y-m-d' }}">
+                    {{ form.date.errors }}
+
+                </div>
+
+                <div class="col-md-4">
+                    <label for="id_{{ form.nights.name }}">Nights</label>
+                    <select id="id_{{ form.nights.name }}" class="form-control distanced"
+                            name="{{ form.nights.name }}">
+                        {% for i in night_range %}
+                            <option value="{{ i }}">{{ i }} {% if form.nights.value == 1 %}Night{% else %}Nights{% endif %}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="col-4">
+                    <label for="id_{{ form.rooms.name }}">Rooms</label>
+                    <select id="id_{{ form.rooms.name }}" class="form-control distanced"
+                            name="{{ form.rooms.name }}">
+                        <option value="{{ form.rooms.value }}">
+                            {{ form.rooms.value }}
+                            {% if form.rooms.value == 1 %}
+                            Room
+                        {% else %}
+                            Rooms
+                        {% endif %}
+                        </option>
+                        {% for i in rooms_range %}
+                            <option value="{{ i }}">{{ i }} {% if i == 1 %}Room{% else %}Rooms{% endif %}</option>
+                        {% endfor %}
+                    </select>
+                    {{ form.rooms.errors }}
+                </div>
+
+                {% endif %}
+
+                <div class="col-12 book-button-container">
+                    <button type="submit" class="btn btn-light distanced book-button">Update Booking</button>
+
+                </div>
+
+            </form>
+            <!-- TODO: Fix -->
+                <form action="{% url 'manage booking' object.slug %}" method="POST">
+                    {% csrf_token %}
+                    {% for field in form.fields %}
+                        <input type="text" value="{{ field.value }}">
+                    {% endfor %}
+                    <input hidden="hidden" type="checkbox" name="canceled" id="id_canceled" checked="checked">
+                    <button type="submit" class="btn btn-outline-danger">Cancel booking</button>
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- adding the const so restaurant times is passed to the external JS script -->
+    <script>
+        const restaurantTimes = {{ restaurant_times|safe }};
+    </script>
+
+    <script src="{% static 'js/fill_booking_time.js' %}"></script>
+
+
+{% endblock %}

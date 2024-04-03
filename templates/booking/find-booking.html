@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    Book Restaurant
+{% endblock %}
+
+
+{% block content %}
+
+    <div class="find-booking-content-strip">
+
+        <div class="find-booking-content-wrap">
+
+            <div class="find-booking-search-container">
+                <h2>Find your reservation</h2>
+{#                <p><small class="text-muted">Please fill out all form fields.</small></p>#}
+            </div>
+
+            <form class="booking-search-form" action="{% url 'find booking' %}" method="GET">
+                <input class="form-control" type="text" name="search" value="{{ search }}">
+                <select name="filter">
+                    {% if filter %}
+                    <option value="{{ filter }}" selected>{{ filter|capfirst }}</option>
+                    {% endif %}
+                    <option value="active">Active</option>
+                    <option value="inactive">Inactive</option>
+                    <option value="all">All</option>
+                </select>
+                <button><img src="{% static 'images/pngs/search.png' %}" alt="-" width="25px"></button>
+            </form>
+
+        {% if not object_list %}
+            <p>There are no results, so far.</p>
+        {% else %}
+
+                <div class="booking-information-container">
+
+                    <table class="table">
+                        <thead>
+                            <tr>
+                              <th scope="col">Email</th>
+                              <th scope="col">Place</th>
+                              <th scope="col">Date</th>
+                              <th scope="col">Status</th>
+                              <th scope="col">Manage</th>
+                            </tr>
+                        </thead>
+                        {% for object in object_list %}
+                        <tbody>
+                            <tr>
+                              <td>{{ object.email }}</td>
+                              <td>
+                                  {% if object.hotel.name %}
+                                      {{ object.hotel.name }} - Hotel
+                                  {% else %}
+                                      {{ object.restaurant.name }} - Restaurant
+                                  {% endif %}
+                              </td>
+                              <td>{{ object.date }}</td>
+                              <td>
+                                  {% if object.active %}
+                                      Active
+                                  {% elif object.canceled %}
+                                      Canceled
+                                  {% else %}
+                                      Inactive
+                                  {% endif %}
+                              </td>
+                            <td><a href="{% url 'verify ownership' object.slug %}">Manage Booking</a></td>
+                            </tr>
+
+                        </tbody>
+                        {% endfor %}
+                    </table>
+
+
+
+                </div>
+
+        {% endif %}
+
+        </div>
+
+
+    </div>
+
+
+{% endblock %}

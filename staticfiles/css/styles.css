@@ -19,3 +19,8 @@
 @import 'review/review-write.css';
 @import 'partials/create-stars.css';
 @import 'favourite/favourite-place-list.css';
+@import 'booking/book-restaurant.css';
+@import 'booking/book-hotel.css';
+@import 'booking/booking-successful.css';
+@import 'booking/find-booking.css';
+@import 'booking/booking-manage.css';

@@ -12,12 +12,23 @@
     <div class="booking-successful-content-strip">
 
         <div class="booking-successful-content-wrap">
-            <h2>Booking Successful</h2>
-            <p>Booking for {{ place_name }} on {{ date }} has been successfully completed</p>
-            <p>email: {{ email }}</p>
-            <p>Your confirmation code is: {{ confirmation_code }}</p>
-            <p>Save your confirmation code, if you would like to do changes to your booking.</p>
 
+            <div class="booking-successful-success-container">
+                <h2>Booking Successful</h2>
+                <p>Booking for {{ place_name }} on {{ date }} has been successfully completed</p>
+                <p>email: {{ email }}</p>
+                <p>Your confirmation code is: <strong>{{ confirmation_code }}</strong></p>
+                <p>Save your confirmation code, if you would like to view or do changes to your booking.</p>
+                <p>
+                    <small>
+                        Continue browsing
+                        <a href="{% url 'browse' %}?place=restaurants">restaurants</a>,
+                        <a href="{% url 'browse' %}?place=hotels">hotels</a>
+                        or go back
+                        <a href="{% url 'home' %}">home</a>.
+                    </small>
+                </p>
+            </div>
         </div>
 
     </div>

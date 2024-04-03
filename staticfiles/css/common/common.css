@@ -3,18 +3,18 @@
     border: none;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 0;
-    color: darkseagreen;
+    color: var(--color-lightest);
 }
 
 .form-control:active {
-    background-color: var(--secondary-color-hover);
+    background-color: var(--main-color-transparent);
     border: none;
 }
 
 .form-control:focus {
-    background-color: var(--color-lightest);
+    background-color: var(--main-color-transparent);
     border-radius: 5px;
-    color: var(--main-color);
+    color: var(--color-lightest);
     border: none;
     box-shadow: none;
 }

@@ -1,0 +1,39 @@
+@import "../colors.css";
+
+.find-booking-content-strip {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+    background-color: var(--color-lightest);
+    color: var(--color-background-lightest-dark);
+}
+
+.find-booking-content-wrap {
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    max-width: 1200px;
+    width: 100%;
+    padding: 10px;
+    margin: 20px 0 20px 0;
+}
+
+
+.find-booking-search-container {
+    width: 100%;
+    text-align: center;
+}
+
+.booking-search-form {
+    width: 100%;
+}
+
+.booking-information-container {
+    margin: 10px 0 10px 0;
+    width: 100%;
+    background-color: salmon;
+    font-size: 0.9rem;
+    overflow-y: auto;
+}

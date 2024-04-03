@@ -1,0 +1,40 @@
+@import "../colors.css";
+
+.booking-successful-content-strip {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    background-color: var(--color-lightest);
+    color: var(--color-background-lightest-dark);
+}
+
+.booking-successful-content-wrap {
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    max-width: 1200px;
+    width: 100%;
+    padding: 10px;
+    margin: 20px 0 20px 0;
+}
+
+
+.booking-successful-success-container {
+    max-width: 680px;
+    width: 100%;
+    background-color: var(--color-background-lightest-dark);
+    color: var(--color-lightest);
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 1px 2px 8px var(--main-color);
+}
+
+.booking-successful-success-container h2 {
+    font-size: 1.5rem;
+}
+
+.booking-successful-success-container p {
+    font-size: 1rem;
+}

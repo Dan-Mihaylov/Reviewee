@@ -2,24 +2,24 @@
 {% load static %}
 
 {% block title %}
-    Book Restaurant
+    Book Hotel
 {% endblock %}
 
 
 {% block content %}
 
-    <div class="book-restaurant-content-strip">
+    <div class="book-hotel-content-strip">
 
-        <div class="book-restaurant-content-wrap">
+        <div class="book-hotel-content-wrap">
 
-            <div class="book-restaurant-header-container">
-                <h2>Make a reservation for {{ restaurant.name }} restaurant in {{ restaurant.city }}</h2>
+            <div class="book-hotel-header-container">
+                <h2>Make a reservation for {{ hotel.name }} hotel in {{ hotel.city }} city, {{ hotel.country }}</h2>
                 <p><small class="text-muted">Please fill out all form fields.</small></p>
             </div>
 
-            <!-- Form starts from here -->
-            <div class="book-restaurant-form-container">
-            <form class="row g-3" action="{% url 'book restaurant' place_slug %}" method="POST">
+            <div class="book-hotel-form-container">
+            <!-- Hotel form starts -->
+            <form class="row g-3" action="{% url 'book hotel' place_slug %}" method="POST">
 
                 {% csrf_token %}
 
@@ -45,57 +45,51 @@
                 </div>
 
                 <div class="col-12">
-                    <input type="number" class="form-control distanced" id="id_{{ form.people.name }}"
-                           placeholder="People count, max 6" name="{{ form.people.name }}"
-                           {% if form.cleaned_data.people %}value="{{ form.cleaned_data.people }}"{% endif %}>
-                    {{ form.people.errors }}
+                    <select id="id_{{ form.rooms.name }}" class="form-control distanced"
+                            name="{{ form.rooms.name }}">
+                        {% for i in rooms_range %}
+                            <option value="{{ i }}">{{ i }} {% if i == 1 %}Room{% else %}Rooms{% endif %}</option>
+                        {% endfor %}
+                    </select>
+                    {{ form.rooms.errors }}
                 </div>
 
                 <div class="col-md-6">
-
+                    <label for="id_{{ form.date.name }}">Date</label>
                     <input type="date" class="form-control distanced" id="id_{{ form.date.name }}"
                             placeholder="Select Date" name="{{ form.date.name }}">
                     {{ form.date.errors }}
                 </div>
 
                 <div class="col-md-4">
-
-                    <select id="id_{{ form.booking_time.name }}" class="form-control distanced"
-                            name="{{ form.booking_time.name }}">
-                      <option selected>Choose...</option>
-                      <option>...</option>
+                    <label for="id_{{ form.nights.name }}">Nights</label>
+                    <select id="id_{{ form.nights.name }}" class="form-control distanced"
+                            name="{{ form.nights.name }}">
+                        {% for i in night_range %}
+                            <option value="{{ i }}">{{ i }}</option>
+                        {% endfor %}
                     </select>
                 </div>
 
                 <div class="col-md-2">
 
-                    <select hidden="hidden" name="restaurant" id="id_{{ form.restaurant.name }}" name="{{ form.restaurant.name }}">
+                    <select hidden="hidden" name="hotel" id="id_{{ form.hotel.name }}" name="{{ form.hotel.name }}">
                         <option value="">---------</option>
-                        <option selected value="{{ restaurant.pk }}">{{ restaurant.name }}</option>
+                        <option selected value="{{ hotel.pk }}">{{ hotel.name }}</option>
                     </select>
                 </div>
 
                 <div class="col-12 book-button-container">
-                    <button type="submit" class="btn btn-light distanced book-button">Book Restaurant</button>
+                    <button type="submit" class="btn btn-light distanced book-button">Book Hotel</button>
                 </div>
 
             </form>
-            </div>
-            <!-- finish form -->
+            <!-- hotel form ends -->
 
+            </div>
 
         </div>
 
-
     </div>
 
-    <!-- adding the const so restaurant times is passed to the external JS script -->
-    <script>
-        const restaurantTimes = {{ restaurant_times|safe }};
-    </script>
-
-    <script src="{% static 'js/fill_booking_time.js' %}"></script>
-
-
 {% endblock %}
-

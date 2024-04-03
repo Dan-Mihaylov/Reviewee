@@ -69,6 +69,15 @@ class BaseBooking(AuditModelMixin, models.Model):
         blank=True,
     )
 
+    active = models.BooleanField(
+        default=True,
+        null=False,
+        blank=True,
+    )
+
+    def type(self):
+        return self.__class__.__name__
+
     def save(self, *args, **kwargs):
 
         super().save(*args, **kwargs)

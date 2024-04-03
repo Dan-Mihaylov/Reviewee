@@ -1,0 +1,53 @@
+@import "../colors.css";
+
+.book-restaurant-content-strip {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    background-color: var(--color-lightest);
+    color: var(--color-background-lightest-dark);
+}
+
+.book-restaurant-content-wrap {
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    max-width: 1200px;
+    width: 100%;
+    padding: 10px;
+    margin: 20px 0 20px 0;
+}
+
+.book-restaurant-header-container {
+    width: 100%;
+    text-align: center;
+    margin: 0 0 20px 0;
+}
+
+.book-restaurant-header-container h2 {
+    font-size: 1.3rem;
+}
+
+.book-restaurant-form-container {
+    max-width: 620px;
+    width: 100%;
+    background-color: var(--secondary-color);
+    color: var(--color-lightest);
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 1px 2px 12px var(--main-color);
+}
+
+.distanced {
+    margin: 15px 0 15px 0;
+}
+
+.book-button-container {
+    width: 100%;
+}
+
+.book-button {
+    width: 100%;
+}
