@@ -47,34 +47,27 @@
                         <div class="review-write-card-more-info-container">
                             <p class="card-text"><small class="text-muted">Member since: {{ place.created_at|date:'M d, Y' }}</small></p>
 
-                            <a style="width: 49%;" class="btn btn-light" href="{% url 'profile details' place.owner.pk  %}#owner-places">
-                                Owners Other Places
-                            </a>
-
-                            <a style="width: 49%;" id="go-back-button" class="btn btn-light" href="{% url 'profile details' place.owner.pk  %}#owner-places">
-                                Go Back
-                            </a>
                         </div>
                     <!-- control buttons -->
 
                         <!-- container for review write form -->
                         <div class="review-write-review-container">
-                        <!-- delete this one -->
-                            <form action="{% url 'review edit' place.slug object.pk %}" method="POST" enctype="multipart/form-data">
-                                {% csrf_token %}
-                                {{ form.as_p }}
-                                <button type="submit">Submit Changes</button>
-                            </form>
-
-                            <form action="{% url 'review delete' place.slug object.pk%}" method="POST">
-                                <h2>Delete Comment</h2>
-                                {% csrf_token %}
-                                <button type="submit">Confirm Deletion</button>
-                            </form>
 
                             <form action="{% url 'review edit' place.slug object.pk %}" method="POST" enctype="multipart/form-data">
 
                                 {% csrf_token %}
+                                <!-- Place instance and User instance -->
+                                <select hidden="hidden"  name="hotel" id="id_hotel">
+                                  <option selected="selected" value="{{ place.pk }}">{{ place }}</option>
+                                </select>
+
+                                <select hidden="hidden"  name="restaurant" id="id_restaurant">
+                                  <option selected="selected" value="{{ place.pk }}">{{ place }}</option>
+                                </select>
+
+                                <select hidden="hidden" name="user" id="id_user">
+                                  <option selected="selected" value="{{ request.user.pk }}">{{ request.user }}</option>
+                                </select>
 
                                 <!-- Top container for user photo and rating -->
                                 <div class="user-info-and-rating-container">
@@ -87,7 +80,7 @@
                                     </div>
 
                                     <select class="form-control rating-choice" aria-label="Select Rating" name="{{ form.rating.name }}">
-                                      <option selected>Select Rating</option>
+                                      <option selected="selected" value="{{ object.rating }}">{{ object.rating }}</option>
                                       <option value="1">1</option>
                                       <option value="2">2</option>
                                       <option value="3">3</option>
@@ -106,7 +99,11 @@
                                 >{% if form.comment.value %}{{ form.comment.value }}{% endif %}</textarea>
 
                                 <div class="upload-photo-container">
-                                    <span>Upload Photo</span>
+                                    {% if object.review_photo %}
+                                        <span>Change Photo</span>
+                                    {% else %}
+                                        <span>Upload Photo</span>
+                                    {% endif %}
                                     <input class="form-control form-control-sm file-upload-field" id="formFileSm" type="file" name="{{ form.review_photo.name }}">
                                 </div>
 
@@ -116,9 +113,19 @@
                                     <button class="create-hotel-button" type="submit">Submit</button>
                                 </div>
 
-
-
                             </form>
+
+                                <form action="{% url 'review delete' place.slug object.pk%}" method="POST">
+                                    {% csrf_token %}
+
+                                    <button class="btn btn-dark delete-comment-button" type="submit">Delete comment
+                                        <img class="review-delete-image" src="{% static 'images/pngs/delete white.png' %}" alt="*" width="25px">
+                                    </button>
+                                </form>
+
+                                <button id="go-back-button" class="go-back-button" href="{% url 'profile details' place.owner.pk  %}#owner-places">
+                                    Go Back
+                                </button>
 
                         </div>
 

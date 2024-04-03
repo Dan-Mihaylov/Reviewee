@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 {% load create_stars %}
+{% load review_likes_users %}
 
 {% block title %}
     Place Details
@@ -59,7 +60,6 @@
                             <div class="member-since-and-favourites-container">
                                 <p class="card-text member-since"><small class="text-muted">Member since: {{ object.created_at|date:'M d, Y' }}</small></p>
 
-                                <!-- TODO: add to favourites -->
                                 <!-- if place is not in_favourites-->
 
                                 {% if object not in users_favourites %}
@@ -160,7 +160,7 @@
             <!-- container for every review start -->
             <div class="all-reviews-container">
 
-                {% for review in object.reviews.all %}
+                {% for review in all_reviews %}
 
                     <div class="review-card-container" id="{{ review.pk }}">
                         <!-- top container -->
@@ -211,14 +211,17 @@
 
                             <div class="review-card-helpful-and-created-at-container">
                                 <p class="helpful-count-paragraph">
-                                    <small class="text-muted">Helpful Count: 1</small>
+                                    <small class="text-muted">Helpful Count: {{ review.likes.count }}</small>
+                                    {% if request.user not in review.likes.all|review_likes_users %}
                                     <!-- TODO: if voted up, show vote down and vice versa -->
-                                    <a href="#">
+                                    <a href="{% url 'review like' review.type review.pk request.user.pk %}">
                                         <img src="{% static 'images/pngs/like.png' %}" alt="like" width="20px">
                                     </a>
-                                    <a href="#">
+                                    {% else %}
+                                    <a href="{% url 'review like' review.type review.pk request.user.pk %}">
                                         <img src="{% static 'images/pngs/liked.png' %}" alt="dislike" width="20px">
                                     </a>
+                                    {% endif %}
                                 </p>
 
                                 <p class="created-at-paragraph-full">

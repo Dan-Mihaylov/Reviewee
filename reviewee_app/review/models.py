@@ -12,6 +12,7 @@ class Review(AuditModelMixin, models.Model):
 
     class Meta:
         abstract = True
+        ordering = ['-edited_at']
 
     MAX_LENGTH_CONTENT = 500
 
@@ -73,6 +74,46 @@ class RestaurantReview(Review):
     )
 
 
+class BaseReviewLike(AuditModelMixin, models.Model):
+
+    class Meta:
+        abstract = True
+        ordering = ['-created_at']
+
+    user = models.ForeignKey(
+        UserModel,
+        on_delete=models.CASCADE,
+        null=False,
+        blank=True,
+    )
+
+    def count(self):
+        return self.objects.count()
 
 
+class RestaurantReviewLike(BaseReviewLike):
 
+    class Meta(BaseReviewLike.Meta):
+        unique_together = ['user', 'restaurant_review']
+
+    restaurant_review = models.ForeignKey(
+        RestaurantReview,
+        related_name='likes',
+        on_delete=models.CASCADE,
+        null=False,
+        blank=True,
+    )
+
+
+class HotelReviewLike(BaseReviewLike):
+
+    class Meta(BaseReviewLike.Meta):
+        unique_together = ['user', 'hotel_review']
+
+    hotel_review = models.ForeignKey(
+        HotelReview,
+        related_name='likes',
+        on_delete=models.CASCADE,
+        null=False,
+        blank=True,
+    )

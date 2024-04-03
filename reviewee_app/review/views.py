@@ -1,16 +1,19 @@
 from django.db.models import QuerySet
 from django.forms import modelform_factory
+from django.shortcuts import redirect
 from django.urls import reverse
 from django.views import generic as views
 
+from reviewee_app.place.mixins import OwnerOfPlaceCannotCommentMixin
 from reviewee_app.review.mixins import ReviewAttachPlaceMixin, ReviewOwnerRequiredMixin
+from reviewee_app.review.models import HotelReview, RestaurantReview
 
 
 # TODO: Got the slug from the place, so we can attach the review to the place object.
 # Convention Model-Action-View
 # Review/write/place_slug
 
-class ReviewWriteView(ReviewAttachPlaceMixin, views.CreateView):
+class ReviewWriteView(OwnerOfPlaceCannotCommentMixin, ReviewAttachPlaceMixin, views.CreateView):
 
     template_name = 'review/review-write.html'
 
@@ -44,10 +47,6 @@ class ReviewEditView(ReviewOwnerRequiredMixin, views.UpdateView):
     template_name = 'review/review-edit.html'
     pk_url_kwarg = 'id'
 
-    def form_valid(self, form):
-        instance = super().form_valid(form)
-        instance.hotel
-
     def get_form_class(self):
         model_class = self.available_place_review_types[self.place.type()]
         return modelform_factory(model_class, fields='__all__')
@@ -73,3 +72,36 @@ class ReviewDeleteView(ReviewOwnerRequiredMixin, views.DeleteView):
 
     def get_success_url(self):
         return reverse('place details', kwargs={'slug': self.kwargs['place_slug']})
+
+
+class ReviewLike(views.View):
+
+    available_review_types = {
+        'HotelReview': HotelReview,
+        'RestaurantReview': RestaurantReview,
+    }
+
+    def find_review_by_type(self, review_type, review_pk):
+        review = self.available_review_types[review_type].objects.get(pk=review_pk)
+        return review
+
+    @staticmethod
+    def like_functionality(review, user):
+        like_instance = review.likes.filter(user=user)
+
+        if like_instance.exists():
+            like_instance.delete()
+        else:
+            if review.type() == 'HotelReview':
+                review.likes.create(hotel_review=review, user=user)
+            else:
+                review.likes.create(restaurant_review=review, user=user)
+        return
+
+    def get(self, *args, **kwargs):
+        review = self.find_review_by_type(self.kwargs['review_type'], self.kwargs['review_pk'])
+        self.like_functionality(review, self.request.user)
+        return redirect(self.request.META['HTTP_REFERER'] + f'#{review.pk}')
+
+
+    # TODO: If the user is in the review likes, remove the instance else add the instance

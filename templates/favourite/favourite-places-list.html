@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load browse_place_card_tags %}
+
+
+{% block title %}
+    Favourite Places
+{% endblock %}
+
+{% block content %}
+
+    <div class="favourite-content-strip">
+
+        <div class="favourite-content-wrap">
+
+            <div class="favourite-places-header-container">
+                <h1>My Favourite Places.</h1>
+            </div>
+
+            <div class="favourite-places-container">
+                {% if object_list %}
+                <!-- places/request/users_favourites -->
+                    {% browse_place_cards object_list request object_list %}
+                {% else %}
+                    <p>There are no favourite places currently.</p>
+                {% endif %}
+            </div>
+        </div>
+
+
+        {% if object_list %}
+        <!-- Paginator starts here -->
+        <div class="pagination">
+            <span class="step-links">
+                {% if page_obj.has_previous %}
+                    <a class="paginator-link" href="?page=1{{ get_parameters }}">
+                        <img class="paginator-image" src="{% static 'images/pngs/first.png' %}" alt="First Page" width="48px">
+                    </a>
+                    <a class="paginator-link" href="?page={{ page_obj.previous_page_number }}{{ get_parameters }}">
+                        <img class="paginator-image" src="{% static 'images/pngs/previous.png' %}" alt="Previous Page" width="48px">
+                    </a><!-- If it doesn't have previous, just display the icons, no action -->
+                {% else %}
+                    <img src="{% static 'images/pngs/first.png' %}" alt="First Page" width="48px">
+                    <img src="{% static 'images/pngs/previous.png' %}" alt="Previous Page" width="48px">
+                {% endif %}
+
+                <span class="current">
+                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                </span>
+
+                {% if page_obj.has_next %}
+                    <a class="paginator-link" href="?page={{ page_obj.next_page_number }}{{ get_parameters }}">
+                        <img class="paginator-image" src="{% static 'images/pngs/next.png' %}" alt="Next Page" width="48px">
+                    </a>
+                    <a class="paginator-link" href="?page={{ page_obj.paginator.num_pages }}{{ get_parameters }}">
+                        <img class="paginator-image" src="{% static 'images/pngs/last.png' %}" alt="Last Page" width="48px">
+                    </a><!-- disabled -->
+                {% else %}
+                    <img src="{% static 'images/pngs/next.png' %}" alt="Next Page" width="48px">
+                    <img src="{% static 'images/pngs/last.png' %}" alt="Last Page" width="48px">
+                {% endif %}
+            </span>
+        </div>
+        <!-- Paginator ends here -->
+        {% endif %}
+
+    </div>
+
+
+{% endblock %}

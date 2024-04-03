@@ -3,6 +3,7 @@ from django.template import Library
 
 register = Library()
 
+
 @register.inclusion_tag('partials/navbar.html')
 def navbar(request):
     return {'request': request}

@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block title %}
+    Booking Successful
+{% endblock %}
+
+
+{% block content %}
+
+    <div class="booking-successful-content-strip">
+
+        <div class="booking-successful-content-wrap">
+            <h2>Booking Successful</h2>
+            <p>Booking for {{ place_name }} on {{ date }} has been successfully completed</p>
+            <p>email: {{ email }}</p>
+            <p>Your confirmation code is: {{ confirmation_code }}</p>
+            <p>Save your confirmation code, if you would like to do changes to your booking.</p>
+
+        </div>
+
+    </div>
+
+
+
+{% endblock %}

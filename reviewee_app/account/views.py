@@ -6,12 +6,13 @@ from django.shortcuts import render, HttpResponse, redirect
 from django.contrib.auth import logout as auth_logout, login as auth_login, authenticate, views as auth_views, \
     get_user_model
 from django.contrib.auth.forms import AuthenticationForm
-from django.urls import reverse
+from django.urls import reverse, resolve, Resolver404
 
 from django.views import generic as views
 
 from reviewee_app.account.forms import  CustomUserCreationForm, CustomUserChangeForm
-from reviewee_app.place.helpers import get_users_places, get_users_favourite_places
+from reviewee_app.favourite.helpers import get_users_favourite_places
+from reviewee_app.place.helpers import get_users_places
 from reviewee_app.account.models import CustomUserProfile, CustomUserBusinessProfile
 from reviewee_app.place.helpers import get_all_places
 from reviewee_app.place.models import Restaurant, Hotel

@@ -44,9 +44,8 @@ class ReviewOwnerRequiredMixin(AccessMixin, ReviewAttachPlaceMixin):
         return False
 
     def dispatch(self, request, *args, **kwargs):
-        result = super().dispatch(request, *args, **kwargs)
 
         if self.check_if_user_is_review_owner():
-            return result
+            return super().dispatch(request, *args, **kwargs)
 
         return self.handle_no_permission()

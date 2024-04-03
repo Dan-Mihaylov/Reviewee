@@ -1,4 +1,4 @@
-from django.db.models import QuerySet, Avg, Value, FloatField, Q
+from django.db.models import QuerySet, Avg, Value, FloatField, Q, Prefetch
 from django.db.models.functions import Coalesce
 
 from django.contrib.auth import get_user_model
@@ -18,14 +18,37 @@ def find_place_object_for_user(user, slug) -> Restaurant or Hotel:
 
 
 def find_place_object_by_slug(slug) -> Restaurant or Hotel:
-    if Restaurant.objects.filter(slug=slug).prefetch_related('reviews').exists():
-        return Restaurant.objects.get(slug=slug)
-    elif Hotel.objects.filter(slug=slug).prefetch_related('reviews').exists():
-        return Hotel.objects.get(slug=slug)
+
+    if Restaurant.objects.filter(slug=slug).exists():
+        return (
+            Restaurant.objects
+            .prefetch_related(
+                'reviews',
+                'reviews__user',
+                'reviews__likes',
+                'reviews__likes__user',
+            )
+            .get(slug=slug)
+        )
+
+    if Hotel.objects.filter(slug=slug).exists():
+        return (
+            Hotel.objects
+            .prefetch_related(
+                'reviews',
+                'reviews__user',
+                'reviews__likes',
+                'reviews__likes__user',
+            )
+            .get(slug=slug))
 
 
-def get_all_photo_reviews(object) -> list:
-    return [review for review in object.reviews.all() if review.review_photo]
+def get_all_photo_reviews(reviews) -> list:
+    return [review for review in reviews if review.review_photo]
+
+
+def get_all_place_reviews(place) -> QuerySet:
+    return place.reviews.all()
 
 
 def order_place(queryset: QuerySet, order_by: str) -> QuerySet:
@@ -52,7 +75,7 @@ def get_place_by_type(type_: BasePlaceModel, order_by='latest', count='__all__')
 
     queryset = (type_.objects
                 .prefetch_related('favourite_to_users')
-                .prefetch_related('reviews')
+                .select_related('owner', 'owner__profile')
                 .annotate(
                     avg_rating=Coalesce(
                     Avg('reviews__rating'),
@@ -102,14 +125,14 @@ def get_users_places(pk: int) -> list:
 
 # TODO: Check whether a place is in users favourite places.
 
-
-def get_users_favourite_places(user: UserModel) -> list:
-
-    if user.is_authenticated:
-        favourite_hotels = [favourite.hotel for favourite in user.favouritehotel_set.all()]
-        favourite_restaurants = [favourite.restaurant for favourite in user.favouriterestaurant_set.all()]
-
-        all_favourite_places = list(chain(favourite_hotels, favourite_restaurants))
-        return all_favourite_places
-
-    return []
+#
+# def get_users_favourite_places(user: UserModel) -> list:
+#
+#     if user.is_authenticated:
+#         favourite_hotels = [favourite.hotel for favourite in user.favouritehotel_set.all()]
+#         favourite_restaurants = [favourite.restaurant for favourite in user.favouriterestaurant_set.all()]
+#
+#         all_favourite_places = list(chain(favourite_hotels, favourite_restaurants))
+#         return all_favourite_places
+#
+#     return []

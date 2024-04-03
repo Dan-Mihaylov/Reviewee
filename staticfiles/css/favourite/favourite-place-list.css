@@ -1,0 +1,38 @@
+@import 'staticfiles/css/colors.css';
+
+.favourite-content-strip {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+    color: var(--color-background-lightest-dark);
+    background-color: var(--color-lightest);
+}
+
+
+
+.favourite-content-wrap {
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    max-width: 1200px;
+    width: 100%;
+    padding: 10px;
+    margin: 20px 0 20px 0;
+}
+
+.favourite-places-header-container {
+    margin: 10px 0 40px 0;
+}
+
+.favourite-places-header-container h1 {
+    font-size: 1.5rem;
+}
+
+.favourite-places-container {
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+}

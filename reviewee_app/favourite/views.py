@@ -1,8 +1,11 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect
 from django.shortcuts import get_object_or_404
 from django.contrib.auth import get_user_model
+from django.views import generic as views
 
 from reviewee_app.place.models import Restaurant, Hotel
+from .helpers import get_users_favourite_places
 from .models import FavouriteHotel, FavouriteRestaurant
 
 
@@ -36,6 +39,19 @@ def favourite_functionality(request, place_slug: str, user_pk: int):
             FavouriteRestaurant.objects.create(user=user, restaurant=place)
 
     refer_to = request.META.get('HTTP_REFERER') + f'#{place_slug}'
-    print('Done favourites')
+    # Avoid problem with ?page= 'number that doesn't exist'
+    redirect_to_list = refer_to.split('?page')
+    redirect_to_url = redirect_to_list[0]
 
-    return redirect(refer_to)
+    return redirect(redirect_to_url)
+
+
+# Model-Action-View
+class FavouritePlacesListView(LoginRequiredMixin, views.ListView):
+
+    template_name = 'favourite/favourite-places-list.html'
+    paginate_by = 2
+
+    def get_queryset(self):
+        favourite_places = get_users_favourite_places(self.request.user)
+        return favourite_places

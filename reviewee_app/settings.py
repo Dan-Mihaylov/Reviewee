@@ -33,7 +33,7 @@ INSTALLED_APPS = [
     'reviewee_app.booking',
     'reviewee_app.common',
     'reviewee_app.review',
-    'reviewee_app.favourite'
+    'reviewee_app.favourite',
 ]
 
 MIDDLEWARE = [
@@ -131,3 +131,26 @@ CACHES = {
 }
 
 
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'filters': {
+        'require_debug_true': {
+            '()': 'django.utils.log.RequireDebugTrue',
+        }
+    },
+    'handlers': {
+        'console': {
+            'level': 'DEBUG',
+            'filters': ['require_debug_true'],
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'loggers': {
+        'django.db.backends': {
+            'level': 'DEBUG',
+            'handlers': ['console'],
+            'propagate': False,
+        },
+    }
+}

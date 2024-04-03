@@ -6,9 +6,9 @@ from django.views import generic as views
 
 from .mixins import OwnerOfPlaceRequiredMixin
 from .models import BasePlaceModel, Restaurant, Hotel
-from .helpers import find_place_object_for_user, find_place_object_by_slug, get_all_photo_reviews, \
-    get_users_favourite_places
+from .helpers import find_place_object_for_user, find_place_object_by_slug, get_all_photo_reviews, get_all_place_reviews
 from ..account.mixins import BusinessOwnerRequiredMixin
+from ..favourite.helpers import get_users_favourite_places
 
 
 # TODO: Convention Model-Action-View
@@ -65,7 +65,7 @@ class PlaceEditView(OwnerOfPlaceRequiredMixin, views.UpdateView):
 
     # TODO: Change the redirect URL to the place, details page.
     def get_success_url(self):
-        return reverse('home')
+        return reverse('place details', kwargs={'slug': self.object.slug})
 
 
 # TODO: Finish Place Details, add extra context, book, add review
@@ -77,8 +77,8 @@ class PlaceDetailsView(views.DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['photo_reviews'] = get_all_photo_reviews(self.object)
-        # TODO: create check if place in favourites functionality to return true or false
+        context['all_reviews'] = get_all_place_reviews(self.object)
+        context['photo_reviews'] = get_all_photo_reviews(context['all_reviews'])
         context['users_favourites'] = get_users_favourite_places(self.request.user)
         return context
 

@@ -7,7 +7,7 @@
 
         <div class="login-content-wrap">
 
-            <form class="login-form" action="{% url 'login' %}?next_page=next_page" method="POST">
+            <form class="login-form" action="{% url 'login' %}?next={{ request.GET.next }}" method="POST">
                 <h2 class="form-header">Login Form</h2>
                 {% csrf_token %}
 
