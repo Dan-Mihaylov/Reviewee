@@ -111,6 +111,27 @@
                 </div>
                 <!-- place details card ends here -->
             </div>
+            <!-- card container edns here -->
+
+            <div class="make-reservation-container">
+                <div class="reservation-options-container">
+                    <p>Reservation options: </p>
+                </div>
+
+                <a href="
+                    {% if object.type == 'Hotel' %}
+                        {% url 'book hotel'  object.slug%}
+                    {% else %}
+                        {% url 'book restaurant' object.slug %}
+                    {% endif %}"
+                   class="btn btn-success reservation-buttons">
+                    Make a reservation
+                </a>
+
+                <a href="{% url 'find booking' %}" class="btn btn-light reservation-buttons">Find your reservation</a>
+
+            </div>
+
         </div>
     </div>
 
@@ -129,13 +150,12 @@
                             <div class="review-photo-card">
 
                                 <img class="review-photo" src="{{ review.review_photo.url }}" alt="Review Photo">
-{#                              TODO: when clicking on the link, take them to the review # #}
 
                                 <div class="review-photo-overlay">
                                     <h2 class="review-overlay-header">{{ review.user.profile.get_name }}</h2>
                                     {% create_stars_for_review review %}
                                     <div class="review-overlay-comment">
-                                        {{ review.comment }}
+                                        {{ review.comment|truncatechars:150 }}
                                     </div>
                                     <a class="btn btn-light" href="#{{ review.pk }}">Read review</a>
                                 </div>

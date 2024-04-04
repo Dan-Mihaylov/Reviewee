@@ -8,12 +8,14 @@
 {% block content %}
     <div class="add-place-content-strip">
 
-        <h1 class="header">Creating a New Place</h1>
+        <h1 class="add-place-header">Creating a New Place</h1>
 
-        <div class="add-place-content-wrap">
+        <div class="add-place-content-wrap no-shadow">
+
             <div class="header-container">
                 <!-- Place select header -->
                 <h2 class="select-place-header">Select the type of business you would like to create.</h2>
+
             </div>
 
             <div class="row">
@@ -32,7 +34,7 @@
                                 <li>Available seats</li>
                             </ul>
                             <div class="create-button-div">
-                                <a href="{% url 'restaurant add' %}" class="create-button btn btn-dark">Create Restaurant</a>
+                                <a href="{% url 'restaurant add' %}" class="create-button btn btn-outline-dark">Create Restaurant</a>
                             </div>                        </div>
                     </div>
                 </div>
@@ -53,7 +55,7 @@
                                 <li>Available rooms</li>
                             </ul>
                             <div class="create-button-div">
-                                <a href="{% url 'hotel add' %}" class="create-button btn btn-dark">Create Hotel</a>
+                                <a href="{% url 'hotel add' %}" class="create-button btn btn-outline-dark">Create Hotel</a>
                             </div>
                         </div>
                     </div>

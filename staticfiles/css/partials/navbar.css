@@ -81,6 +81,12 @@
     max-width: 260px;
 }
 
+.expand-profile-button {
+    color: var(--color-lightest);
+    font-size: 0.9rem;
+    border: none;
+}
+
 .dropdown-menu, .dropdown-item {
     background-color: var(--main-color);
     color: var(--color-light);
@@ -106,6 +112,10 @@
     border: none;
 }
 
+.profile-pic {
+    background-color: var(--color-lightest);
+}
+
 @media screen and (max-width: 600px) {
     .nav-profile-div {
         display: flex;
@@ -114,5 +124,16 @@
         flex-wrap: wrap;
         width: 100%;
     }
+
+    .nav-li a {
+    color: var(--color-lightest);
+    text-decoration: none;
+    font-size: 0.9rem;
+    }
+
+    .profile-info-span {
+        display: none;
+    }
+
 }
 

@@ -13,14 +13,15 @@
 
             <div class="nav-links-div">
                 <ul class="nav-ul">
+                    <li class="nav-li"><a href="{% url 'find booking' %}">BOOKING</a></li>
                     <li class="nav-li"><a href="{% url 'home' %}">HOME</a></li>
                 </ul>
             </div>
 
             <div class="dropdown">
-              <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <button class="btn btn-outline-dark dropdown-toggle expand-profile-button" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   <img class="profile-pic" src="{% static 'images/pngs/user-profile.png' %}" alt="profile picture">
-                  <span>{{ request.user }}</span>
+                  <span>Register</span>
               </button>
               <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                   <h6 class="dropdown-header">Actions</h6>

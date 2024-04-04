@@ -21,6 +21,9 @@
     text-align: center;
 }
 
+.booking-manage-content-wrap p {
+    width: 100%;
+}
 
 .booking-manage-form-container {
     width: 100%;
@@ -35,4 +38,9 @@
     font-size: 0.9rem;
     overflow-y: auto;
     padding: 20px;
+    background-color: var(--secondary-color);
+    color: var(--color-lightest);
+    border-radius: 5px;
+    box-shadow: 1px 3px 18px var(--main-color);
 }
+

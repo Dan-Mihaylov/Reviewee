@@ -68,6 +68,7 @@
 
 .place-details-card-body {
     background-color: whitesmoke;
+    border-radius: 0 0 5px 5px;
 }
 
 
@@ -121,10 +122,28 @@
     margin-top: 20px;
 }
 
+.make-reservation-container {
+    padding: 5px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-evenly;
+    max-width: 680px;
+    width: 100%;
+    text-align: center;
+    line-height: 9px;
+}
+
+.reservation-buttons {
+    box-shadow: 1px 1px 6px var(--main-color);
+    margin: 5px;
+    min-width: 200px;
+}
+
 /* For photo review div */
 
 .reviews-with-photos-header {
-    margin-top: 20px;
+    margin: 20px 0 20px 0;
     font-size: 1.5rem;
 }
 
@@ -137,6 +156,7 @@
     white-space: nowrap;
     justify-content: center;
     border-radius: 10px;
+    margin: 20px 0 40px 0;
 }
 
 .review-photos-wrapper {
@@ -209,6 +229,7 @@
     align-items: center;
     /*background-color: darkslategray;*/
     width: 100%;
+    margin: 40px 0 40px 0;
 }
 
 .review-card-container {
@@ -371,5 +392,10 @@
     .created-at-paragraph-short{
         display: block;
     }
+
+    .reservation-options-container {
+        display: none;
+    }
+
 }
 

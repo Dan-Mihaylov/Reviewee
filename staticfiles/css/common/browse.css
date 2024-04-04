@@ -45,8 +45,8 @@
     border-radius: 10px 0 0 10px;
     flex: 70%;
     height: 100%;
-    font-size: 1.3rem;
-    font-weight: 600;
+    font-size: 1.2rem;
+    font-weight: 400;
 }
 
 
@@ -61,7 +61,7 @@
     background-color: whitesmoke;
     color: var(--color-dark);
     font-size: 1.1rem;
-    font-weight: 600;
+    font-weight: 400;
     flex: 25%;
     height: 100%;
     border-radius: 0;

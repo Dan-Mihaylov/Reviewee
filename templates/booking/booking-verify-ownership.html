@@ -8,24 +8,34 @@
 
 {% block content %}
 
-    <div class="booking-verify-content-strip">
+    <div class="verify-ownership-content-strip">
 
-        <div class="booking-verify-content-wrap">
+        <div class="verify-ownership-content-wrap">
 
-            {{ object }}
+            <div class="verify-ownership-p-container">
+                <p>Please verify ownership of the booking by providing the confirmation code in the form bellow</p>
+            </div>
 
             <div class="verify-form-container">
+
+                <p>Enter verification code: </p>
+
                 <form action="{% url 'verify ownership' object.slug%}" method="POST">
                     {% csrf_token %}
-                    <input type="text" name="code">
-                    <button type="submit">Verify</button>
-
+                    <input type="text" name="code" class="form-control verification-input-field" placeholder="ex. L8agN">
+                    <button class="verify-button" type="submit">Confirm</button>
                 </form>
 
+            </div>
+
+            <div class="verify-ownership-p-container">
+                <p>Changed your mind? Go <a type="button" id="go-back-button" href="{% url 'home' %}">back</a></p>
             </div>
 
         </div>
 
     </div>
+
+    <script src="{% static 'js/button-back.js' %}"></script>
 
 {% endblock %}

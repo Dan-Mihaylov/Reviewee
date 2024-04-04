@@ -87,9 +87,6 @@ class BaseBooking(AuditModelMixin, models.Model):
 
         return super().save(*args, **kwargs)
 
-    def __str__(self):
-        return f'{self.__class__.__name__} - {self.date}'
-
 
 class RestaurantBooking(BaseBooking):
 
@@ -149,6 +146,9 @@ class RestaurantBooking(BaseBooking):
             if self.date == datetime.now().date() and self.booking_time < datetime.now().time():
                 raise ValidationError(BOOKING_TIME_IN_THE_PAST_FOR_TODAY_VALIDATION_ERROR_MESSAGE)
 
+    def __str__(self):
+        return f'Reservation at {self.restaurant.name} for {self.first_name} {self.last_name}'
+
 
 class HotelBooking(BaseBooking):
 
@@ -183,5 +183,6 @@ class HotelBooking(BaseBooking):
         blank=False,
     )
 
-
+    def __str__(self):
+        return f'Reservation at {self.hotel.name} for {self.first_name} {self.last_name}'
 

@@ -123,6 +123,13 @@ LOGOUT_REDIRECT_URL = reverse_lazy('home')
 
 LOGIN_URL = reverse_lazy('login')
 
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp-mail.outlook.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'reviewee.app@outlook.com' # TODO set env variables for pass and username
+EMAIL_HOST_PASSWORD = 'password321'
+
 # Disabling caching for development purposes
 CACHES = {
     'default': {

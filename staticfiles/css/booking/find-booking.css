@@ -26,6 +26,17 @@
     text-align: center;
 }
 
+.find-booking-search-container h2 {
+    font-size: 1.3rem;
+    font-weight: 400;
+}
+
+.find-booking-search-form-container {
+    display: flex;
+    width: 80%;
+    padding: 0 10px 0 10px;
+}
+
 .booking-search-form {
     width: 100%;
 }
@@ -33,7 +44,11 @@
 .booking-information-container {
     margin: 10px 0 10px 0;
     width: 100%;
-    background-color: salmon;
     font-size: 0.9rem;
     overflow-y: auto;
+    background-color: whitesmoke;
+    border-radius: 5px;
+}
+
+.find-booking-table {
 }

@@ -10,8 +10,10 @@
         </div>
 
         <div class="nav-profile-div">
+
             <div class="nav-links-div">
                 <ul class="nav-ul">
+                    <li class="nav-li"><a href="{% url 'find booking' %}">BOOKING</a></li>
                     <li class="nav-li"><a href="{% url 'home' %}">HOME</a></li>
 
                     {% if request.user.profile.is_owner %}
@@ -23,14 +25,14 @@
             <!-- Drop Down Button Starts -->
             <div class="dropdown">
 
-              <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <button class="btn btn-outline-dark dropdown-toggle expand-profile-button" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 
                   {% if request.user.is_authenticated and request.user.profile.profile_picture.url is not None  %}
                     <img class="profile-pic" src="{{ request.user.profile.profile_picture.url }}" alt="photo">
                   {% else %}
                       <img class="profile-pic" src="{% static 'images/pngs/user-profile.png' %}" alt="def photo">
                   {% endif %}
-                  <span>{{ request.user }}</span>
+                  <span class="profile-info-span">{{ request.user.profile.get_name }}</span>
               </button>
 
             <!-- TODO, Maybe add some favourites table -->

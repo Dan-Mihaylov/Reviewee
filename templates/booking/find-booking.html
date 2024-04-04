@@ -14,21 +14,31 @@
 
             <div class="find-booking-search-container">
                 <h2>Find your reservation</h2>
-{#                <p><small class="text-muted">Please fill out all form fields.</small></p>#}
             </div>
 
-            <form class="booking-search-form" action="{% url 'find booking' %}" method="GET">
-                <input class="form-control" type="text" name="search" value="{{ search }}">
-                <select name="filter">
+    <!-- Search form -->
+        <div class="browse-search-form-container">
+            <form class="search-form" action="{% url 'find booking' %}" method="GET" autocomplete="on">
+
+                <input class="form-control search-box" type="text" name="search" value="{{ search }}"
+                       autocomplete="on" placeholder="Email or confirmation code" >
+
+                <select class="form-control filter-options-box" name="filter" >
                     {% if filter %}
-                    <option value="{{ filter }}" selected>{{ filter|capfirst }}</option>
+                        <option value="{{ filter }}" selected>{{ filter|capfirst }}</option>
                     {% endif %}
-                    <option value="active">Active</option>
-                    <option value="inactive">Inactive</option>
-                    <option value="all">All</option>
+                        <option value="active">Active</option>
+                        <option value="inactive">Inactive</option>
+                        <option value="all">All</option>
                 </select>
-                <button><img src="{% static 'images/pngs/search.png' %}" alt="-" width="25px"></button>
+
+                <button class="search-submit-button" type="submit">
+                    <img src="{% static 'images/pngs/search.png' %}" alt="search" width="30px">
+                </button>
+
             </form>
+        </div>
+
 
         {% if not object_list %}
             <p>There are no results, so far.</p>
@@ -36,9 +46,10 @@
 
                 <div class="booking-information-container">
 
-                    <table class="table">
+                    <table class="table find-booking-table">
                         <thead>
                             <tr>
+                              <th scope="col">ID</th>
                               <th scope="col">Email</th>
                               <th scope="col">Place</th>
                               <th scope="col">Date</th>
@@ -49,6 +60,7 @@
                         {% for object in object_list %}
                         <tbody>
                             <tr>
+                              <td>{{ object.pk }}</td>
                               <td>{{ object.email }}</td>
                               <td>
                                   {% if object.hotel.name %}
@@ -64,10 +76,16 @@
                                   {% elif object.canceled %}
                                       Canceled
                                   {% else %}
-                                      Inactive
+                                      Expired
                                   {% endif %}
                               </td>
-                            <td><a href="{% url 'verify ownership' object.slug %}">Manage Booking</a></td>
+                            <td>
+                                {% if object.active %}
+                                    <a href="{% url 'verify ownership' object.slug %}">Manage Booking</a>
+                                {% else %}
+                                    Cannot Manage
+                                {% endif %}
+                            </td>
                             </tr>
 
                         </tbody>

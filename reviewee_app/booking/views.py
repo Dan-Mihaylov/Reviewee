@@ -5,6 +5,7 @@ from django.contrib.auth.mixins import AccessMixin
 from django.core.exceptions import ValidationError
 from django.db.models import Q, F
 from django.forms import modelform_factory
+from django.http import HttpResponseRedirect
 from django.shortcuts import render, HttpResponse, redirect
 from django.urls import reverse
 from django.views import generic as views
@@ -134,12 +135,18 @@ class BookingManageView(BookingOwnerRequiredMixin, views.UpdateView):
         return HotelBooking.objects.all()
 
     def get_form_class(self):
+        if'restaurant' in self.kwargs['slug'].lower():
+            return modelform_factory(RestaurantBooking, exclude=['active', 'restaurant'])
         return modelform_factory(HotelBooking, exclude=['active', 'hotel'])
     
     def form_valid(self, form):
         instance = form.save()
         print(instance.canceled)
-        a = 1
+        if instance.canceled:
+            owned_bookings_list = self.request.session['owned_bookings']
+            owned_bookings_list.remove(instance.slug)
+            self.request.session['owned_bookings'] = owned_bookings_list
+            return HttpResponseRedirect(reverse('home'))
         return super().form_valid(form)
 
     def get_success_url(self):
@@ -155,7 +162,6 @@ class BookingManageView(BookingOwnerRequiredMixin, views.UpdateView):
 
 class BookingFindView(views.ListView):
     template_name = 'booking/find-booking.html'
-    paginate_by = 20
 
     def get_queryset(self):
         return find_all_bookings_from_search_data(self.request.GET.get('search'), self.request.GET.get('filter'))

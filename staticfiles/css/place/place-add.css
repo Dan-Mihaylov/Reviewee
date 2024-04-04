@@ -8,7 +8,7 @@
     align-items: center;
     width: 100%;
     background-color: var(--color-lightest);
-    color: var(--main-color);
+    color: var(--color-background-lightest-dark);
 }
 
 .add-place-content-wrap {
@@ -18,8 +18,12 @@
     padding: 20px;
     margin: 20px 0 20px 0;
     background-color: var(--color-lightest);
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     text-align: justify;
+}
+
+.add-place-header {
+    font-size: 1.5rem;
+    margin-top: 25px;
 }
 
 .header-container {
@@ -31,11 +35,13 @@
     min-height: 50px;
     color: var(--color-lightest);
     border-radius: 5px;
+    padding-top: 10px;
 }
 
 .select-place-header {
     text-align: center;
-    font-size: large;
+    font-size: 1rem;
+    font-weight: 200;
 }
 
 .restaurant-div {
@@ -44,8 +50,16 @@
     border-radius: 5px;
 }
 
+h5 {
+    font-size: 1.2rem;
+}
+
+p, li {
+    font-size: 0.9rem;
+}
+
 .restaurant-div:hover {
-    background-color: var(--secondary-color-hover);
+    background-color: var(--color-background-lightest-dark);
     box-shadow: 0 0 10px var(--main-color);
 }
 
@@ -56,7 +70,7 @@
 }
 
 .hotel-div:hover {
-    background-color: var(--secondary-color-hover);
+    background-color: var(--color-background-lightest-dark);
     box-shadow: 0 0 10px var(--main-color);
 }
 
@@ -70,6 +84,9 @@
     width: 100%;
 }
 
+.create-button {
+    color: var(--color-gray-font-iddle);
+}
 
 
 @media screen and (max-width: 600px) {
