@@ -12,7 +12,7 @@ SECRET_KEY = 'django-insecure-d#2g3w&522-2pozmt8c!uy16p9gb*#w)8k0-c4g%_zeevkz)1*
 
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['192.168.1.64', '127.0.0.1', 'localhost', ]
 
 # Application definition
 
@@ -129,6 +129,9 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'reviewee.app@outlook.com' # TODO set env variables for pass and username
 EMAIL_HOST_PASSWORD = 'password321'
+
+CELERY_BROKER_URL = 'redis://localhost:6379/0'
+CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
 
 # Disabling caching for development purposes
 CACHES = {

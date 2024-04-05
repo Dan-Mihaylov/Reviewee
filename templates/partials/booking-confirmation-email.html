@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Template</title>
+</head>
+<body>
+    <h1>Thank you for booking through Reviewee</h1>
+
+    <p>
+        Dear {{ instance.first_name }} {{ instance.last_name }},
+        <br>
+        this is to confirm your reservation at the
+        {% if restaurant %}
+            {{ instance.restaurant.name }} Restaurant.
+            <p>
+                Reservation information:
+                <br>
+                Date: {{ instance.date }}
+                <br>
+                Time: {{ instance.booking_time }}
+                <br>
+                Table for: {{ instance.people }} people.
+            </p>
+        {% else %}
+            {{ instance.hotel.name }} Hotel.
+            <p>
+                Reservation information:
+                <br>
+                Date: {{ instance.date }}
+                <br>
+                Rooms: {{ instance.rooms }}
+                <br>
+                Nights: {{ instance.nights }}
+            </p>
+        {% endif %}
+        your confirmation code is <strong style="font-size: 1.4rem;">{{ instance.confirmation_code }}</strong>.
+    </p>
+
+    <p>
+        If you would like to do some changes to your reservation please go to the Reviewee website.
+        <br>
+        <br>
+{#        http://127.0.0.1:8000{% url 'find booking' %}#}
+    </p>
+
+    <p>
+        For any more information, please visit our website.
+    </p>
+
+    <p>
+        Sincere,
+        <br>
+        Reviewee team.
+    </p>
+
+
+</body>
+</html>

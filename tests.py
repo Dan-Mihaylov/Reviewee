@@ -3,7 +3,6 @@ import random
 
 import django
 
-
 # Set up Django
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "reviewee_app.settings")
 django.setup()
@@ -43,4 +42,5 @@ from reviewee_app.booking.helpers import generate_random_confirmation_code
 # for place in favourite_places:
 #     print(place.created_at)
 
-print(generate_random_password(6))
+
+

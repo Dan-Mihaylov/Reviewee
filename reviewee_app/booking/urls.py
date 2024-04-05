@@ -8,6 +8,5 @@ urlpatterns = [
     path('find/', views.BookingFindView.as_view(), name='find booking'),
     path('verify-ownership/<slug:slug>/', views.BookingVeryfiOwnershipView.as_view(), name='verify ownership'),
     path('manage/<slug>', views.BookingManageView.as_view(), name='manage booking'),
-    path('', views.booking_all,)
-
+    path('place-bookings/', views.BookingPlaceBookingsListView.as_view(), name='place bookings'),
 ]

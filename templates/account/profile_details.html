@@ -118,7 +118,26 @@
     <div class="users-places-content-strip">
 
         <div class="users-places-details-content-wrap" id="owner-places">
+
+            <!-- Search form for places bookings -->
+            <div class="verify-form-container">
+
+                <p>Select Place: </p>
+
+                <form action="{% url 'place bookings' %}" method="GET">
+                    <select name="place_slug" class="form-control place-choices">
+                        {% for place in all_places %}
+                            <option value="{{ place.slug }}">{{ place.name }}</option>
+                        {% endfor %}
+
+                    </select>
+                    <button class="verify-button" style="width: 40%" type="submit">Bookings</button>
+                </form>
+
+            </div>
+
             <h2 class="owner-places-header">Places owned by {% if object.pk == request.user.pk %}me{% else %}{{ object.profile.get_name }}{% endif %}</h2>
+
             {% browse_place_cards all_places request users_favourites %}
 
 

@@ -1,91 +1,17 @@
-from datetime import timedelta
-from itertools import chain
-
 from django.contrib.auth.mixins import AccessMixin
-from django.core.exceptions import ValidationError
-from django.db.models import Q, F
+
+from django.db.models import QuerySet
 from django.forms import modelform_factory
 from django.http import HttpResponseRedirect
-from django.shortcuts import render, HttpResponse, redirect
+from django.shortcuts import HttpResponse, redirect
 from django.urls import reverse
 from django.views import generic as views
-from django.utils import timezone
 
+
+from .helpers import find_all_bookings_for_place, find_all_bookings_from_search_data
 from .models import RestaurantBooking, HotelBooking
 from ..place.helpers import find_place_object_by_slug
 from ..place.models import Restaurant, Hotel
-from django.db.models import Case, When, Value
-
-
-def update_active_bookings(bookings):
-
-    """
-    Checks whether the booking date is in the past or the booking is cancelled and if it is, updates the active to False
-    :param bookings: QuerySet
-    :return: None
-    """
-
-    bookings.update(
-        active=Case(
-            When(Q(date__lt=timezone.localdate()) | Q(canceled=True), then=Value(False)),
-            default=Value(True)
-        )
-    )
-
-    return
-
-
-def order_bookings(bookings, order_by):
-
-    """
-    Created the functions to optimize the ordering process.
-    :param bookings: list
-    :param order_by: str
-    :return: list
-    """
-
-    def order_by_created_at_desc():
-        return list(sorted(bookings, reverse=True, key=lambda x: x.date))
-
-    def order_by_created_asc():
-        return list(sorted(bookings, key=lambda x: x.date))
-
-    options = {
-        '-date': order_by_created_at_desc,
-        'date': order_by_created_asc,
-    }
-
-    if order_by in options:
-        return options[order_by]()
-
-    return bookings
-
-
-def find_all_bookings_from_search_data(search: str, option: str, order_by='-date'):
-
-    if search is None:
-        return []
-
-    options = {
-        'active': Q(active=True),
-        'inactive': Q(active=False),
-    }
-
-    if option in options:
-        query = (Q(email__iexact=search) | Q(confirmation_code__exact=search)) & options[option]
-    else:
-        query = Q(email__iexact=search) | Q(confirmation_code__exact=search)
-
-    restaurant_bookings = RestaurantBooking.objects.filter(query)
-    hotel_bookings = HotelBooking.objects.filter(query)
-
-    for bookings in (restaurant_bookings, hotel_bookings):
-        update_active_bookings(bookings)
-
-    all_bookings = list(chain(restaurant_bookings, hotel_bookings))
-    all_bookings = order_bookings(all_bookings, order_by)
-
-    return all_bookings
 
 
 class BookingOwnerRequiredMixin(AccessMixin):
@@ -100,6 +26,31 @@ class BookingOwnerRequiredMixin(AccessMixin):
             return super().dispatch(request, *args, **kwargs)
 
         return self.handle_no_permission()
+
+
+# TODO: PlaceOwnerRequiredMixin
+class BookingPlaceBookingsListView(views.ListView):
+    template_name = 'booking/booking-place-bookings-list.html'
+    paginate_by = 1
+
+    def get_queryset(self):
+
+        try:
+
+            place = find_place_object_by_slug(self.request.GET.get('place_slug', ''))
+            return find_all_bookings_for_place(
+                place,
+                filter_by=self.request.GET.get('filter_by', 'active'),
+                order_by=self.request.GET.get('order_by', ''),
+            )
+
+        except Exception:
+            return QuerySet
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(object_list=None, **kwargs)
+        context['is_restaurant'] = 'restaurant' in self.request.GET.get('place_slug', '')
+        return context
 
 
 class BookingVeryfiOwnershipView(views.DetailView):

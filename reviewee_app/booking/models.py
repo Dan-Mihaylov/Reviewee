@@ -7,7 +7,7 @@ from django.contrib.auth import get_user_model
 from django.utils import timezone
 from django.utils.text import slugify
 
-from reviewee_app.booking.helpers import generate_random_confirmation_code
+from reviewee_app.booking.model_helpers import generate_random_confirmation_code
 from reviewee_app.common.models import AuditModelMixin
 from reviewee_app.common.validators import only_letters_and_spaces_values_validator
 from reviewee_app.place.models import Restaurant, Hotel

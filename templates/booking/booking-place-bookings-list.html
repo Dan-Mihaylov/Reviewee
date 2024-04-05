@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    Place Bookings
+{% endblock %}
+
+
+
+{% block content %}
+
+    <div class="find-booking-content-strip">
+
+        <div class="find-booking-content-wrap">
+
+            <!-- Search form for places bookings -->
+            <div class="verify-form-container">
+
+                <p>Select Place: </p>
+
+                <form action="{% url 'place bookings' %}" method="GET">
+                    <select name="place_slug" class="form-control place-choices">
+                        {% for place in all_places %}
+                            <option value="{{ place.slug }}">{{ place.name }}</option>
+                        {% endfor %}
+
+                    </select>
+                    <button class="verify-button" style="width: 40%" type="submit">Bookings</button>
+                </form>
+
+            </div>
+
+        {% if not object_list %}
+            <p>There are no results, so far.</p>
+        {% else %}
+
+                <div class="booking-information-container">
+
+                    <table class="table find-booking-table">
+                        <thead>
+                            <tr>
+                              <th scope="col">ID</th>
+                              <th scope="col">Name</th>
+                              <th scope="col">Surname</th>
+                              <th scope="col">Email</th>
+                              <th scope="col">Date</th>
+                              {% if is_restaurant %}
+                                  <th scope="col">Time</th>
+                                  <th scope="col">People</th>
+                              {% else %}
+                                  <th scope="col">Rooms</th>
+                                  <th scope="col">Nights</th>
+                              {% endif %}
+                              <th scope="col">Status</th>
+                            </tr>
+                        </thead>
+                        {% for object in object_list %}
+                        <tbody>
+                            <tr>
+
+                              <td>{{ object.pk }}</td>
+                              <td>{{ object.first_name }}</td>
+                              <td>{{ object.last_name }}</td>
+                              <td>{{ object.email }}</td>
+                              <td>{{ object.date }}</td>
+                              {% if is_restaurant %}
+                                <td>{{ object.booking_time|time:'H:i' }}</td>
+                                <td>{{ object.people }}</td>
+                              {% else %}
+                                <td>{{ object.rooms }}</td>
+                                <td>{{ object.nights }}</td>
+                              {% endif %}
+
+                              <td>
+                                  {% if object.active %}
+                                      Active
+                                  {% elif object.is_canceled %}
+                                      Canceled
+                                  {% else %}
+                                      Inactive
+                                  {% endif %}
+                              </td>
+
+                            </tr>
+
+                        </tbody>
+                        {% endfor %}
+                    </table>
+
+
+
+                </div>
+        {% endif %}
+
+        </div>
+
+    </div>
+
+
+
+{% endblock %}
