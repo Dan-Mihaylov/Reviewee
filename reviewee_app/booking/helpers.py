@@ -1,7 +1,7 @@
 import random
 from itertools import chain
 
-from django.db.models import Case, When, Value, Q, F
+from django.db.models import Case, When, Value, Q, F, QuerySet
 
 from django.utils import timezone
 
@@ -14,10 +14,10 @@ def find_all_bookings_for_place(place: Hotel or Restaurant, filter_by='active', 
     filter_options = {
         'active': Q(active=True),
         'inactive': Q(active=False),
-        'is_canceled': Q(is_canceled=True),
+        'canceled': Q(canceled=True),
     }
 
-    filter_query = filter_options[filter_by]
+    filter_query = filter_options[filter_by] if filter_by in filter_options else None
 
     order_by_options = {
         '-date',
@@ -28,11 +28,11 @@ def find_all_bookings_for_place(place: Hotel or Restaurant, filter_by='active', 
 
     bookings = None
 
-    if filter_by in filter_options and order_by in order_by_options:
+    if filter_query and order_by in order_by_options:
         bookings = place.bookings.filter(filter_query).order_by(order_by)
 
-    elif filter_by in filter_options and order_by not in order_by_options:
-        bookings = place.bookings.all().filter(filter_query).order_by('-date')
+    elif filter_query and order_by not in order_by_options:
+        bookings = place.bookings.filter(filter_query).order_by('-date')
 
     else:
         bookings = place.bookings.all().order_by('-date')

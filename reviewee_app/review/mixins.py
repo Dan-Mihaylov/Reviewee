@@ -6,11 +6,12 @@ from reviewee_app.review.models import RestaurantReview, HotelReview
 
 
 class ReviewAttachPlaceMixin:
+
     """
     <slug:place_slug> must be passed as a **kwarg through the URL
     Finds the place and attaches it to the context
     """
-
+    kwargs = None # Here
     place = None
     available_place_review_types = {
         'Restaurant': RestaurantReview,
@@ -32,6 +33,10 @@ class ReviewAttachPlaceMixin:
 
 
 class ReviewOwnerRequiredMixin(AccessMixin, ReviewAttachPlaceMixin):
+
+    request = None
+    pk_url_kwarg = None
+
     def check_if_user_is_review_owner(self):
         if self.request.user.is_authenticated:
             self.place = self.get_place()

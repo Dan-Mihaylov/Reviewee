@@ -119,13 +119,14 @@
 
         <div class="users-places-details-content-wrap" id="owner-places">
 
+            {% if request.user.is_authenticated and request.user.pk == object.pk %}
             <!-- Search form for places bookings -->
-            <div class="verify-form-container">
+            <div class="verify-form-container marging-top-40">
 
                 <p>Select Place: </p>
 
                 <form action="{% url 'place bookings' %}" method="GET">
-                    <select name="place_slug" class="form-control place-choices">
+                    <select name="slug" class="form-control place-choices">
                         {% for place in all_places %}
                             <option value="{{ place.slug }}">{{ place.name }}</option>
                         {% endfor %}
@@ -135,6 +136,7 @@
                 </form>
 
             </div>
+            {% endif %}
 
             <h2 class="owner-places-header">Places owned by {% if object.pk == request.user.pk %}me{% else %}{{ object.profile.get_name }}{% endif %}</h2>
 

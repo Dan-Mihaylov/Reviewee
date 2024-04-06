@@ -11,86 +11,119 @@
 
     <div class="find-booking-content-strip">
 
-        <div class="find-booking-content-wrap">
+        <div class="find-booking-content-wrap direction-row align-centered">
 
-            <!-- Search form for places bookings -->
-            <div class="verify-form-container">
+            <!-- filter form for places bookings -->
+            <div class="verify-form-container margin-bottom-20">
 
-                <p>Select Place: </p>
+                <p>{{ place.name }} {{ place.type }} </p>
 
-                <form action="{% url 'place bookings' %}" method="GET">
-                    <select name="place_slug" class="form-control place-choices">
-                        {% for place in all_places %}
-                            <option value="{{ place.slug }}">{{ place.name }}</option>
-                        {% endfor %}
+                <form class="filter-bookings-form" action="{% url 'place bookings' %}" method="GET">
+                    <input type="text" name="slug" hidden="hidden" value="{{ place.slug }}">
+                    <select name="filter_by" class="form-control filter-choices">
+                            <option {% if filter_by == 'active' %} selected {% endif %} value="active">Active Bookings</option>
+                            <option {% if filter_by == 'inactive' %} selected {% endif %} value="inactive">Inactive Bookings</option>
+                            <option {% if filter_by == 'canceled' %} selected {% endif %} value="canceled">Canceled Bookings</option>
 
                     </select>
-                    <button class="verify-button" style="width: 40%" type="submit">Bookings</button>
+
+                    <select name="order_by" class="form-control filter-choices width-45">
+                        <option {% if order_by == 'date' %} selected {% endif %} value="-date">Booking Date First</option>
+                        <option {% if order_by == '-date' %} selected {% endif %} value="date">Booking Date Last</option>
+                        <option {% if order_by == 'created_at' %} selected {% endif %} value="-created_at">Created At First</option>
+                        <option {% if order_by == '-created_at' %} selected {% endif %} value="created_at">Created At Last</option>
+                    </select>
+
+                    <button class="verify-button" style="width: 20%" type="submit">Filter</button>
                 </form>
 
             </div>
 
-        {% if not object_list %}
-            <p>There are no results, so far.</p>
-        {% else %}
+            {% if not object_list %}
+                <p>There are no results, so far.</p>
+            {% else %}
 
-                <div class="booking-information-container">
+                <div class="booking-information-container shadowed">
 
                     <table class="table find-booking-table">
                         <thead>
-                            <tr>
-                              <th scope="col">ID</th>
-                              <th scope="col">Name</th>
-                              <th scope="col">Surname</th>
-                              <th scope="col">Email</th>
-                              <th scope="col">Date</th>
-                              {% if is_restaurant %}
-                                  <th scope="col">Time</th>
-                                  <th scope="col">People</th>
-                              {% else %}
-                                  <th scope="col">Rooms</th>
-                                  <th scope="col">Nights</th>
-                              {% endif %}
-                              <th scope="col">Status</th>
-                            </tr>
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Surname</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">Date</th>
+                            {% if is_restaurant %}
+                                <th scope="col">Time</th>
+                                <th scope="col">People</th>
+                            {% else %}
+                                <th scope="col">Rooms</th>
+                                <th scope="col">Nights</th>
+                            {% endif %}
+                            <th scope="col">Status</th>
+                        </tr>
                         </thead>
-                        {% for object in object_list %}
-                        <tbody>
-                            <tr>
+                        {% for object in object_list %}<tbody>
+                        <tr>
 
-                              <td>{{ object.pk }}</td>
-                              <td>{{ object.first_name }}</td>
-                              <td>{{ object.last_name }}</td>
-                              <td>{{ object.email }}</td>
-                              <td>{{ object.date }}</td>
-                              {% if is_restaurant %}
+                            <td>{{ object.pk }}</td>
+                            <td>{{ object.first_name }}</td>
+                            <td>{{ object.last_name }}</td>
+                            <td>{{ object.email }}</td>
+                            <td>{{ object.date }}</td>
+                            {% if is_restaurant %}
                                 <td>{{ object.booking_time|time:'H:i' }}</td>
                                 <td>{{ object.people }}</td>
-                              {% else %}
+                            {% else %}
                                 <td>{{ object.rooms }}</td>
                                 <td>{{ object.nights }}</td>
-                              {% endif %}
+                            {% endif %}
 
-                              <td>
-                                  {% if object.active %}
-                                      Active
-                                  {% elif object.is_canceled %}
-                                      Canceled
-                                  {% else %}
-                                      Inactive
-                                  {% endif %}
-                              </td>
+                            <td>
+                                {% if object.active %}
+                                    Active
+                                {% elif object.is_canceled %}
+                                    Canceled
+                                {% else %}
+                                    Inactive
+                                {% endif %}
+                            </td>
 
-                            </tr>
+                        </tr>
 
                         </tbody>
                         {% endfor %}
                     </table>
 
-
-
                 </div>
-        {% endif %}
+            {% endif %}
+                <!-- Paginator for bookings -->
+                {% if is_paginated %}
+                    <div class="paginator-container">
+                    <ul class="pagination">
+                        {% if page_obj.has_previous %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page=1{{ get_parameters }}">&laquo;</a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ page_obj.previous_page_number }}{{ get_parameters }}">{{ page_obj.previous_page_number }}</a>
+                            </li>
+                        {% endif %}
+                        <li class="page-item active">
+                            <a class="page-link" href="?page={{ page_obj.number }}{{ get_parameters }}">{{ page_obj.number }}</a>
+                        </li>
+                        {% if page_obj.has_next %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ page_obj.next_page_number }}{{ get_parameters }}">{{ page_obj.next_page_number }}</a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}{{ get_parameters }}">&raquo;</a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                    </div>
+                {% endif %}
+
 
         </div>
 

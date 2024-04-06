@@ -14,7 +14,7 @@ class Review(AuditModelMixin, models.Model):
         abstract = True
         ordering = ['-edited_at']
 
-    MAX_LENGTH_CONTENT = 500
+    MAX_LENGTH_CONTENT = 2000
 
     user = models.ForeignKey(
         UserModel,

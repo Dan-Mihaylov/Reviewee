@@ -1,4 +1,3 @@
-from django.db.models import QuerySet
 from django.forms import modelform_factory
 from django.shortcuts import redirect
 from django.urls import reverse
@@ -9,7 +8,6 @@ from reviewee_app.review.mixins import ReviewAttachPlaceMixin, ReviewOwnerRequir
 from reviewee_app.review.models import HotelReview, RestaurantReview
 
 
-# TODO: Got the slug from the place, so we can attach the review to the place object.
 # Convention Model-Action-View
 # Review/write/place_slug
 
@@ -23,6 +21,11 @@ class ReviewWriteView(OwnerOfPlaceCannotCommentMixin, ReviewAttachPlaceMixin, vi
         return modelform_factory(model_class, fields='__all__')
 
     def form_valid(self, form):
+
+        previous_review = self.available_place_review_types[self.place.type()].objects.filter(user=self.request.user)
+        if previous_review.exists():
+            previous_review.delete()
+
         instance = form.save(commit=False)
         # mega abstraction
         setattr(instance, self.place.type().lower(), self.place)
@@ -102,6 +105,3 @@ class ReviewLike(views.View):
         review = self.find_review_by_type(self.kwargs['review_type'], self.kwargs['review_pk'])
         self.like_functionality(review, self.request.user)
         return redirect(self.request.META['HTTP_REFERER'] + f'#{review.pk}')
-
-
-    # TODO: If the user is in the review likes, remove the instance else add the instance

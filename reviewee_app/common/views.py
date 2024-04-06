@@ -69,7 +69,7 @@ class BrowsePageView(views.ListView):
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(object_list=None, **kwargs)
         context['place'] = self.request.GET.get('place', 0)
-        context = self.auto_fill_search_form_in_context(context)
+        self.auto_fill_search_form_in_context(context)
         context['get_parameters'] = self.paginator_href_builder(context)
         context['users_favourites'] = get_users_favourite_places(self.request.user)
         return context

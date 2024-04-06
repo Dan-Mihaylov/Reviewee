@@ -47,7 +47,6 @@ class HotelAddView(BusinessOwnerRequiredMixin, views.CreateView):
         return reverse('home')
 
 
-# TODO: make sure you can't change the owner of the place - Done
 class PlaceEditView(OwnerOfPlaceRequiredMixin, views.UpdateView):
     template_name = 'place/place-edit.html'
 
@@ -63,7 +62,6 @@ class PlaceEditView(OwnerOfPlaceRequiredMixin, views.UpdateView):
     def get_form_class(self):
         return modelform_factory(type(self.object), fields='__all__')
 
-    # TODO: Change the redirect URL to the place, details page.
     def get_success_url(self):
         return reverse('place details', kwargs={'slug': self.object.slug})
 

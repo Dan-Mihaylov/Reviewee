@@ -5,17 +5,22 @@ from reviewee_app.place.helpers import find_place_object_by_slug
 
 class OwnerOfPlaceRequiredMixin(BusinessOwnerRequiredMixin):
 
-    @staticmethod
-    def check_place_belongs_to_user(request, **kwargs):
+    def check_place_belongs_to_user(self, request, **kwargs):
         try:
             # getting errors from anonymous users for attribute
-            restaurants_queryset = request.user.restaurants.filter(slug=kwargs['slug'])
-            hotels_queryset = request.user.hotels.filter(slug=kwargs['slug'])
+            slug = self.find_place_slug(request, **kwargs)
+            restaurants_queryset = request.user.restaurants.filter(slug=slug)
+            hotels_queryset = request.user.hotels.filter(slug=slug)
 
             return restaurants_queryset.exists() or hotels_queryset.exists()
 
-        except AttributeError:
+        except AttributeError or KeyError:
             return False
+
+    @staticmethod
+    def find_place_slug(request, **kwargs):
+        slug = kwargs['slug'] if 'slug' in kwargs else request.GET.get('slug', '')
+        return slug
 
     def dispatch(self, request, *args, **kwargs):
 

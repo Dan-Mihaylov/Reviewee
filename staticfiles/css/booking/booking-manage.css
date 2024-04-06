@@ -25,6 +25,11 @@
     width: 100%;
 }
 
+.booking-manage-content-wrap h2 {
+    font-size: 1.3rem;
+    font-weight: 400;
+}
+
 .booking-manage-form-container {
     width: 100%;
     text-align: left;

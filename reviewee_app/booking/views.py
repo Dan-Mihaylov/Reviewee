@@ -1,140 +1,17 @@
-from django.contrib.auth.mixins import AccessMixin
-
 from django.db.models import QuerySet
 from django.forms import modelform_factory
 from django.http import HttpResponseRedirect
-from django.shortcuts import HttpResponse, redirect
+from django.shortcuts import redirect
 from django.urls import reverse
 from django.views import generic as views
 
 
-from .helpers import find_all_bookings_for_place, find_all_bookings_from_search_data
-from .models import RestaurantBooking, HotelBooking
-from ..place.helpers import find_place_object_by_slug
-from ..place.models import Restaurant, Hotel
-
-
-class BookingOwnerRequiredMixin(AccessMixin):
-
-    @staticmethod
-    def booking_ownership_verified(request, **kwargs):
-        return kwargs['slug'] in request.session['owned_bookings']
-
-    def dispatch(self, request, *args, **kwargs):
-
-        if self.booking_ownership_verified(request, **kwargs):
-            return super().dispatch(request, *args, **kwargs)
-
-        return self.handle_no_permission()
-
-
-# TODO: PlaceOwnerRequiredMixin
-class BookingPlaceBookingsListView(views.ListView):
-    template_name = 'booking/booking-place-bookings-list.html'
-    paginate_by = 1
-
-    def get_queryset(self):
-
-        try:
-
-            place = find_place_object_by_slug(self.request.GET.get('place_slug', ''))
-            return find_all_bookings_for_place(
-                place,
-                filter_by=self.request.GET.get('filter_by', 'active'),
-                order_by=self.request.GET.get('order_by', ''),
-            )
-
-        except Exception:
-            return QuerySet
-
-    def get_context_data(self, *, object_list=None, **kwargs):
-        context = super().get_context_data(object_list=None, **kwargs)
-        context['is_restaurant'] = 'restaurant' in self.request.GET.get('place_slug', '')
-        return context
-
-
-class BookingVeryfiOwnershipView(views.DetailView):
-    template_name = 'booking/booking-verify-ownership.html'
-    slug_url_kwarg = 'slug'
-
-    def get_queryset(self):
-        if 'restaurant' in self.kwargs['slug'].lower():
-            return RestaurantBooking.objects.all()
-        return HotelBooking.objects.all()
-    
-    def post(self, request, **kwargs):
-        users_input = self.request.POST.get('code', '')
-        self.object = self.get_object()
-        a = 1
-        if users_input == self.object.confirmation_code:
-            session_data = request.session.get('owned_bookings', [])
-            session_data.append(self.object.slug) if self.object.slug not in session_data else session_data
-            request.session['owned_bookings'] = session_data
-            return redirect('manage booking', **self.kwargs)
-
-        return self.get(request, **kwargs)
-
-
-class BookingManageView(BookingOwnerRequiredMixin, views.UpdateView):
-
-    template_name = 'booking/booking-manage.html'
-    slug_url_kwarg = 'slug'
-
-    def get_queryset(self):
-        if 'restaurant' in self.kwargs['slug'].lower():
-            return RestaurantBooking.objects.all()
-        return HotelBooking.objects.all()
-
-    def get_form_class(self):
-        if'restaurant' in self.kwargs['slug'].lower():
-            return modelform_factory(RestaurantBooking, exclude=['active', 'restaurant'])
-        return modelform_factory(HotelBooking, exclude=['active', 'hotel'])
-    
-    def form_valid(self, form):
-        instance = form.save()
-        print(instance.canceled)
-        if instance.canceled:
-            owned_bookings_list = self.request.session['owned_bookings']
-            owned_bookings_list.remove(instance.slug)
-            self.request.session['owned_bookings'] = owned_bookings_list
-            return HttpResponseRedirect(reverse('home'))
-        return super().form_valid(form)
-
-    def get_success_url(self):
-        return reverse('manage booking', kwargs={'slug': self.object.slug})
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        if hasattr(self.object, 'hotel'):
-            context['night_range'] = range(HotelBooking.MIN_NIGHTS_PER_BOOKING, HotelBooking.MAX_NIGHTS_PER_BOOKING + 1)
-            context['rooms_range'] = range(HotelBooking.MIN_ROOMS_PER_BOOKING, HotelBooking.MAX_ROOMS_PER_BOOKING + 1)
-        return context
-
-
-class BookingFindView(views.ListView):
-    template_name = 'booking/find-booking.html'
-
-    def get_queryset(self):
-        return find_all_bookings_from_search_data(self.request.GET.get('search'), self.request.GET.get('filter'))
-
-    def get_context_data(self, *, object_list=None, **kwargs):
-        context = super().get_context_data(object_list=None, **kwargs)
-        context['search'] = self.request.GET.get('search', '')
-        context['filter'] = self.request.GET.get('filter', '')
-        return context
-
-
-class BookingConfirmationDataInSessionMixin:
-
-    @staticmethod
-    def attach_booking_info_to_session(request, booking):
-        if hasattr(booking, 'restaurant'):
-            request.session['place_name'] = booking.restaurant.name
-        else:
-            request.session['place_name'] = booking.hotel.name
-        request.session['date'] = str(booking.date)
-        request.session['confirmation_code'] = booking.confirmation_code
-        request.session['email'] = booking.email
+from reviewee_app.booking.helpers import find_all_bookings_for_place, find_all_bookings_from_search_data
+from reviewee_app.booking.mixins import BookingOwnerRequiredMixin, BookingConfirmationDataInSessionMixin
+from reviewee_app.booking.models import RestaurantBooking, HotelBooking
+from reviewee_app.place.helpers import find_place_object_by_slug
+from reviewee_app.place.mixins import OwnerOfPlaceRequiredMixin
+from reviewee_app.place.models import Restaurant, Hotel
 
 
 class BookingBookRestaurantView(BookingConfirmationDataInSessionMixin ,views.CreateView):
@@ -222,24 +99,131 @@ class BookingSuccessfulView(views.TemplateView):
         context['email'] = self.request.session['email']
         context['date'] = self.request.session['date']
         context['confirmation_code'] = self.request.session['confirmation_code']
-        # context['place_name'] = self.request.session.pop('place_name')
-        # context['email'] = self.request.session.pop('email')
-        # context['date'] = self.request.session.pop('date')
-        # context['confirmation_code'] = self.request.session.pop('confirmation_code')
         return context
 
 
-def book_place(request, slug):  # place slug
-    return HttpResponse('Book Place Page')
+class BookingFindView(views.ListView):
+    template_name = 'booking/find-booking.html'
+
+    def get_queryset(self):
+        return find_all_bookings_from_search_data(self.request.GET.get('search'), self.request.GET.get('filter'))
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(object_list=None, **kwargs)
+        context['search'] = self.request.GET.get('search', '')
+        context['filter'] = self.request.GET.get('filter', '')
+        return context
 
 
-def booking_all(request):
-    return HttpResponse('All My Bookings Page')
+class BookingManageView(BookingOwnerRequiredMixin, views.UpdateView):
+    template_name = 'booking/booking-manage.html'
+    slug_url_kwarg = 'slug'
+
+    def get_queryset(self):
+        if 'restaurant' in self.kwargs['slug'].lower():
+            return RestaurantBooking.objects.all()
+        return HotelBooking.objects.all()
+
+    def get_form_class(self):
+        if 'restaurant' in self.kwargs['slug'].lower():
+            return modelform_factory(RestaurantBooking, exclude=['active', 'restaurant'])
+        return modelform_factory(HotelBooking, exclude=['active', 'hotel'])
+
+    def form_valid(self, form):
+        instance = form.save()
+        print(instance.canceled)
+        if instance.canceled:
+            owned_bookings_list = self.request.session['owned_bookings']
+            owned_bookings_list.remove(instance.slug)
+            self.request.session['owned_bookings'] = owned_bookings_list
+            return HttpResponseRedirect(reverse('home'))
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse('manage booking', kwargs={'slug': self.object.slug})
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if hasattr(self.object, 'hotel'):
+            context['night_range'] = range(HotelBooking.MIN_NIGHTS_PER_BOOKING, HotelBooking.MAX_NIGHTS_PER_BOOKING + 1)
+            context['rooms_range'] = range(HotelBooking.MIN_ROOMS_PER_BOOKING, HotelBooking.MAX_ROOMS_PER_BOOKING + 1)
+        return context
 
 
-def booking_details(request, pk):
-    return HttpResponse('Booking Details Page')
+class BookingVeryfiOwnershipView(views.DetailView):
+    template_name = 'booking/booking-verify-ownership.html'
+    slug_url_kwarg = 'slug'
+
+    def get_queryset(self):
+        if 'restaurant' in self.kwargs['slug'].lower():
+            return RestaurantBooking.objects.all()
+        return HotelBooking.objects.all()
+
+    def get(self, request, **kwargs):
+        session_data = request.session.get('owned_bookings', [])
+        self.object = self.get_object()
+
+        if self.object.slug in session_data:
+            return redirect('manage booking', **kwargs)
+
+        return super().get(request, **kwargs)
+    
+    def post(self, request, **kwargs):
+        users_input = self.request.POST.get('code', '')
+        self.object = self.get_object()
+
+        if users_input == self.object.confirmation_code:
+            session_data = request.session.get('owned_bookings', [])
+            session_data.append(self.object.slug) if self.object.slug not in session_data else session_data
+            request.session['owned_bookings'] = session_data
+            return redirect('manage booking', **self.kwargs)
+
+        return self.get(request, **kwargs)
 
 
-def booking_cancel(request, pk):
-    return HttpResponse('Booking Cancel Page')
+class BookingPlaceBookingsListView(OwnerOfPlaceRequiredMixin, views.ListView):
+    template_name = 'booking/booking-place-bookings-list.html'
+    paginate_by = 1
+    place = None
+
+    def get_queryset(self):
+
+        try:
+
+            self.place = find_place_object_by_slug(self.request.GET.get('slug', ''))
+            return find_all_bookings_for_place(
+                self.place,
+                filter_by=self.request.GET.get('filter_by', 'active'),
+                order_by=self.request.GET.get('order_by', ''),
+            )
+
+        except Exception:
+            return QuerySet
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(object_list=None, **kwargs)
+        context['place'] = self.place
+        context['is_restaurant'] = 'restaurant' in self.request.GET.get('slug', '')
+        self.auto_fill_search_form_in_context(context)
+        context['get_parameters'] = self.paginator_href_builder(context)
+        return context
+
+    def auto_fill_search_form_in_context(self, context):
+        context['slug'] = self.request.GET.get('slug', '')
+        context['order_by'] = self.request.GET.get('order_by', '')
+        context['filter_by'] = self.request.GET.get('filter_by', '')
+        return context
+
+    @staticmethod
+    def paginator_href_builder(context):
+        get_parameters = f"&slug={context['slug']}"
+
+        if context['order_by'] != '':
+            get_parameters += f"&search={context['order_by']}"
+
+        if context['filter_by'] != '':
+            get_parameters += f"&order={context['filter_by']}"
+
+        return get_parameters
+
+
