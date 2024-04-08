@@ -99,7 +99,6 @@ class BasePlaceModel(AuditModelMixin, models.Model):
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
         
-        # TODO maybe it will be saving, restaurants and hotels with same slug, if id == same and name == same???
         if not self.slug:
             self.slug = slugify(f'{self.name}-{self.pk}-{self.__class__.__name__}')
         

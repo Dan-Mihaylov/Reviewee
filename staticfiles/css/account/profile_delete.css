@@ -10,7 +10,6 @@
     display: flex;
     justify-content: center;
     align-items: flex-start;
-    background-color: var(--main-color);
     /*background-color: var(--color-lightest);*/
     width: 100%;
     max-width: 1200px;
@@ -29,15 +28,20 @@
     width: 80%;
     height: 300px;
     background-color: var(--error-message-color);
+    text-align: center;
+}
+
+.profile-delete-form p {
+    margin-top: 10px;
 }
 
 #delete-button01 {
-    margin: 0 10px 0 10px;
+    margin: 5px;
     border: none;
 }
 
 .cancel-button {
-    margin: 0 10px 0 10px;
+    margin: 5px;
     background-color: var(--button-green);
     border: none;
 }
@@ -50,6 +54,22 @@
 .cancel-button:focus {
     background-color: darkolivegreen;
     box-shadow: none;
+}
+
+@media screen and (max-width: 600px) {
+    .profile-delete-form h2 {
+        font-size: 1.3rem;
+    }
+    .profile-delete-form p {
+        margin: 20px 0 20px 0;
+        font-size: 1rem;
+    }
+    #delete-button01 {
+        width: 100%;
+    }
+    .cancel-button {
+        width: 100%;
+    }
 }
 
 

@@ -54,7 +54,6 @@
                 <div class="member-since-and-favourites-container">
                     <p class="card-text member-since"><small class="text-muted">Member since: {{ place.created_at|date:'M d, Y' }}</small></p>
 
-                    <!-- TODO: add to favourites -->
                     <!-- if place is not in_favourites-->
 
                     {% if not place|in_users_favourites:users_favourites %}

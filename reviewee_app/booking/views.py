@@ -1,9 +1,11 @@
+from django.core.exceptions import MultipleObjectsReturned, ObjectDoesNotExist
 from django.db.models import QuerySet
 from django.forms import modelform_factory
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect
 from django.urls import reverse
 from django.views import generic as views
+from django.http import Http404
 
 
 from reviewee_app.booking.helpers import find_all_bookings_for_place, find_all_bookings_from_search_data
@@ -49,12 +51,16 @@ class BookingBookRestaurantView(BookingConfirmationDataInSessionMixin ,views.Cre
 
     def get_restaurant(self):
         if not self.restaurant:
-            self.restaurant = Restaurant.objects.get(slug=self.kwargs['place_slug'])
-            # TODO: if not restaurant found by the slug, raise 404
-        return self.restaurant
+            try:
+                self.restaurant = Restaurant.objects.get(slug=self.kwargs['place_slug'])
+                return self.restaurant
+            except ObjectDoesNotExist:
+                raise Http404('Resource Not Found')
+            except MultipleObjectsReturned:
+                raise Http404('Multiple Objects Returned')
 
 
-class BookingBookHotel(BookingConfirmationDataInSessionMixin, views.CreateView):
+class BookingBookHotelView(BookingConfirmationDataInSessionMixin, views.CreateView):
     template_name = 'booking/book-hotel.html'
     hotel = None
 
@@ -85,9 +91,13 @@ class BookingBookHotel(BookingConfirmationDataInSessionMixin, views.CreateView):
 
     def get_hotel(self):
         if not self.hotel:
-            self.hotel = Hotel.objects.get(slug=self.kwargs['place_slug'])
-            # TODO: if not hotel found by the slug, raise 404
-        return self.hotel
+            try:
+                self.hotel = Hotel.objects.get(slug=self.kwargs['place_slug'])
+                return self.hotel
+            except ObjectDoesNotExist:
+                raise Http404('Resource Does Not Exist')
+            except MultipleObjectsReturned:
+                raise Http404('Multiple Objects Returned')
 
 
 class BookingSuccessfulView(views.TemplateView):
@@ -120,23 +130,29 @@ class BookingManageView(BookingOwnerRequiredMixin, views.UpdateView):
     slug_url_kwarg = 'slug'
 
     def get_queryset(self):
+
         if 'restaurant' in self.kwargs['slug'].lower():
             return RestaurantBooking.objects.all()
+
         return HotelBooking.objects.all()
 
     def get_form_class(self):
+
         if 'restaurant' in self.kwargs['slug'].lower():
             return modelform_factory(RestaurantBooking, exclude=['active', 'restaurant'])
+
         return modelform_factory(HotelBooking, exclude=['active', 'hotel'])
 
     def form_valid(self, form):
         instance = form.save()
         print(instance.canceled)
+
         if instance.canceled:
             owned_bookings_list = self.request.session['owned_bookings']
             owned_bookings_list.remove(instance.slug)
             self.request.session['owned_bookings'] = owned_bookings_list
             return HttpResponseRedirect(reverse('home'))
+
         return super().form_valid(form)
 
     def get_success_url(self):
@@ -144,9 +160,12 @@ class BookingManageView(BookingOwnerRequiredMixin, views.UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context['place'] = self.object.hotel if hasattr(self.object, 'hotel') else self.object.restaurant
+
         if hasattr(self.object, 'hotel'):
             context['night_range'] = range(HotelBooking.MIN_NIGHTS_PER_BOOKING, HotelBooking.MAX_NIGHTS_PER_BOOKING + 1)
             context['rooms_range'] = range(HotelBooking.MIN_ROOMS_PER_BOOKING, HotelBooking.MAX_ROOMS_PER_BOOKING + 1)
+
         return context
 
 
@@ -183,13 +202,11 @@ class BookingVeryfiOwnershipView(views.DetailView):
 
 class BookingPlaceBookingsListView(OwnerOfPlaceRequiredMixin, views.ListView):
     template_name = 'booking/booking-place-bookings-list.html'
-    paginate_by = 1
+    paginate_by = 10
     place = None
 
     def get_queryset(self):
-
         try:
-
             self.place = find_place_object_by_slug(self.request.GET.get('slug', ''))
             return find_all_bookings_for_place(
                 self.place,

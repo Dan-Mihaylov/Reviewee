@@ -1,4 +1,6 @@
 from django.contrib.auth.mixins import AccessMixin
+from django.shortcuts import redirect
+
 from reviewee_app.account.mixins import BusinessOwnerRequiredMixin
 from reviewee_app.place.helpers import find_place_object_by_slug
 

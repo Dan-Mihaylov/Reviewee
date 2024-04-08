@@ -5,13 +5,11 @@
     Place Delete
 {% endblock %}
 
-<!-- TODO: Fix HTML and CSS Please -->
 {% block content %}
 
     <div class="delete-profile-content-strip">
 
         <div class="delete-profile-content-wrap">
-{#            TODO: Finish the profile delete html and all functionality #}
 
             <form action="{% url 'place delete' object.slug %}" method="POST" class="profile-delete-form">
                 {% csrf_token %}

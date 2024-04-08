@@ -1,4 +1,5 @@
 @import 'base.css';
+@import '404.css';
 @import 'review/review-edit.css';
 @import 'common/common.css';
 @import 'common/browse.css';

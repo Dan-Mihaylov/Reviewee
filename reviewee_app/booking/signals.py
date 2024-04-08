@@ -5,6 +5,7 @@ from django.template.loader import render_to_string
 
 from .tasks import send_async_booking_mail_confirmation
 from .models import HotelBooking, RestaurantBooking
+from .. import settings
 
 
 @receiver(post_save)
@@ -37,13 +38,13 @@ def send_mail_on_booking_creation(sender, instance, created, **kwargs):
             }
         )
 
-        from_email = 'reviewee.app@outlook.com'
+        # from_email = ''
         recipient_list = [instance.email,]
 
         send_async_booking_mail_confirmation.delay(
             subject=subject,
             message=message,
-            from_email=from_email,
+            from_email=settings.DEFAULT_FROM_EMAIL,
             recipient_list=recipient_list,
             fail_silently=False,
             html_message=html_message,

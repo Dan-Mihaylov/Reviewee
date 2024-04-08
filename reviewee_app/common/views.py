@@ -1,20 +1,11 @@
 from django.db.models import QuerySet
-from django.shortcuts import render, HttpResponse, redirect
 from django.views import generic as views
 
 from reviewee_app.favourite.helpers import get_users_favourite_places
 from reviewee_app.place.helpers import get_all_places, get_place_by_type, filter_places
 from reviewee_app.place.models import Restaurant, Hotel
 
-"""
-    Home page will display the 6 last added items, then you have the choice to browse restaurants
-    or to browse hotels. This can go into another index or something else page, where we can get 
-    the QuerySet and perform filtering and pagination on it. I can't do it on the home page, because
-    when I fetch all the places, I return them as list.
-"""
 
-
-# TODO: Convention Model-Action-View
 class HomePageView(views.ListView):
 
     MAX_PLACES_DISPLAYED = 6
@@ -39,7 +30,6 @@ class HomePageView(views.ListView):
 
 class BrowsePageView(views.ListView):
     template_name = 'common/browse.html'
-    allow_empty = True     # raises 404 if False
     paginate_by = 4
 
     available_place_types = {

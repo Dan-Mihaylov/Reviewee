@@ -56,6 +56,9 @@
 
                 <div class="card-body">
                     <p class="card-text">User since: {{ object.date_joined|date:"M/d/Y" }}</p>
+                    {% if request.user.is_authenticated and request.user.pk == object.pk %}
+                        <p class="card-text"><a href="{% url 'password change' %}">Change Password</a></p>
+                    {% endif %}
                 </div>
             </div>
         <!-- Profile card ends -->

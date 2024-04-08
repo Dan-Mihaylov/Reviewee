@@ -45,7 +45,6 @@
     align-items: center;
     width: 100%;
     color: var(--color-dark);
-/*    TODO: When under 600 take off padding*/
 }
 
 .place-details-card {
@@ -287,9 +286,6 @@
     padding-right: 10px;
     border-radius: 0 10px 0 0;
 }
-
-
-/* TODO: finished here */
 
 .review-card-body-container {
     padding: 10px;

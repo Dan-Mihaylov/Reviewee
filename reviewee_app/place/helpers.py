@@ -1,7 +1,8 @@
-from django.db.models import QuerySet, Avg, Value, FloatField, Q, Prefetch
+from django.db.models import QuerySet, Avg, Value, FloatField, Q
 from django.db.models.functions import Coalesce
 
 from django.contrib.auth import get_user_model
+from django.http import Http404
 
 from .models import Restaurant, Hotel, BasePlaceModel
 from itertools import chain
@@ -15,6 +16,8 @@ def find_place_object_for_user(user, slug) -> Restaurant or Hotel:
         return user.restaurants.get(slug=slug)
     else:
         return user.hotels.get(slug=slug)
+
+    raise Http404('Could not find place')
 
 
 def find_place_object_by_slug(slug) -> Restaurant or Hotel:
@@ -42,6 +45,8 @@ def find_place_object_by_slug(slug) -> Restaurant or Hotel:
             )
             .get(slug=slug))
 
+    raise Http404('Could not find place')
+
 
 def get_all_photo_reviews(reviews) -> list:
     return [review for review in reviews if review.review_photo]
@@ -64,7 +69,7 @@ def order_place(queryset: QuerySet, order_by: str) -> QuerySet:
     return queryset
 
 
-# TODO: lvl of abstraction, get place by type...
+# abstraction, get place by type...
 def get_place_by_type(type_: BasePlaceModel, order_by='latest', count='__all__') -> QuerySet:
     """
     :param type_: Type of Place, Restaurant, Hotel
@@ -93,7 +98,7 @@ def get_place_by_type(type_: BasePlaceModel, order_by='latest', count='__all__')
     try:
         return queryset[:count]
 
-    except:  # TODO: Make it more specific
+    except Exception:  # TODO: Make it more specific
         return queryset
 
 
@@ -122,17 +127,3 @@ def get_users_places(pk: int) -> list:
         return list(chain(restaurants, hotels))
     except:
         return []
-
-# TODO: Check whether a place is in users favourite places.
-
-#
-# def get_users_favourite_places(user: UserModel) -> list:
-#
-#     if user.is_authenticated:
-#         favourite_hotels = [favourite.hotel for favourite in user.favouritehotel_set.all()]
-#         favourite_restaurants = [favourite.restaurant for favourite in user.favouriterestaurant_set.all()]
-#
-#         all_favourite_places = list(chain(favourite_hotels, favourite_restaurants))
-#         return all_favourite_places
-#
-#     return []

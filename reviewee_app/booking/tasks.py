@@ -11,8 +11,8 @@ def send_async_booking_mail_confirmation(
         message: Any,
         from_email: Any,
         recipient_list: Any,
-        fail_silently: bool = False
-        ,auth_user: Any = None,
+        fail_silently: bool = False,
+        auth_user: Any = None,
         auth_password: Any = None,
         connection: Any = None,
         html_message: Any = None) -> int:

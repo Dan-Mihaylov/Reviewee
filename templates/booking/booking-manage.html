@@ -21,7 +21,8 @@
                     {{ object.restaurant.name }} Restaurant
                 {% endif %}
             </h2>
-            <p><small>Click <a href="#">here</a> for place details and reviews</small></p>
+
+            <p><small>Click <a href="{% url 'place details' place.slug %}">here</a> for place details and reviews</small></p>
 
             <div class="booking-manage-form-container">
 

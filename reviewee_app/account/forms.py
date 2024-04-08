@@ -1,8 +1,8 @@
-from django.contrib.auth.forms import UserCreationForm, UserChangeForm, AuthenticationForm
+from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.contrib.auth import get_user_model
 
 from django import forms
-from .models import CustomUser, CustomUserProfile, CustomUserBusinessProfile
+from .models import CustomUserProfile, CustomUserBusinessProfile
 
 UserModel = get_user_model()
 
@@ -27,7 +27,7 @@ class CustomUserCreationForm(UserCreationForm):
 
         custom_user_profile = CustomUserProfile(
             user=user,
-            owner = is_owner
+            owner=is_owner
         )
 
         if commit:

@@ -99,8 +99,7 @@
 
                     <div class="button-div">
                         <button type="submit" class="btn btn-dark">Save Changes</button>
-                        <!-- TODO when cancel go back to wherever you came from, META/HTTPS/REFERER -->
-                        <a href="{% url 'home' %}" id="btn-cancel" class="btn btn-danger">Cancel</a>
+                        <a href="{% url 'profile details' object.pk %}" id="btn-cancel" class="btn btn-danger">Cancel</a>
                     </div>
 
                     </form>

@@ -56,7 +56,6 @@
     border-radius: 10px 0 0 10px;
 }
 
-/* TODO: Fix media query*/
 .filter-options-box {
     background-color: whitesmoke;
     color: var(--color-dark);

@@ -5,6 +5,7 @@
     align-items: center;
     width: 100%;
     background-color: var(--color-lightest);
+    color: var(--color-background-lightest-dark);
 }
 
 .profile-details-content-wrap {
@@ -21,8 +22,8 @@
 .business-card {
     border: none;
     border-radius: 5px;
-    background-color: var(--color-light);
-    color: var(--main-color);
+    background-color: whitesmoke;
+    /*color: var(--main-color);*/
     margin: 20px;
 }
 
@@ -33,8 +34,8 @@
 .profile-card {
     border: none;
     border-radius: 5px;
-    background-color: var(--color-light);
-    color: var(--main-color);
+    background-color: whitesmoke;
+    /*color: var(--main-color);*/
     margin: 20px;
 }
 
@@ -143,5 +144,11 @@
     }
     .place-choices:focus {
         border-radius: 8px 0 0 8px;
+    }
+    .profile-card {
+        box-shadow: 0 2px 20px var(--color-dark);
+    }
+    .business-card {
+        box-shadow: 0 2px 20px var(--color-dark);
     }
 }

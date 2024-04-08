@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% load static %}
+<link rel="stylesheet" href=".staticfiles/404.css">
+
+{% block title %}
+    Error 404
+{% endblock %}
+
+
+
+{% block content %}
+
+    <div class="content-strip-404">
+
+    <div class="content-wrap-404">
+
+        <h2>Error 404</h2>
+        <p>{{ exception }}</p>
+
+    </div>
+
+    </div>
+
+
+{% endblock %}

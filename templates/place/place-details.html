@@ -233,7 +233,7 @@
                                 <p class="helpful-count-paragraph">
                                     <small class="text-muted">Helpful Count: {{ review.likes.count }}</small>
                                     {% if request.user not in review.likes.all|review_likes_users %}
-                                    <!-- TODO: if voted up, show vote down and vice versa -->
+
                                         <a href="{% if request.user.is_authenticated %}
                                                    {% url 'review like' review.type review.pk request.user.pk %}
                                                  {% else %}

@@ -21,7 +21,6 @@ def create_stars(place):
     }
 
 
-# TODO: do it abstract, don't DRY
 @register.inclusion_tag('partials/create-stars.html')
 def create_stars_for_review(review):
 

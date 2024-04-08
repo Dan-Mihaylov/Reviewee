@@ -11,7 +11,7 @@ from ..account.mixins import BusinessOwnerRequiredMixin
 from ..favourite.helpers import get_users_favourite_places
 
 
-# TODO: Convention Model-Action-View
+# Convention Model-Action-View
 class PlaceAddView(BusinessOwnerRequiredMixin, views.TemplateView):
     template_name = 'place/place-add.html'
 
@@ -20,7 +20,6 @@ class RestaurantAddView(BusinessOwnerRequiredMixin, views.CreateView):
     template_name = 'place/restaurant-add.html'
     form_class = modelform_factory(Restaurant, fields='__all__')
 
-    # TODO: Create a mixin or a function to attach user don't DRY.
     def form_valid(self, form):
         instance = form.save(commit=False)
         instance.owner = self.request.user
@@ -36,7 +35,6 @@ class HotelAddView(BusinessOwnerRequiredMixin, views.CreateView):
     template_name = 'place/hotel-add.html'
     form_class = modelform_factory(Hotel, fields='__all__')
 
-    # TODO: Add the user automatically, remove the field from the form
     def form_valid(self, form):
         instance = form.save(commit=False)
         instance.owner = self.request.user
@@ -66,7 +64,6 @@ class PlaceEditView(OwnerOfPlaceRequiredMixin, views.UpdateView):
         return reverse('place details', kwargs={'slug': self.object.slug})
 
 
-# TODO: Finish Place Details, add extra context, book, add review
 class PlaceDetailsView(views.DetailView):
     template_name = 'place/place-details.html'
 
@@ -89,19 +86,3 @@ class PlaceDeleteView(OwnerOfPlaceRequiredMixin, views.DeleteView):
 
     def get_object(self, queryset=None):
         return find_place_object_for_user(self.request.user, self.kwargs['slug'])
-
-
-def place_bookings(request, slug):
-    return HttpResponse('Place Bookings Page')
-
-
-def place_review_write(request, slug):
-    return HttpResponse('Place Review Write Page')
-
-
-def place_review_edit(request, slug, pk):
-    return HttpResponse('Place Review Edit Page')
-
-
-def place_review_delete(request, slug, pk):
-    return HttpResponse('Place Review Delete Page')

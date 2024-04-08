@@ -3,7 +3,6 @@ from celery import Celery
 
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'reviewee_app.settings')
-# TODO maybe settings in environ not conf correct
 
 app = Celery('reviewee_app')
 

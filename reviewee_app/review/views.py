@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.forms import modelform_factory
 from django.shortcuts import redirect
 from django.urls import reverse
@@ -9,9 +10,8 @@ from reviewee_app.review.models import HotelReview, RestaurantReview
 
 
 # Convention Model-Action-View
-# Review/write/place_slug
 
-class ReviewWriteView(OwnerOfPlaceCannotCommentMixin, ReviewAttachPlaceMixin, views.CreateView):
+class ReviewWriteView(OwnerOfPlaceCannotCommentMixin, ReviewAttachPlaceMixin, LoginRequiredMixin, views.CreateView):
 
     template_name = 'review/review-write.html'
 
@@ -44,7 +44,7 @@ class ReviewWriteView(OwnerOfPlaceCannotCommentMixin, ReviewAttachPlaceMixin, vi
         return reverse('place details', kwargs={'slug': self.place.slug})
 
 
-# TODO: The slug is from the place, the pk is from the review.
+# The slug is from the place, the pk is from the review.
 class ReviewEditView(ReviewOwnerRequiredMixin, views.UpdateView):
 
     template_name = 'review/review-edit.html'
