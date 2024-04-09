@@ -1,12 +1,10 @@
-from django.core.exceptions import ObjectDoesNotExist
 from django.forms import modelform_factory
-from django.shortcuts import render, HttpResponse
 from django.urls import reverse
 from django.views import generic as views
 
-from .mixins import OwnerOfPlaceRequiredMixin
-from .models import BasePlaceModel, Restaurant, Hotel
 from .helpers import find_place_object_for_user, find_place_object_by_slug, get_all_photo_reviews, get_all_place_reviews
+from .mixins import OwnerOfPlaceRequiredMixin
+from .models import Restaurant, Hotel
 from ..account.mixins import BusinessOwnerRequiredMixin
 from ..favourite.helpers import get_users_favourite_places
 

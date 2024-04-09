@@ -16,7 +16,7 @@ class ReviewWriteView(OwnerOfPlaceCannotCommentMixin, ReviewAttachPlaceMixin, Lo
     template_name = 'review/review-write.html'
 
     def get_form_class(self, **kwargs):
-        self.get_place(**kwargs)
+        self.get_place()
         model_class = self.available_place_review_types[self.place.type()]
         return modelform_factory(model_class, fields='__all__')
 

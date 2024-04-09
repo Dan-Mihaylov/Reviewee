@@ -16,7 +16,7 @@ from reviewee_app.place.mixins import OwnerOfPlaceRequiredMixin
 from reviewee_app.place.models import Restaurant, Hotel
 
 
-class BookingBookRestaurantView(BookingConfirmationDataInSessionMixin ,views.CreateView):
+class BookingBookRestaurantView(BookingConfirmationDataInSessionMixin, views.CreateView):
 
     template_name = 'booking/book-restaurant.html'
     restaurant = None

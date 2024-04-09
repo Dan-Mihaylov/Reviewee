@@ -1,5 +1,6 @@
 from django.db.models import QuerySet
 from django.views import generic as views
+from django.shortcuts import Http404
 
 from reviewee_app.favourite.helpers import get_users_favourite_places
 from reviewee_app.place.helpers import get_all_places, get_place_by_type, filter_places
@@ -53,8 +54,8 @@ class BrowsePageView(views.ListView):
             else:
                 return filter_places(queryset, self.request.GET.get('search', ''))
 
-        except KeyError:
-            return QuerySet
+        except Exception:
+            raise Http404('No such place type')
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(object_list=None, **kwargs)

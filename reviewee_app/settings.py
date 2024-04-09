@@ -10,15 +10,11 @@ from django.urls import reverse_lazy
 BASE_DIR = Path(__file__).resolve().parent.parent
 load_dotenv()
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
-
-SECRET_KEY = 'django-insecure-d#2g3w&522-2pozmt8c!uy16p9gb*#w)8k0-c4g%_zeevkz)1*'
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
 
 DEBUG = True
 ALLOWED_HOSTS = ['192.168.1.64', '127.0.0.1', 'localhost', ]
-
-# Application definition
+CSRF_TRUSTED_ORIGINS = [f'https://{host}' for host in ALLOWED_HOSTS]
 
 INSTALLED_APPS = [
     # Build in apps
@@ -70,22 +66,20 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'reviewee_app.wsgi.application'
 
-
-# Database
-# https://docs.djangoproject.com/en/5.0/ref/settings/#databases
-
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.getenv('DB_NAME'),
+        'USER': os.getenv('DB_USER'),
+        'PASSWORD': os.getenv('DB_PASSWORD'),
+        'HOST': '127.0.0.1',
+        'PORT': '1234',
+    },
 }
 
 CELERY_BROKER_URL = 'redis://localhost:6379/0'
 CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
 
-# Password validation
-# https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -114,7 +108,6 @@ STATIC_URL = 'static/'
 
 STATICFILES_DIRS = [BASE_DIR / 'staticfiles']
 
-# For development only
 MEDIA_ROOT = BASE_DIR / 'mediafiles'
 
 MEDIA_URL = 'media/'

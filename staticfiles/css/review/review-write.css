@@ -67,9 +67,9 @@
 }
 
 .user-profile-photo-thumbnail {
-    width: 50px;
+    width: 40px;
     border-radius: 50%;
-    margin: 3px
+    margin: 5px
 }
 
 .user-profile-name {

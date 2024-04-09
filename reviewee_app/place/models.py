@@ -25,7 +25,7 @@ class BasePlaceModel(AuditModelMixin, models.Model):
     MIN_LENGTH_PLACE_VALIDATION_ERROR_MESSAGE = f'The place name must be at least {MIN_LENGTH_PLACE_NAME} characters long.'
    
     class Meta:
-        abstract=True
+        abstract = True
 
     photo = models.ImageField(
         upload_to='images/place/photos'

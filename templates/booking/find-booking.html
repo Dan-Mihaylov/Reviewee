@@ -24,12 +24,9 @@
                        autocomplete="on" placeholder="Email or confirmation code" >
 
                 <select class="form-control filter-options-box" name="filter" >
-                    {% if filter %}
-                        <option value="{{ filter }}" selected>{{ filter|capfirst }}</option>
-                    {% endif %}
-                        <option value="active">Active</option>
-                        <option value="inactive">Inactive</option>
-                        <option value="all">All</option>
+                        <option {% if filter == 'active' %} selected {% endif %} value="active">Active</option>
+                        <option {% if filter == 'inactive' %} selected {% endif %} value="inactive">Inactive</option>
+                        <option {% if filter == 'all' %} selected {% endif %} value="all">All</option>
                 </select>
 
                 <button class="search-submit-button" type="submit">

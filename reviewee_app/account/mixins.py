@@ -16,5 +16,5 @@ class BusinessOwnerRequiredMixin(AccessMixin):
 
             return super().dispatch(request, *args, **kwargs)
 
-        except:
+        except Exception:
             return self.handle_no_permission()

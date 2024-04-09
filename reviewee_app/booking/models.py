@@ -1,4 +1,4 @@
-from datetime import datetime, timedelta, time
+from datetime import datetime, time
 
 from django.core.exceptions import ValidationError
 from django.core.validators import MinValueValidator, MaxValueValidator
@@ -18,7 +18,7 @@ UserModel = get_user_model()
 class BaseBooking(AuditModelMixin, models.Model):
     MAX_LENGTH_NAMES = 32
     MAX_LENGTH_EMAIL = 120
-    LENGTH_RANDOM_CONFIRMATION_CODE = 5
+    MAX_LENGTH_RANDOM_CONFIRMATION_CODE = 6
 
     class Meta:
         abstract = True
@@ -56,8 +56,8 @@ class BaseBooking(AuditModelMixin, models.Model):
     )
 
     confirmation_code = models.CharField(
-        max_length=LENGTH_RANDOM_CONFIRMATION_CODE,
-        default=generate_random_confirmation_code(LENGTH_RANDOM_CONFIRMATION_CODE),
+        max_length=MAX_LENGTH_RANDOM_CONFIRMATION_CODE,
+        default=generate_random_confirmation_code,
         null=False,
         blank=True,
         editable=False,
@@ -129,22 +129,23 @@ class RestaurantBooking(BaseBooking):
     )
 
     def clean(self):
-        BOOKING_TIME_RESTAURANT_WORKING_HOURS_VALIDATION_ERROR_MESSAGE = (
+
+        booking_time_restaurant_working_hours_validation_error_message = (
             f'Booking time must be between {self.restaurant.opening_time} '
             f'and {self.restaurant.closing_time} for restaurant {self.restaurant.name}'
         )
-        BOOKING_TIME_IN_THE_PAST_FOR_TODAY_VALIDATION_ERROR_MESSAGE = (
+        booking_time_in_the_past_for_today_validation_error_message = (
             f'Booking time must be in the future.'
         )
 
         super().clean()
-        if self.booking_time:
+        if self.booking_time and hasattr(self, 'restaurant'):
 
             if self.booking_time < self.restaurant.opening_time or self.booking_time > self.restaurant.closing_time:
-                raise ValidationError(BOOKING_TIME_RESTAURANT_WORKING_HOURS_VALIDATION_ERROR_MESSAGE)
+                raise ValidationError(booking_time_restaurant_working_hours_validation_error_message)
 
             if self.date == datetime.now().date() and self.booking_time < datetime.now().time():
-                raise ValidationError(BOOKING_TIME_IN_THE_PAST_FOR_TODAY_VALIDATION_ERROR_MESSAGE)
+                raise ValidationError(booking_time_in_the_past_for_today_validation_error_message)
 
     def __str__(self):
         return f'Reservation at {self.restaurant.name} for {self.first_name} {self.last_name}'

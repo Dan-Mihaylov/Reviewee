@@ -9,7 +9,7 @@ from reviewee_app.booking.models import RestaurantBooking, HotelBooking
 from reviewee_app.place.models import Hotel, Restaurant
 
 
-def find_all_bookings_for_place(place: Hotel or Restaurant, filter_by='active', order_by=None):
+def find_all_bookings_for_place(place: Hotel or Restaurant, filter_by='active', order_by=None) -> QuerySet:
 
     filter_options = {
         'active': Q(active=True),
@@ -26,8 +26,6 @@ def find_all_bookings_for_place(place: Hotel or Restaurant, filter_by='active', 
         '-created_at'
     }
 
-    bookings = None
-
     if filter_query and order_by in order_by_options:
         bookings = place.bookings.filter(filter_query).order_by(order_by)
 
@@ -42,7 +40,7 @@ def find_all_bookings_for_place(place: Hotel or Restaurant, filter_by='active', 
     return bookings
 
 
-def update_active_bookings(bookings):
+def update_active_bookings(bookings) -> None:
 
     """
     Checks whether the booking date is in the past or the booking is cancelled and if it is, updates the active to False
@@ -60,7 +58,7 @@ def update_active_bookings(bookings):
     return
 
 
-def order_bookings(bookings, order_by):
+def order_bookings(bookings, order_by) -> list:
 
     """
     Created the functions to optimize the ordering process.
@@ -86,7 +84,7 @@ def order_bookings(bookings, order_by):
     return bookings
 
 
-def find_all_bookings_from_search_data(search: str, option: str, order_by='-date'):
+def find_all_bookings_from_search_data(search: str, option: str, order_by='-date') -> list:
 
     if search is None:
         return []

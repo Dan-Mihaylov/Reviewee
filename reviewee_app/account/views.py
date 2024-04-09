@@ -80,7 +80,7 @@ class EditBusinessProfileView(views.UpdateView):
         except ObjectDoesNotExist:
             return redirect('home')
 
-        except  MultipleObjectsReturned:
+        except MultipleObjectsReturned:
             return redirect('home')
 
     def get_form_class(self):
