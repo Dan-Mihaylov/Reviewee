@@ -9,7 +9,7 @@
 
 {% block content %}
 
-    <div class="profile-details-content-strip">
+    <div class="profile-details-content-strip mg-top">
 
         <div class="profile-details-content-wrap">
 
@@ -103,6 +103,17 @@
                     <li class="list-group-item">
                         <strong>Address:</strong> {{ object.business_profile.address_line }}
                     </li>
+                    <li class="list-group-item">
+                        <strong>Telephone:</strong> {{ object.business_profile.telephone }}
+                    </li>
+                    {% if object.business_profile.website %}
+                        <li class="list-group-item">
+                            <strong>Website:</strong> 
+                            <a href="{{ object.business_profile.website }}">
+                                {{ object.business_profile.website }}
+                            </a>
+                        </li>
+                    {% endif %}    
                     <li class="list-group-item">
                         <strong>POSTCODE:</strong> {{ object.business_profile.postcode }}
                     </li>

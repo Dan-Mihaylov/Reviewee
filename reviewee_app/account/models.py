@@ -1,5 +1,4 @@
-from django.contrib.auth.validators import UnicodeUsernameValidator
-from django.contrib.auth import models as auth_models, get_user_model
+from django.contrib.auth import models as auth_models
 
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
@@ -9,6 +8,7 @@ from django.db import models
 from . import managers, helpers
 from reviewee_app.common.models import AuditModelMixin
 from reviewee_app.common import validators
+from ..common.validators import telephone_number_validator
 
 
 class CustomUser(auth_models.AbstractBaseUser, auth_models.PermissionsMixin):
@@ -138,7 +138,6 @@ class CustomUserProfile(AuditModelMixin, models.Model):
 
         return self.user
 
-
     def __str__(self):
         return f'{self.username}' if self.username else f'{self.user}'
 
@@ -157,13 +156,14 @@ class CustomUserProfile(AuditModelMixin, models.Model):
             return super().save(*args, **kwargs)
 
 
-class CustomUserBusinessProfile(AuditModelMixin ,models.Model):
+class CustomUserBusinessProfile(AuditModelMixin, models.Model):
 
     MAX_LENGTH_BUSINESS_NAME = 120
     MAX_LENGTH_COUNTRY = 50
     MAX_LENGTH_CITY = 50
     MAX_LENGTH_ADDRESS = 120
     MAX_LENGTH_POSTCODE = 10
+    MAX_LENGTH_TELEPHONE_NUMBER = 11
 
     user = models.OneToOneField(
         CustomUser,
@@ -226,6 +226,21 @@ class CustomUserBusinessProfile(AuditModelMixin ,models.Model):
         ],
         null=False,
         blank=False,
+    )
+
+    telephone = models.CharField(
+        max_length=MAX_LENGTH_TELEPHONE_NUMBER,
+        validators=[
+            telephone_number_validator,
+        ],
+        null=False,
+        blank=False,
+    )
+
+    website = models.URLField(
+        max_length=220,
+        null=True,
+        blank=True,
     )
 
     # Only owners can create a business profile

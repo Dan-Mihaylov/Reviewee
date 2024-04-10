@@ -104,6 +104,9 @@ class RestaurantReviewLike(BaseReviewLike):
         blank=True,
     )
 
+    def __str__(self):
+        return f'{self.user} likes {self.restaurant_review}'
+
 
 class HotelReviewLike(BaseReviewLike):
 
@@ -117,3 +120,6 @@ class HotelReviewLike(BaseReviewLike):
         null=False,
         blank=True,
     )
+
+    def __str__(self):
+        return f'{self.user} likes {self.hotel_review}'

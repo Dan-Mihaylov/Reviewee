@@ -120,6 +120,10 @@
     background-color: var(--color-lightest);
 }
 
+.toggle-display-600-on {
+    display: none;
+}
+
 @media screen and (max-width: 600px) {
     .logo {
         width: 35px;
@@ -154,5 +158,23 @@
         display: none;
     }
 
+    .navbar-wrapper {
+        position: fixed;
+        width: 100%;
+        top: 0px;
+        z-index: 99;
+        margin-bottom: 100px;
+    }
+    .mg-top {
+        margin-top: 50px;
+    }
+
+    .toggle-display-600-on {
+        display: block;
+    }
+
+    .toggle-display-600-off {
+        display: none;
+    }
 }
 

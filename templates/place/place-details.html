@@ -10,7 +10,7 @@
 
 {% block content %}
 
-    <div class="place-details-content-strip light-bg">
+    <div class="place-details-content-strip light-bg mg-top">
 
         <div class="place-details-content-wrap light-bg">
 
@@ -170,8 +170,8 @@
     {% endif %}
     <!-- photo review strip finishes here. -->
 
-
-
+    
+    {% if all_reviews %}
     <!-- From here starts section with all reviews -->
     <div class="place-details-content-strip dark-bg">
 
@@ -279,6 +279,6 @@
 
         </div>
     </div>
-
+    {% endif %}
 {% endblock %}
 

@@ -17,7 +17,7 @@
                     <li class="nav-li"><a href="{% url 'home' %}">HOME</a></li>
 
                     {% if request.user.profile.is_owner %}
-                        <li class="nav-li"><a href="{% url 'place add' %}">ADD PLACE</a></li>
+                        <li class="nav-li toggle-display-600-off"><a href="{% url 'place add' %}">ADD PLACE</a></li>
                     {% endif %}
                 </ul>
             </div>
@@ -43,6 +43,7 @@
                   <!--  if an owner then can access my places -->
                   {% if request.user.profile.is_owner %}
                     <a class="dropdown-item" href="{% url 'profile details' request.user.pk %}#owner-places">My places</a>
+                    <a class="dropdown-item toggle-display-600-on" href="{% url 'place add' %}">Add place</a>
                   {% endif %}
                   <!-- JS for this part for the button drop-down -->
                   <button class="dropdown-item dropdown-item-logout">Logout</button>

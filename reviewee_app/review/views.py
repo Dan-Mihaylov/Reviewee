@@ -1,4 +1,5 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db.models import Q
 from django.forms import modelform_factory
 from django.shortcuts import redirect
 from django.urls import reverse
@@ -22,7 +23,16 @@ class ReviewWriteView(OwnerOfPlaceCannotCommentMixin, ReviewAttachPlaceMixin, Lo
 
     def form_valid(self, form):
 
-        previous_review = self.available_place_review_types[self.place.type()].objects.filter(user=self.request.user)
+        filter_query = {
+            'Restaurant': Q(user=self.request.user) & Q(restaurant=self.place),
+            'Hotel': Q(user=self.request.user) & Q(hotel=self.place),
+        }
+
+        previous_review = (
+            self.available_place_review_types[self.place.type()]
+                .objects.filter(filter_query[self.place.type()])
+        )
+
         if previous_review.exists():
             previous_review.delete()
 

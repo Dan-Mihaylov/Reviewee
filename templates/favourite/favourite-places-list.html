@@ -9,7 +9,7 @@
 
 {% block content %}
 
-    <div class="favourite-content-strip">
+    <div class="favourite-content-strip mg-top">
 
         <div class="favourite-content-wrap">
 
@@ -34,14 +34,14 @@
             <span class="step-links">
                 {% if page_obj.has_previous %}
                     <a class="paginator-link" href="?page=1{{ get_parameters }}">
-                        <img class="paginator-image" src="{% static 'images/pngs/first.png' %}" alt="First Page" width="48px">
+                        <img class="paginator-image" src="{% static 'images/pngs/first.png' %}" alt="First Page" width="20px">
                     </a>
                     <a class="paginator-link" href="?page={{ page_obj.previous_page_number }}{{ get_parameters }}">
-                        <img class="paginator-image" src="{% static 'images/pngs/previous.png' %}" alt="Previous Page" width="48px">
+                        <img class="paginator-image" src="{% static 'images/pngs/previous.png' %}" alt="Previous Page" width="25px">
                     </a><!-- If it doesn't have previous, just display the icons, no action -->
                 {% else %}
-                    <img src="{% static 'images/pngs/first.png' %}" alt="First Page" width="48px">
-                    <img src="{% static 'images/pngs/previous.png' %}" alt="Previous Page" width="48px">
+                    <img src="{% static 'images/pngs/first.png' %}" alt="First Page" width="20px">
+                    <img src="{% static 'images/pngs/previous.png' %}" alt="Previous Page" width="25px">
                 {% endif %}
 
                 <span class="current">
@@ -50,14 +50,14 @@
 
                 {% if page_obj.has_next %}
                     <a class="paginator-link" href="?page={{ page_obj.next_page_number }}{{ get_parameters }}">
-                        <img class="paginator-image" src="{% static 'images/pngs/next.png' %}" alt="Next Page" width="48px">
+                        <img class="paginator-image" src="{% static 'images/pngs/next.png' %}" alt="Next Page" width="25px">
                     </a>
                     <a class="paginator-link" href="?page={{ page_obj.paginator.num_pages }}{{ get_parameters }}">
-                        <img class="paginator-image" src="{% static 'images/pngs/last.png' %}" alt="Last Page" width="48px">
+                        <img class="paginator-image" src="{% static 'images/pngs/last.png' %}" alt="Last Page" width="20px">
                     </a><!-- disabled -->
                 {% else %}
-                    <img src="{% static 'images/pngs/next.png' %}" alt="Next Page" width="48px">
-                    <img src="{% static 'images/pngs/last.png' %}" alt="Last Page" width="48px">
+                    <img src="{% static 'images/pngs/next.png' %}" alt="Next Page" width="25px">
+                    <img src="{% static 'images/pngs/last.png' %}" alt="Last Page" width="20px">
                 {% endif %}
             </span>
         </div>

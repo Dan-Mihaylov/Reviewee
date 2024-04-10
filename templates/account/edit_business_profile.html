@@ -8,7 +8,7 @@
 
 {% block content %}
 
-    <div class="edit-business-profile-content-strip">
+    <div class="edit-business-profile-content-strip mg-top">
 
         <div class="edit-business-profile-content-wrap">
 
@@ -74,7 +74,27 @@
                                     <!-- The tag has to close straight after, because it adds blank spaces to the end -->
                         <p>{{ form.errors.address_line }}</p>
                     </div>
+                    
+                    <!-- Telephone Number input -->
+                    <div class="form-floating mb-3">
+                        <label  for="id_{{ form.telephone.name }}">Telephone number:</label>
+                        <input  class="form-control" type="text" name="{{ form.telephone.name }}"
+                                id="id_{{ form.telephone.name }}" placeholder="Telephone Number"
+                                maxlength="120"
+                                value="{% if object.telephone %}{{ object.telephone }} {% endif %}">
+                        <p>{{ form.errors.telephone }}</p>
+                    </div>
 
+                    <!-- Business website input -->
+                    <div class="form-floating mb-3">
+                        <label  for="id_{{ form.website.name }}">Website:</label>
+                        <input  class="form-control" type="url" name="{{ form.website.name }}"
+                                id="id_{{ form.website.name }}" placeholder="https://"
+                                maxlength="120"
+                                value="{% if object.website %}{{ object.website }} {% endif %}">
+                        <p>{{ form.errors.website }}</p>
+                    </div>           
+                    
                     <!-- POSTCODE of business input -->
                     <div class="form-floating mb-3">
                         <label  for="id_{{ form.postcode.name }}">Postcode:</label>

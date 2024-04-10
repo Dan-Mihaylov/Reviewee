@@ -1,4 +1,3 @@
-from django.db.models import QuerySet
 from django.views import generic as views
 from django.shortcuts import Http404
 
@@ -21,7 +20,6 @@ class HomePageView(views.ListView):
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(object_list=None, **kwargs)
         context['users_favourites'] = get_users_favourite_places(self.request.user)
-        a = 1
         return context
 
     @staticmethod
@@ -31,7 +29,7 @@ class HomePageView(views.ListView):
 
 class BrowsePageView(views.ListView):
     template_name = 'common/browse.html'
-    paginate_by = 4
+    paginate_by = 2
 
     available_place_types = {
         'restaurants': Restaurant,

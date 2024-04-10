@@ -302,6 +302,8 @@
     height: 120px;
     object-fit: cover;
     margin-right: 10px;
+    border-radius: 5px;
+    box-shadow: 0 0 2px var(--main-color);
 }
 
 .review-card-body-container p {
