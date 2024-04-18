@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned
 from django.forms import modelform_factory
 from django.shortcuts import redirect
@@ -29,11 +30,11 @@ class LoginView(auth_views.LoginView):
     redirect_authenticated_user = True
 
 
-class LogoutView(auth_views.LogoutView):
+class LogoutView(LoginRequiredMixin, auth_views.LogoutView):
     pass
 
 
-class ProfileDetailsView(views.DetailView):
+class ProfileDetailsView(LoginRequiredMixin, views.DetailView):
     template_name = 'account/profile_details.html'
 
     def get_queryset(self):
@@ -46,7 +47,7 @@ class ProfileDetailsView(views.DetailView):
         return context
 
 
-class EditProfileView(views.UpdateView):
+class EditProfileView(LoginRequiredMixin, views.UpdateView):
 
     template_name = 'account/edit_profile.html'
 
@@ -69,7 +70,7 @@ class EditProfileView(views.UpdateView):
         return reverse('profile details', kwargs={'pk': self.request.user.pk})
 
 
-class EditBusinessProfileView(views.UpdateView):
+class EditBusinessProfileView(LoginRequiredMixin, views.UpdateView):
 
     template_name = 'account/edit_business_profile.html'
 
@@ -90,14 +91,14 @@ class EditBusinessProfileView(views.UpdateView):
         return reverse('profile details', kwargs={'pk': self.object.user.pk})
 
 
-class PasswordChangeView(auth_views.PasswordChangeView):
+class PasswordChangeView(LoginRequiredMixin, auth_views.PasswordChangeView):
     template_name = 'account/password-change.html'
 
     def get_success_url(self):
         return reverse('profile details', kwargs={'pk': self.request.user.pk})
 
 
-class ProfileDeleteView(views.DeleteView):
+class ProfileDeleteView(LoginRequiredMixin, views.DeleteView):
     template_name = 'account/profile_delete.html'
 
     def get_object(self, queryset=None):
