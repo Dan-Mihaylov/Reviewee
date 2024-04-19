@@ -1,3 +1,4 @@
+import cloudinary.uploader
 from django.contrib.auth import models as auth_models
 
 from django.utils import timezone
@@ -9,6 +10,9 @@ from . import managers, helpers
 from reviewee_app.common.models import AuditModelMixin
 from reviewee_app.common import validators
 from ..common.validators import telephone_number_validator
+
+from cloudinary.models import CloudinaryField
+
 
 
 class CustomUser(auth_models.AbstractBaseUser, auth_models.PermissionsMixin):
@@ -106,10 +110,14 @@ class CustomUserProfile(AuditModelMixin, models.Model):
         blank=True,
     )
 
-    profile_picture = models.ImageField(
-        upload_to=helpers.user_profile_photo_upload_path,
-        null=True,
-        blank=True,
+    # profile_picture = models.ImageField(
+    #     upload_to=helpers.user_profile_photo_upload_path,
+    #     null=True,
+    #     blank=True,
+    # )
+
+    profile_picture = CloudinaryField(
+        'image'
     )
 
     gender = models.CharField(
@@ -146,7 +154,10 @@ class CustomUserProfile(AuditModelMixin, models.Model):
         # This is so the owner can be set only once, at creation of the profile
         try:
             # If it is the first time you create the instance it will raise attribute error
+            # TODO: cloudinary delete old photo if not same as new save
             instance = CustomUserProfile.objects.filter(user=self.user).first()
+            if instance.profile_picture and instance.profile_picture != self.profile_picture:
+                cloudinary.uploader.destroy(instance.profile_picture.public_id)
 
             if instance.owner or not instance.owner:
                 self.owner = instance.owner
