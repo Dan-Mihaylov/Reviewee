@@ -24,9 +24,8 @@ def send_mail_on_booking_creation(sender, instance, created, **kwargs):
             f'{instance.restaurant.name if hasattr(instance, "restaurant") else instance.hotel.name}'
             f'{"Restaurant" if hasattr(instance, "restaurant") else "Hotel"}'
             f'your confirmation code is "{instance.confirmation_code}".\n\n'
-            f'For more information about your reservation, or if you would like to do amend or cancel your'
-            f' reservation please visit: '
-            f'http://127.0.0.1:8000/booking/find\n\n'
+            f'For more information about your reservation, or if you would like to amend or cancel your'
+            f' reservation please visit our website.'
             f'Sincere, Reviewee team.'
         )
 

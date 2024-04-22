@@ -14,7 +14,6 @@ from ..common.validators import telephone_number_validator
 from cloudinary.models import CloudinaryField
 
 
-
 class CustomUser(auth_models.AbstractBaseUser, auth_models.PermissionsMixin):
 
     email = models.EmailField(
