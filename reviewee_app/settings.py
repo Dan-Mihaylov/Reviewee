@@ -14,7 +14,7 @@ load_dotenv()
 
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
 
-DEBUG = True
+DEBUG = os.getenv('DEBUG', False)
 ALLOWED_HOSTS = ['192.168.1.74', '127.0.0.1', 'localhost', ]
 CSRF_TRUSTED_ORIGINS = [f'https://{host}' for host in ALLOWED_HOSTS]
 
@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'reviewee_app.common',
     'reviewee_app.review',
     'reviewee_app.favourite',
+    'reviewee_app.notification'
 ]
 
 MIDDLEWARE = [
