@@ -9,6 +9,13 @@ UserModel = get_user_model()
 
 class Notification(AuditModelMixin, models.Model):
     MAX_LENGTH_TEXT_FIELD = 500
+    MAX_LENGTH_TYPE_FIELD = 10
+    NOTIFICATION_TYPE_CHOICES = (
+        ('Account', 'Account'),
+        ('Likes', 'Likes'),
+        ('Bookings', 'Bookings'),
+        ('Reviews', 'Reviews')
+    )
 
     user = models.ForeignKey(
         UserModel,
@@ -28,6 +35,18 @@ class Notification(AuditModelMixin, models.Model):
         default=False,
         null=True,
         blank=True,
+    )
+
+    link = models.URLField(
+        null=True,
+        blank=True,
+    )
+
+    type = models.CharField(
+        max_length=MAX_LENGTH_TYPE_FIELD,
+        choices=NOTIFICATION_TYPE_CHOICES,
+        null=False,
+        blank=False,
     )
 
     def __str__(self):

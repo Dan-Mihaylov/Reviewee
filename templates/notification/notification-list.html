@@ -1,0 +1,189 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    Notifications
+{% endblock %}
+
+
+{% block content %}
+
+    <div class="profile-details-content-strip mg-top more">
+
+        <div class="profile-details-content-wrap">
+
+            <!-- Profile card starts -->
+            <div class="card profile-card no-show-under-600px" style="width: 22rem;">
+                <!-- top blue container -->
+                <div class="top-card-container">
+                    <div class="username-container">
+                        <p class="card-text">{{ object.profile.get_name }}</p>
+                    </div>
+                    {% if request.user.pk == object.pk %}
+                    <div class="profile-options-container">
+                        <a href="{% url 'profile edit' %}"><img class="edit-profile-png" src="{% static 'images/pngs/edit.png' %}" alt="edit"></a>
+                        <a href="{% url 'profile delete' %}"><img class="delete-profile-png" src="{% static 'images/pngs/delete.png' %}" alt="del"></a>
+                    </div>
+                    {% endif %}
+                </div>
+
+                {% if object.profile.profile_picture.url != None %}
+                    <img src="{{ object.profile.profile_picture.url }}" class="card-img-top" alt="photo">
+                {% else %}
+                    <img src="{% static 'images/pngs/default-user.png' %}" class="card-img-top" alt="default user">
+                {% endif %}
+
+                <div class="card-body">
+                    <h5 class="card-title">{{ object.profile.get_name }}</h5>
+                    <p class="card-text">This profile is a {% if object.profile.is_owner %}business owner{% else %}regular user{% endif %}</p>
+                </div>
+
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                        <strong>First Name:</strong> {% if object.profile.first_name %}{{ object.profile.first_name }}{% else %}Annonymous{% endif %}
+                    </li>
+                    <li class="list-group-item">
+                        <strong>Last Name:</strong> {% if object.profile.last_name %}{{ object.profile.last_name }}{% else %}Annonymous{% endif %}
+                    </li>
+                    <li class="list-group-item">
+                        <strong>Date of Birth:</strong> {% if object.profile.date_of_birth %}{{ object.profile.date_of_birth }}{% else %}Annonymous{% endif %}
+                    </li>
+                    <li class="list-group-item">
+                        <strong>Gender:</strong> {% if object.profile.gender %}{{ object.profile.gender }}{% else %}Annonymous{% endif %}
+                    </li>
+                </ul>
+
+                <div class="card-body">
+                    <p class="card-text">User since: {{ object.date_joined|date:"M/d/Y" }}</p>
+                    {% if request.user.is_authenticated and request.user.pk == object.pk %}
+                        <p class="card-text"><a href="{% url 'password change' %}">Change Password</a></p>
+                    {% endif %}
+                </div>
+            </div>
+        <!-- Profile card ends -->
+
+        <!-- Profile Notifications container starts here -->
+            <div class="profile-notifications-container">
+
+                <form class="filter-notifications-form" action="{% url 'notifications' %}">
+
+                    <select id="filter-notifications-options" class="form-control filter-options-box" name="filter" >
+                            <option {% if filter == 'All' %} selected {% endif %} value="All">All Notifications</option>
+                            <option {% if filter == 'Likes' %} selected {% endif %} value="Likes">Likes Notifications</option>
+                            <option {% if filter == 'Bookings' %} selected {% endif %} value="Bookings">Bookings Notifications</option>
+                            <option {% if filter == 'Reviews' %} selected {% endif %} value="Reviews">Reviews Notifications</option>
+                            <option {% if filter == 'Account' %} selected {% endif %} value="Account">Account Notifications</option>
+                    </select>
+                    <button class="btn btn-btn-light filter-notifications-button">Filter</button>
+                </form>
+
+
+                {% for notification in object_list %}
+                    <div class="notification-div">
+                        <div class="notification-checkbox-div">
+                            <img src="
+                            {% if not notification.read %}
+                              {% static 'images/pngs/unchecked-box.png' %}
+                            {% else %}
+                              {% static 'images/pngs/checked-box.png' %}
+                            {% endif %}
+                              " alt="" width="20px">
+                        </div>
+                        <div class="notification-content-div">
+                            <p>
+                            {{ notification.text }}
+                            </p>
+                            <p>
+                                <small class="created-at-style">Created at: {{ notification.created_at }}</small>
+                            </p>
+
+                            <div class="notification-buttons">
+                                <button class="btn btn-light">Mark Read</button>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                {% endfor %}
+
+            </div>
+
+
+        <!-- Profile Notifications container ends here -->
+
+        </div>
+    </div>
+
+
+
+{#    Some magic here    #}
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function() {
+        // Function to fetch notifications
+        function fetchNotifications(filter) {
+            $.ajax({
+                url: "{% url 'api-notifications' %}",
+                type: "GET",
+                data: { filter: filter },
+                success: function(data) {
+                    // Clear existing notifications
+                    $(".profile-notifications-container").empty();
+                    // Iterate through notifications and append them to the container
+                    $.each(data, function(index, notification) {
+                        let notificationDiv = '<div class="notification-div">' +
+                            '<div class="notification-checkbox-div">' +
+                            '<img src="' + (notification.read ? "{% static 'images/pngs/checked-box.png' %}" : "{% static 'images/pngs/unchecked-box.png' %}") + '" alt="" width="20px">' +
+                            '</div>' +
+                            '<div class="notification-content-div">' +
+                            '<p>' + notification.text + '</p>' +
+                            '<p><small class="created-at-style">Created at: ' + notification.created_at + '</small></p>' +
+                            '<div class="notification-buttons">' +
+                            '<button class="btn btn-light mark-read-button" data-notification-id="' + notification.id + '">Mark Read</button>' +
+                            '</div>' +
+                            '</div>' +
+                            '</div>';
+                        $(".profile-notifications-container").append(notificationDiv);
+                    });
+                },
+                error: function(xhr, textStatus, errorThrown) {
+                    console.log("Error fetching notifications:", errorThrown);
+                }
+            });
+        }
+
+        // Initial fetch of notifications on page load
+        fetchNotifications('All');
+
+        // Filter notifications on select change
+        $('#filter-notifications-options').on('change', function() {
+            let selectedFilter = $(this).val();
+            fetchNotifications(selectedFilter);
+        });
+
+        // Mark notification as read on button click
+        $(document).on('click', '.mark-read-button', function() {
+            let notificationId = $(this).data('notification-id');
+            // Make a PUT request to mark the notification as read
+            $.ajax({
+                url: "{% url 'api-mark-read' %}",
+                type: "PUT",
+                data: { id: notificationId },
+                success: function(data) {
+                    // After successfully marking as read, fetch notifications again
+                    fetchNotifications($('#filter-notifications-options').val());
+                },
+                error: function(xhr, textStatus, errorThrown) {
+                    console.log("Error marking notification as read:", errorThrown);
+                }
+            });
+        });
+    });
+</script>
+
+
+
+
+{% endblock %}

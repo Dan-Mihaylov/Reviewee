@@ -5,6 +5,8 @@ from django.shortcuts import redirect
 from django.urls import reverse
 from django.views import generic as views
 
+from reviewee_app.notification.helpers import create_notification_on_review_write, create_notification_on_review_like, \
+    remove_notification_on_review_like
 from reviewee_app.place.mixins import OwnerOfPlaceCannotCommentMixin
 from reviewee_app.review.mixins import ReviewAttachPlaceMixin, ReviewOwnerRequiredMixin
 from reviewee_app.review.models import HotelReview, RestaurantReview
@@ -42,6 +44,8 @@ class ReviewWriteView(OwnerOfPlaceCannotCommentMixin, ReviewAttachPlaceMixin, Lo
 
         instance.user = self.request.user
         instance.save()
+
+        create_notification_on_review_write(instance, self.place)
         return super().form_valid(form)
 
     def get_initial(self):
@@ -87,7 +91,7 @@ class ReviewDeleteView(ReviewOwnerRequiredMixin, views.DeleteView):
         return reverse('place details', kwargs={'slug': self.kwargs['place_slug']})
 
 
-class ReviewLike(views.View):
+class ReviewLike(LoginRequiredMixin, views.View):
 
     available_review_types = {
         'HotelReview': HotelReview,
@@ -104,11 +108,13 @@ class ReviewLike(views.View):
 
         if like_instance.exists():
             like_instance.delete()
+            remove_notification_on_review_like(review, user)
         else:
             if review.type() == 'HotelReview':
                 review.likes.create(hotel_review=review, user=user)
             else:
                 review.likes.create(restaurant_review=review, user=user)
+                create_notification_on_review_like(review, user)
         return
 
     def get(self, *args, **kwargs):

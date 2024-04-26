@@ -5,10 +5,12 @@ from . import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('place/', include('reviewee_app.place.urls')),         # Place and review
-    path('booking/', include('reviewee_app.booking.urls')),     # Booking apps
-    path('review/', include('reviewee_app.review.urls')),       # Review app
-    path('favourite/', include('reviewee_app.favourite.urls')), # Add and remove to/from favourite
-    path('', include('reviewee_app.common.urls')),              # Common for index page
-    path('', include('reviewee_app.account.urls')),             # Accounts
+    path('place/', include('reviewee_app.place.urls')),                 # Place and review
+    path('booking/', include('reviewee_app.booking.urls')),             # Booking apps
+    path('review/', include('reviewee_app.review.urls')),               # Review app
+    path('favourite/', include('reviewee_app.favourite.urls')),         # Add and remove to/from favourite
+    path('notifications/', include('reviewee_app.notification.urls')),  # View users notifications
+    path('api/', include('reviewee_app.notifications_api.urls')),       # API for notifications
+    path('', include('reviewee_app.common.urls')),                      # Common for index page
+    path('', include('reviewee_app.account.urls')),                     # Accounts
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

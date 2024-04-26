@@ -9,6 +9,7 @@ from django.views import generic as views
 
 from reviewee_app.account.forms import CustomUserCreationForm
 from reviewee_app.favourite.helpers import get_users_favourite_places
+from reviewee_app.notification.helpers import create_notification_on_register
 from reviewee_app.place.helpers import get_users_places
 from reviewee_app.account.models import CustomUserProfile, CustomUserBusinessProfile
 
@@ -21,6 +22,7 @@ class RegisterView(views.CreateView):
     form_class = CustomUserCreationForm
 
     def get_success_url(self):
+        create_notification_on_register(self.object)
         auth_login(self.request, self.object)
         return reverse('profile edit')
 

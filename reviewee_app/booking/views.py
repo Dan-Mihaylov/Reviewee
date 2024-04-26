@@ -11,6 +11,7 @@ from django.http import Http404
 from reviewee_app.booking.helpers import find_all_bookings_for_place, find_all_bookings_from_search_data
 from reviewee_app.booking.mixins import BookingOwnerRequiredMixin, BookingConfirmationDataInSessionMixin
 from reviewee_app.booking.models import RestaurantBooking, HotelBooking
+from reviewee_app.notification.helpers import create_notification_for_place_booking
 from reviewee_app.place.helpers import find_place_object_by_slug
 from reviewee_app.place.mixins import OwnerOfPlaceRequiredMixin
 from reviewee_app.place.models import Restaurant, Hotel
@@ -29,6 +30,7 @@ class BookingBookRestaurantView(BookingConfirmationDataInSessionMixin, views.Cre
 
     def form_valid(self, form):
         instance = form.save()
+        create_notification_for_place_booking(self.restaurant, instance)
         self.attach_booking_info_to_session(self.request, instance)
         return super().form_valid(form)
 
@@ -72,6 +74,7 @@ class BookingBookHotelView(BookingConfirmationDataInSessionMixin, views.CreateVi
 
     def form_valid(self, form):
         instance = form.save()
+        create_notification_for_place_booking(self.hotel, instance)
         self.attach_booking_info_to_session(self.request, instance)
         return super().form_valid(form)
 

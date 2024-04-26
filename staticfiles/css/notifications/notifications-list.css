@@ -1,0 +1,62 @@
+@import 'staticfiles/css/colors.css';
+
+.profile-notifications-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    background-color: whitesmoke;
+    color: var(--color-background-lightest-dark);
+    min-width: 600px;
+    max-height: 800px;
+    height: 100%;
+    overflow-y: scroll;
+}
+
+.filter-notifications-form {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    padding: 10px;
+    border-bottom: 1px solid rgba(19, 19, 19, 0.2);
+}
+
+.notification-div {
+    display: flex;
+    width: 100%;
+    margin: 10px 0 0 0;
+    padding: 10px;
+}
+
+.created-at-style {
+    color: var(--color-light);
+}
+
+.notification-checkbox-div {
+    margin-right: 5px;
+}
+
+.notification-content-div {
+    width: 100%;
+}
+
+.notification-buttons {
+    display: flex;
+    justify-content: flex-end;
+}
+
+@media screen and (max-width: 600px) {
+
+    .no-show-under-600px {
+        display: none;
+    }
+
+    .profile-notifications-container {
+        min-width: 100%;
+    }
+
+    .more {
+        margin-top: 60px;
+    }
+}
