@@ -45,6 +45,7 @@ services:
     volumes:
       - ./staticfiles:/home/app/web/staticfiles
       - ./nginx/conf.d:/etc/nginx/conf.d
+      - ./nginx/ssl:/etc/nginx/ssl
       - ./nginx/logs:/var/log/nginx
       - ./certbot/www:/var/www/certbot/:ro
       - ./certbot/conf/:/etc/nginx/ssl/:ro

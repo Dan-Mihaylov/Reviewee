@@ -24,5 +24,11 @@ class Notification(AuditModelMixin, models.Model):
         blank=False,
     )
 
+    read = models.BooleanField(
+        default=False,
+        null=True,
+        blank=True,
+    )
+
     def __str__(self):
         return f'Notification for {self.user}'
