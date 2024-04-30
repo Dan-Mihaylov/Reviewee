@@ -102,8 +102,7 @@ class ReviewLike(LoginRequiredMixin, views.View):
         review = self.available_review_types[review_type].objects.get(pk=review_pk)
         return review
 
-    @staticmethod
-    def like_functionality(review, user):
+    def like_functionality(self, review, user):
         like_instance = review.likes.filter(user=user)
 
         if like_instance.exists():
@@ -114,7 +113,7 @@ class ReviewLike(LoginRequiredMixin, views.View):
                 review.likes.create(hotel_review=review, user=user)
             else:
                 review.likes.create(restaurant_review=review, user=user)
-                create_notification_on_review_like(review, user)
+                create_notification_on_review_like(review, user, self.request.user)
         return
 
     def get(self, *args, **kwargs):

@@ -18,25 +18,45 @@ def create_notification_on_register(user: UserModel) -> None:
     return
 
 
-def create_notification_on_review_write(review: HotelReview or RestaurantReview, place: Restaurant or Hotel):
+def create_notification_on_review_write(
+        review: HotelReview or RestaurantReview,
+        place: Restaurant or Hotel,
+        from_user: UserModel,
+) -> None:
 
     text = f'User {review.user.profile.get_name} has reviewed {place.name} with a rating of {review.rating}/5'
-    link = reverse('place details', kwargs={'slug': place.slug}) + f'#{review.pk}'
+    url_sufix = reverse('place details', kwargs={'slug': place.slug}) + f'#{review.pk}'
 
-    Notification.objects.create(user=place.owner, text=text, link=link, type='Reviews')
+    Notification.objects.create(
+        user=place.owner,
+        text=text,
+        url_sufix=url_sufix,
+        type='Reviews',
+        notification_from_user=from_user
+    )
 
     return
 
 
-def create_notification_on_review_like(review: HotelReview or RestaurantReview, user: UserModel) -> None:
+def create_notification_on_review_like(
+        review: HotelReview or RestaurantReview,
+        user: UserModel,
+        from_user: UserModel
+) -> None:
 
     place = review.hotel if hasattr(review, 'hotel') else review.restaurant
 
     text = f'User {user.profile.get_name} liked your {review.rating}/5 star review for {place.name}.'
     notification_for_user = review.user
-    link = reverse('place details', kwargs={'slug': place.slug}) + f'#{review.pk}'
+    url_sufix = reverse('place details', kwargs={'slug': place.slug}) + f'#{review.pk}'
 
-    Notification.objects.create(text=text, user=notification_for_user, link=link, type='Likes')
+    Notification.objects.create(
+        text=text,
+        user=notification_for_user,
+        url_sufix=url_sufix,
+        type='Likes',
+        notification_from_user=from_user,
+    )
 
     return
 
@@ -47,9 +67,9 @@ def remove_notification_on_review_like(review: HotelReview or RestaurantReview, 
 
     text = f'User {user.profile.get_name} liked your {review.rating}/5 star review for {place.name}.'
     notification_for_user = review.user
-    link = reverse('place details', kwargs={'slug': place.slug}) + f'#{review.pk}'
+    url_sufix = reverse('place details', kwargs={'slug': place.slug}) + f'#{review.pk}'
 
-    notification = Notification.objects.filter(text=text, user=notification_for_user, link=link)
+    notification = Notification.objects.filter(text=text, user=notification_for_user, url_sufix=url_sufix)
     if notification.exists():
         notification.delete()
     return
@@ -58,8 +78,8 @@ def remove_notification_on_review_like(review: HotelReview or RestaurantReview, 
 def create_notification_for_place_booking(place: Restaurant or Hotel, booking: RestaurantBooking or HotelBooking) -> None:
     text = f'{booking.first_name} {booking.last_name} has created a reservation at the {place.name} for the {booking.date}.'
     notification_for_user = place.owner
-    link = reverse('place bookings') + f'?slug={place.slug}'
+    url_sufix = reverse('place bookings') + f'?slug={place.slug}'
 
-    Notification.objects.create(text=text, user=notification_for_user, link=link, type='Bookings')
+    Notification.objects.create(text=text, user=notification_for_user, url_sufix=url_sufix, type='Bookings')
 
     return

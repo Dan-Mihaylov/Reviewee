@@ -9,6 +9,7 @@ UserModel = get_user_model()
 
 class Notification(AuditModelMixin, models.Model):
     MAX_LENGTH_TEXT_FIELD = 500
+    MAX_LENGTH_URL_SUFIX = 100
     MAX_LENGTH_TYPE_FIELD = 10
     NOTIFICATION_TYPE_CHOICES = (
         ('Account', 'Account'),
@@ -37,7 +38,8 @@ class Notification(AuditModelMixin, models.Model):
         blank=True,
     )
 
-    link = models.URLField(
+    url_sufix = models.CharField(
+        max_length=MAX_LENGTH_URL_SUFIX,
         null=True,
         blank=True,
     )
@@ -47,6 +49,13 @@ class Notification(AuditModelMixin, models.Model):
         choices=NOTIFICATION_TYPE_CHOICES,
         null=False,
         blank=False,
+    )
+
+    notification_from_user = models.ForeignKey(
+        UserModel,
+        on_delete=models.DO_NOTHING,
+        null=True,
+        blank=True,
     )
 
     def __str__(self):

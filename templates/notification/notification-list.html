@@ -90,9 +90,18 @@
                               " alt="" width="20px">
                         </div>
                         <div class="notification-content-div">
-                            <p>
-                            {{ notification.text }}
-                            </p>
+                            <div class="notification-image-text-div">
+                                <img class="notification-image" src="{% if notification.notification_from_user.profile.profile_picture.url != None %}
+                                            {{ notification.notification_from_user.profile.profile_picture.url }}
+                                          {% else %}
+                                            {% static 'images/pngs/default-user.png' %}
+                                          {% endif %}"
+                                     alt=""
+                                width="38px">
+                                <p>
+                                {{ notification.text }}
+                                </p>
+                            </div>
                             <p>
                                 <small class="created-at-style">Created at: {{ notification.created_at }}</small>
                             </p>
