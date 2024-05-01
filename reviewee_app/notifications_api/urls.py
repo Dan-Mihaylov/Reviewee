@@ -4,6 +4,6 @@ from . import views
 
 urlpatterns = [
     path('notifications/', views.NotificationApiListView.as_view(), name='api-notifications'),
-    path('mark-read/', views.NotificationMarkRead.as_view(), name='api-mark-read'),
+    path('mark-read/<int:pk>/', views.NotificationToggleRead.as_view(), name='api-toggle-read'),
 ]
 

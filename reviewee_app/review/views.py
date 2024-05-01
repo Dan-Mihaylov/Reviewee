@@ -45,7 +45,7 @@ class ReviewWriteView(OwnerOfPlaceCannotCommentMixin, ReviewAttachPlaceMixin, Lo
         instance.user = self.request.user
         instance.save()
 
-        create_notification_on_review_write(instance, self.place)
+        create_notification_on_review_write(instance, self.place, self.request.user)
         return super().form_valid(form)
 
     def get_initial(self):

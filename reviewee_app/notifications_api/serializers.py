@@ -13,4 +13,5 @@ class NotificationForReadSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Notification
-        fields = ['read']
+        fields = ['pk', 'read']
+
