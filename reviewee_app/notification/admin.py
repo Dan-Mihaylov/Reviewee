@@ -4,4 +4,4 @@ from .models import Notification
 
 @admin.register(Notification)
 class NotificationAdmin(admin.ModelAdmin):
-    pass
+    list_display = ['pk', 'user', 'text', 'created_at']

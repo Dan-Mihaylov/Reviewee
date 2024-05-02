@@ -15,3 +15,10 @@ class NotificationForReadSerializer(serializers.ModelSerializer):
         model = Notification
         fields = ['pk', 'read']
 
+
+class NotificationForDestroySerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Notification
+        fields = '__all__'
+

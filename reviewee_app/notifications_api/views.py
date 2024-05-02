@@ -1,8 +1,9 @@
 from rest_framework.response import Response
-from rest_framework import generics as api_views, status
+from rest_framework import generics as api_views
+from rest_framework.views import APIView
 
 from reviewee_app.notification.models import Notification
-from .serializers import NotificationForListSerializer, NotificationForReadSerializer
+from .serializers import NotificationForListSerializer, NotificationForReadSerializer, NotificationForDestroySerializer
 
 
 class NotificationApiListView(api_views.ListAPIView):
@@ -31,3 +32,23 @@ class NotificationToggleRead(api_views.RetrieveUpdateAPIView):
         serializer = self.get_serializer(instance)
         print('okay')
         return Response(serializer.data)
+
+
+class NotificationDestroyView(api_views.DestroyAPIView):
+
+    serializer_class = NotificationForDestroySerializer
+
+    def get_queryset(self):
+        print('in Delete')
+        return Notification.objects.all()
+
+
+class NotificationUnreadCountView(APIView):
+
+    def get(self, request, *args, **kwargs):
+        user = self.request.user
+
+        unread_count = Notification.objects.filter(user=user, read=False).count()
+        print('in notification count')
+
+        return Response({'unread_count': unread_count})

@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", function() {
-    var logoutButton = document.querySelector(".dropdown-item-logout");
-    var logoutLink = document.querySelector(".dropdown-item-logout-link");
+    let logoutButton = document.querySelector(".dropdown-item-logout");
+    let logoutLink = document.querySelector(".dropdown-item-logout-link");
 
     logoutButton.addEventListener("click", function(event) {
 

@@ -15,11 +15,16 @@
                 <ul class="nav-ul">
                     <li class="nav-li"><a href="{% url 'find booking' %}">BOOKING</a></li>
                     <li class="nav-li"><a href="{% url 'home' %}">HOME</a></li>
-
                     {% if request.user.profile.is_owner %}
                         <li class="nav-li toggle-display-600-off"><a href="{% url 'place add' %}">ADD PLACE</a></li>
                     {% endif %}
                 </ul>
+                <div class="notification-bell-container">
+                    <a class="notifications-link" href="{% url 'notifications' %}">
+                        <img class="notification-bell" src="{% static 'images/pngs/notification-bell.png'%}" alt="">
+                    </a>
+                    <p class="notification-bell-p" id="notification-bell-p"></p>
+                </div>
             </div>
 
             <!-- Drop Down Button Starts -->
@@ -61,3 +66,5 @@
 
 <!-- Confirmation button visibility script -->
 <script src="{% static 'js/logout-dropdown.js' %}"></script>
+<script> let apiURL={% url 'api-count-unread-notifications' %}</script>
+<script src="{% static 'js/unread-notifications-count.js' %}"></script>

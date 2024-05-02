@@ -70,19 +70,23 @@
                     <select id="filter-notifications-options" class="form-control filter-options-box" name="filter" >
                             <option {% if filter == 'All' %} selected {% endif %} value="All">All Notifications</option>
                             <option {% if filter == 'Likes' %} selected {% endif %} value="Likes">Likes Notifications</option>
+                    {% if user.is_authenticated and user.profile.is_owner %}
                             <option {% if filter == 'Bookings' %} selected {% endif %} value="Bookings">Bookings Notifications</option>
                             <option {% if filter == 'Reviews' %} selected {% endif %} value="Reviews">Reviews Notifications</option>
+                    {% endif %}
                             <option {% if filter == 'Account' %} selected {% endif %} value="Account">Account Notifications</option>
                     </select>
                     <button class="btn btn-btn-light filter-notifications-button">Filter</button>
                 </form>
 
 
+
+
                 {% for notification in object_list %}
-                    <div class="notification-div">
+                    <div class="notification-div" id="notificationDiv{{ notification.pk }}">
                         <div class="notification-checkbox-div">
                             <img id="notificationCheckbox{{notification.pk }}" src="
-                            {% if notification.read %}
+                            {% if not notification.read %}
                               {% static 'images/pngs/unchecked-box.png' %}
                             {% else %}
                               {% static 'images/pngs/checked-box.png' %}
@@ -93,6 +97,7 @@
                         <div class="notification-content-div">
 
                             <div class="notification-image-text-div">
+                                {% if notification.notification_from_user %}
                                 <a href="{% url 'profile details' notification.notification_from_user.pk %}">
                                 <img class="notification-image" src="{% if notification.notification_from_user.profile.profile_picture.url != None %}
                                             {{ notification.notification_from_user.profile.profile_picture.url }}
@@ -101,6 +106,7 @@
                                           {% endif %}"
                                      alt="">
                                 </a>
+                                {% endif %}
 
                                 <!-- This will be wrapped in <a> tag so when clicked will go to the comment -->
                                 <a class="notification-link"
@@ -119,9 +125,18 @@
                                     <p>
                                         <small class="created-at-style">Created at: {{ notification.created_at|time:"h:i a" }}, {{ notification.created_at|date:"d-m-Y" }}</small>
                                     </p>
-                                    <p><a href="#" class="mark-read-link" id="mark-read-link{{ notification.pk }}" notification-pk="{{ notification.pk }}">
-                                        <small id="notificationReadUnread{{ notification.pk }}">{% if notification.read %}Mark read{% else %}Mark unread{% endif %}</small>
-                                    </a></p>
+                                    <p>
+                                        <a href="#" class="mark-read-link" id="mark-read-link{{ notification.pk }}">
+                                        <small id="notificationReadUnread{{ notification.pk }}">{% if not notification.read %}Mark read{% else %}Mark unread{% endif %}</small>
+                                        </a>
+
+                                    |
+
+                                        <a href="#" class="mark-read-link" id="delete-notification-link{{ notification.pk }}">
+                                        <small id="notificationDeleteLink{{ notification.pk }}">Delete</small>
+                                        </a>
+
+                                    </p>
 
 
                                 </div>
@@ -147,15 +162,16 @@
     {% for notification in object_list %}
 document.addEventListener('DOMContentLoaded', function() {
   // Get the elements
+  let notificationDiv = document.getElementById('notificationDiv{{ notification.pk }}');
   let markReadLink = document.getElementById('mark-read-link{{ notification.pk }}');
+  let deleteNotificationLink = document.getElementById('delete-notification-link{{ notification.pk }}');
   let notificationCheckbox = document.getElementById('notificationCheckbox{{ notification.pk }}');
   let notificationReadUnread = document.getElementById('notificationReadUnread{{ notification.pk }}');
   let notificationId = {{ notification.pk }};
   let csrfToken = "{{ csrf_token }}";
 
-  markReadLink.addEventListener('click', function(event) {
+  markReadLink.addEventListener('click', function (event) {
     event.preventDefault();
-
     if (notificationCheckbox.getAttribute('src').includes('unchecked')) {
       notificationCheckbox.setAttribute('src', '{% static 'images/pngs/checked-box.png' %}');
     } else {
@@ -179,12 +195,36 @@ document.addEventListener('DOMContentLoaded', function() {
         })
       })
       .then(response => {
-
+        updateNotificationCount();
       })
       .catch(error => {
         console.error('Error toggling read status:', error);
       });
   });
+
+  deleteNotificationLink.addEventListener('click', function (event){
+     event.preventDefault();
+
+     notificationDiv.innerHTML = '';
+
+    fetch('{% url "api-delete-notification" notification.pk %}', {
+        method: 'delete',
+        headers: {
+            'Content-type': 'application/json',
+            'X-CSRFToken': csrfToken,
+        },
+        body: JSON.stringify({
+            notification_id: notificationId
+        })
+        })
+        .then(response => {
+            updateNotificationCount();
+        })
+        .catch(error => {
+            console.error('Error deleting notification:', error);
+        });
+  });
+
 });
     {% endfor %}
 </script>
