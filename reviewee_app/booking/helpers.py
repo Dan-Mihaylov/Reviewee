@@ -40,6 +40,11 @@ def find_all_bookings_for_place(place: Hotel or Restaurant, filter_by='active', 
     return bookings
 
 
+def filter_place_bookings_for_date(bookings: QuerySet, date: str) -> QuerySet:
+    result = bookings.filter(date=date)
+    return result
+
+
 def update_active_bookings(bookings) -> None:
 
     """

@@ -8,7 +8,8 @@ from django.views import generic as views
 from django.http import Http404
 
 
-from reviewee_app.booking.helpers import find_all_bookings_for_place, find_all_bookings_from_search_data
+from reviewee_app.booking.helpers import find_all_bookings_for_place, find_all_bookings_from_search_data, \
+    filter_place_bookings_for_date
 from reviewee_app.booking.mixins import BookingOwnerRequiredMixin, BookingConfirmationDataInSessionMixin
 from reviewee_app.booking.models import RestaurantBooking, HotelBooking
 from reviewee_app.notification.helpers import create_notification_for_place_booking
@@ -211,11 +212,15 @@ class BookingPlaceBookingsListView(OwnerOfPlaceRequiredMixin, views.ListView):
     def get_queryset(self):
         try:
             self.place = find_place_object_by_slug(self.request.GET.get('slug', ''))
-            return find_all_bookings_for_place(
+            bookings = find_all_bookings_for_place(
                 self.place,
                 filter_by=self.request.GET.get('filter_by', 'active'),
                 order_by=self.request.GET.get('order_by', ''),
             )
+            if self.request.GET.get('for_date', '') != '':
+                return filter_place_bookings_for_date(bookings, self.request.GET.get('for_date', ''))
+
+            return bookings
 
         except Exception:
             return QuerySet
@@ -232,6 +237,7 @@ class BookingPlaceBookingsListView(OwnerOfPlaceRequiredMixin, views.ListView):
         context['slug'] = self.request.GET.get('slug', '')
         context['order_by'] = self.request.GET.get('order_by', '')
         context['filter_by'] = self.request.GET.get('filter_by', '')
+        context['for_date'] = self.request.GET.get('for_date', '')
         return context
 
     @staticmethod
@@ -243,6 +249,9 @@ class BookingPlaceBookingsListView(OwnerOfPlaceRequiredMixin, views.ListView):
 
         if context['filter_by'] != '':
             get_parameters += f"&order={context['filter_by']}"
+
+        if context['for_date'] != '':
+            get_parameters += f"&date={context['for_date']}"
 
         return get_parameters
 
