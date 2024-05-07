@@ -139,6 +139,10 @@ class CustomUserProfile(AuditModelMixin, models.Model):
 
         if self.first_name and self.last_name:
             return f'{self.first_name} {self.last_name}'
+        elif self.first_name:
+            return f'{self.first_name}'
+        elif self.last_name:
+            return f'{self.last_name}'
 
         if self.username:
             return self.username

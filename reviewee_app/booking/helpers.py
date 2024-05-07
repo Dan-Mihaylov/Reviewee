@@ -1,3 +1,4 @@
+import datetime
 import random
 from itertools import chain
 
@@ -114,3 +115,10 @@ def find_all_bookings_from_search_data(search: str, option: str, order_by='-date
     all_bookings = order_bookings(all_bookings, order_by)
 
     return all_bookings
+
+
+# find count of bookings for date
+def find_bookings_count_for_place(place: Hotel or Restaurant, date: datetime.date):
+    count_for_date = place.bookings.filter(date=date).count()
+    return count_for_date
+

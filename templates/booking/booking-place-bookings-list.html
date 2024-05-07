@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load date_container_tags %}
 
 {% block title %}
     Place Bookings
@@ -38,6 +39,9 @@
                 </form>
 
             </div>
+
+            {% generate_container_dates get_parameters place %}
+
 
             {% if not object_list %}
                 <p>There are no results, so far.</p>

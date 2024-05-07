@@ -242,7 +242,7 @@ class BookingPlaceBookingsListView(OwnerOfPlaceRequiredMixin, views.ListView):
 
     @staticmethod
     def paginator_href_builder(context):
-        get_parameters = f"&slug={context['slug']}"
+        get_parameters = f"?slug={context['slug']}"
 
         if context['order_by'] != '':
             get_parameters += f"&search={context['order_by']}"
@@ -251,7 +251,7 @@ class BookingPlaceBookingsListView(OwnerOfPlaceRequiredMixin, views.ListView):
             get_parameters += f"&order={context['filter_by']}"
 
         if context['for_date'] != '':
-            get_parameters += f"&date={context['for_date']}"
+            get_parameters += f"&for_date={context['for_date']}"
 
         return get_parameters
 

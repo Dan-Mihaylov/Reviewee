@@ -1,0 +1,17 @@
+{% load static %}
+
+<div class="dates-container">
+
+    {% for date, count in dates_and_count_dict.items %}
+        <a class="btn btn-light space-between-10px small-shadow"
+               {% if date == selected_date %}
+                    id="selected-date"
+               {% endif %}
+               href="{% url 'place bookings' %}{{ get_parameters }}&for_date={{ date }}">{{ date }} <small>Booked:</small>
+            <br> <small class="booking-count" {% if date == selected_date %}id="booking-count" {% endif %}>{{ count }} </small></a>
+
+    {% endfor %}
+
+
+</div>
+
