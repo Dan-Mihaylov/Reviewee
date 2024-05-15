@@ -116,7 +116,10 @@ class CustomUserProfile(AuditModelMixin, models.Model):
     # )
 
     profile_picture = CloudinaryField(
-        'image'
+        'image',
+        folder=helpers.user_profile_picture_path_to_cloudinary_folder,
+        null=True,
+        blank=True,
     )
 
     gender = models.CharField(

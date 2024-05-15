@@ -92,6 +92,12 @@ DATABASES = {
 CELERY_BROKER_URL = 'redis://localhost:6379/0'
 CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
 
+# CELERY_BROKER_URL = 'redis://redis:6379/0'
+# CELERY_RESULT_BACKEND = 'redis://redis:6379/0'
+#
+# REDIS_HOST = 'redis'
+# REDIS_PORT = 6379
+
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -178,6 +184,7 @@ cloudinary.config(
     cloud_name=os.getenv('CLOUDINARY_CLOUD_NAME'),
     api_key=os.getenv('CLOUDINARY_API_KEY'),
     api_secret=os.getenv('CLOUDINARY_API_SECRET'),
+    secure=True,
 )
 
 REST_FRAMEWORK = {

@@ -4,6 +4,8 @@ from reviewee_app.place.models import Hotel, Restaurant
 from reviewee_app.account.models import AuditModelMixin
 from django.contrib.auth import get_user_model
 
+from cloudinary.models import CloudinaryField
+
 
 UserModel = get_user_model()
 
@@ -36,8 +38,9 @@ class Review(AuditModelMixin, models.Model):
         ]
     )
 
-    review_photo = models.ImageField(
-        upload_to= 'images/review/photos',
+    review_photo = CloudinaryField(
+        'image',
+        folder='images/review_photos',
         null=True,
         blank=True,
     )

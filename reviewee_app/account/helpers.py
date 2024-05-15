@@ -17,4 +17,9 @@ def user_profile_photo_upload_path(instance, filename):
     return upload_path
 
 
+def user_profile_picture_path_to_cloudinary_folder(instance):
+    upload_path = f'users/{instance.user.pk}'
+    return upload_path
+
+
 

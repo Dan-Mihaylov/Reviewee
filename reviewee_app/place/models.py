@@ -9,6 +9,8 @@ from django.core.validators import MinLengthValidator, MinValueValidator, MaxVal
 
 from reviewee_app.common.models import AuditModelMixin
 
+from cloudinary.models import CloudinaryField
+
 
 UserModel = get_user_model()
 
@@ -27,8 +29,11 @@ class BasePlaceModel(AuditModelMixin, models.Model):
     class Meta:
         abstract = True
 
-    photo = models.ImageField(
-        upload_to='images/place/photos'
+    photo = CloudinaryField(
+        'image',
+        folder='place/images',
+        null=False,
+        blank=False,
     )
 
     name = models.CharField(
